@@ -61,7 +61,7 @@ export default function ScrollIndicator({ sections }: ScrollIndicatorProps) {
               hoveredId === id
                 ? "translate-x-0 opacity-100"
                 : "translate-x-2 opacity-0"
-            } ${activeId === id ? "text-[#8b1a1a]" : "text-[#c0c0c0]"}`}
+            } ${activeId === id ? "text-accent" : "text-muted"}`}
           >
             {label}
           </span>
@@ -70,8 +70,8 @@ export default function ScrollIndicator({ sections }: ScrollIndicatorProps) {
             aria-label={label}
             className={`h-3 w-3 shrink-0 rounded-full transition-all duration-300 ${
               activeId === id
-                ? "scale-125 bg-[#8b1a1a]"
-                : "bg-[#c0c0c0]/40 hover:bg-[#c0c0c0]/70"
+                ? "scale-125 bg-accent"
+                : "bg-muted/40 hover:bg-muted/70"
             }`}
           />
         </div>

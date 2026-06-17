@@ -1,6 +1,7 @@
 import type { Config } from 'tailwindcss'
 
 export default {
+  darkMode: 'class',
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
@@ -27,6 +28,18 @@ export default {
         'off-white': {
           DEFAULT: '#f0f0ec',
         },
+        /* Semantic theme tokens using CSS variables */
+        background: 'var(--bg-primary)',
+        surface: 'var(--bg-secondary)',
+        elevated: 'var(--bg-elevated)',
+        foreground: 'var(--text-primary)',
+        muted: 'var(--text-secondary)',
+        'muted-dim': 'var(--text-muted)',
+        accent: {
+          DEFAULT: 'var(--accent)',
+          hover: 'var(--accent-hover)',
+        },
+        border: 'var(--border-color)',
       },
       fontFamily: {
         sans: ['var(--font-geist-sans)'],

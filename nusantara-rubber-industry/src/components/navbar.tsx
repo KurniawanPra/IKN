@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Menu, X, ShoppingBag } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCart } from "./providers/cart-provider";
+import ThemeToggle from "./theme-toggle";
 
 const navItems = [
   { label: "Home", href: "#hero" },
@@ -16,16 +17,8 @@ const navItems = [
 ];
 
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const { setIsCartOpen, cartCount } = useCart();
-
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   useEffect(() => {
     if (mobileOpen) {
@@ -61,10 +54,10 @@ export default function Navbar() {
             }}
             className="flex items-center gap-3"
           >
-            <span className="text-[#f0f0ec] font-bold text-2xl tracking-tight">
+            <span className="text-foreground font-bold text-2xl tracking-tight">
               IKN
             </span>
-            <span className="hidden sm:block text-[#f0f0ec]/70 text-xs leading-tight font-sans">
+            <span className="hidden sm:block text-muted text-xs leading-tight font-sans">
               Nusantara Rubber
               <br />
               Industry
@@ -81,21 +74,24 @@ export default function Navbar() {
                   e.preventDefault();
                   handleNavClick(item.href);
                 }}
-                className="text-[#f0f0ec] text-sm font-medium hover:text-[#c44040] transition-colors duration-300"
+                className="text-foreground text-sm font-medium hover:text-accent-hover transition-colors duration-300"
               >
                 {item.label}
               </a>
             ))}
 
+            {/* Theme Toggle */}
+            <ThemeToggle />
+
             {/* Shopping Cart Button */}
             <button
               onClick={() => setIsCartOpen(true)}
-              className="relative p-2.5 text-[#f0f0ec] hover:text-[#c44040] transition-colors duration-300 ml-2"
+              className="relative p-2.5 text-foreground hover:text-accent-hover transition-colors duration-300"
               aria-label="Open cart"
             >
               <ShoppingBag size={18} />
               {cartCount > 0 && (
-                <span className="absolute top-0.5 right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-[#8b1a1a] text-[9px] font-bold text-white ring-1 ring-[#060e1a]">
+                <span className="absolute top-0.5 right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-accent text-[9px] font-bold text-white ring-1 ring-background">
                   {cartCount}
                 </span>
               )}
@@ -103,7 +99,7 @@ export default function Navbar() {
 
             <Link
               href="/login"
-              className="ml-2 px-5 py-2 text-sm font-medium text-[#f0f0ec] border border-white/10 rounded hover:border-[#c44040] hover:text-[#c44040] transition-all duration-300"
+              className="ml-2 px-5 py-2 text-sm font-medium text-foreground border border-border rounded hover:border-accent hover:text-accent transition-all duration-300"
             >
               Login
             </Link>
@@ -111,15 +107,18 @@ export default function Navbar() {
 
           {/* Mobile Actions */}
           <div className="flex items-center gap-2 lg:hidden">
+            {/* Mobile Theme Toggle */}
+            <ThemeToggle />
+
             {/* Mobile Shopping Cart */}
             <button
               onClick={() => setIsCartOpen(true)}
-              className="relative p-2 text-[#f0f0ec] hover:text-[#c44040] transition-colors"
+              className="relative p-2 text-foreground hover:text-accent-hover transition-colors"
               aria-label="Open cart"
             >
               <ShoppingBag size={20} />
               {cartCount > 0 && (
-                <span className="absolute -top-0.5 -right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-[#8b1a1a] text-[9px] font-bold text-white ring-1 ring-[#060e1a]">
+                <span className="absolute -top-0.5 -right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-accent text-[9px] font-bold text-white ring-1 ring-background">
                   {cartCount}
                 </span>
               )}
@@ -127,7 +126,7 @@ export default function Navbar() {
 
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
-              className="text-[#f0f0ec] p-2"
+              className="text-foreground p-2"
               aria-label="Toggle menu"
             >
               {mobileOpen ? <X size={24} /> : <Menu size={24} />}
@@ -144,7 +143,8 @@ export default function Navbar() {
             animate={{ y: 0 }}
             exit={{ y: "-100%" }}
             transition={{ type: "tween", duration: 0.35, ease: "easeInOut" }}
-            className="fixed inset-0 z-40 bg-[#060e1a]/95 backdrop-blur-xl flex flex-col items-center justify-center gap-8 lg:hidden font-sans"
+            className="fixed inset-0 z-40 backdrop-blur-xl flex flex-col items-center justify-center gap-8 lg:hidden font-sans"
+            style={{ background: 'var(--overlay-bg)', backdropFilter: 'blur(24px)' }}
           >
             {navItems.map((item) => (
               <a
@@ -154,7 +154,7 @@ export default function Navbar() {
                   e.preventDefault();
                   handleNavClick(item.href);
                 }}
-                className="text-[#f0f0ec] text-2xl font-medium hover:text-[#c44040] transition-colors duration-300"
+                className="text-foreground text-2xl font-medium hover:text-accent-hover transition-colors duration-300"
               >
                 {item.label}
               </a>
@@ -162,7 +162,7 @@ export default function Navbar() {
             <Link
               href="/login"
               onClick={() => setMobileOpen(false)}
-              className="mt-4 px-8 py-3 text-lg font-medium text-[#f0f0ec] border border-white/10 rounded hover:border-[#c44040] hover:text-[#c44040] transition-all duration-300"
+              className="mt-4 px-8 py-3 text-lg font-medium text-foreground border border-border rounded hover:border-accent hover:text-accent transition-all duration-300"
             >
               Login
             </Link>

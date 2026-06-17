@@ -1,17 +1,11 @@
 "use client";
 
 import React, { useState } from "react";
-import dynamic from "next/dynamic";
 import { motion, AnimatePresence } from "framer-motion";
 import { MapPin, Phone, Mail, Globe, Send, CheckCircle } from "lucide-react";
 import BackgroundBlobs from "./background-blobs";
 
-const ContactScene = dynamic(() => import("./contact-scene"), {
-  ssr: false,
-  loading: () => (
-    <div className="h-full w-full bg-gradient-to-br from-[#0a1628] to-[#142040] rounded-2xl opacity-20" />
-  ),
-});
+
 
 const contactInfo = [
   {
@@ -35,9 +29,6 @@ const contactInfo = [
     text: "nusantararubber.com",
   },
 ];
-
-const inputClasses =
-  "w-full bg-white/5 border border-white/10 rounded-sm px-4 py-2.5 text-xs text-[#f0f0ec] placeholder:text-steel/30 focus:border-rubber-red/50 focus:outline-none transition";
 
 export default function ContactSection() {
   const [name, setName] = useState("");
@@ -77,21 +68,21 @@ export default function ContactSection() {
               <p className="text-xs font-semibold uppercase tracking-widest text-rubber-red-light font-mono mb-2">
                 Hubungi Kami
               </p>
-              <h2 className="text-3xl font-bold text-[#f0f0ec] leading-tight">
+              <h2 className="text-3xl font-bold text-foreground leading-tight">
                 Hubungi Sales Representative Kami
               </h2>
-              <p className="text-sm text-[#c0c0c0] mt-2 leading-relaxed">
+              <p className="text-sm text-muted mt-2 leading-relaxed">
                 Butuh sampel resin atau penawaran harga khusus untuk volume kargo besar? 
                 Hubungi kami melalui form atau detail kontak di bawah ini.
               </p>
             </div>
 
             {/* Interactive Dark Map */}
-            <div className="w-full h-[180px] md:h-[200px] rounded-sm overflow-hidden border border-white/10 relative shadow-lg bg-black/40">
+            <div className="w-full h-[180px] md:h-[200px] rounded-sm overflow-hidden border border-border relative shadow-lg" style={{ background: 'var(--bg-elevated)' }}>
               <iframe
                 title="Peta Lokasi PT. Industri Karet Nusantara"
                 src="https://maps.google.com/maps?q=PT%20Industri%20Karet%20Nusantara,%20Tanjung%20Morawa&t=&z=14&ie=UTF8&iwloc=&output=embed"
-                className="w-full h-full border-0 grayscale invert opacity-70 contrast-125 brightness-90 hover:opacity-95 transition-opacity duration-300"
+                className="w-full h-full border-0 dark:grayscale dark:invert dark:opacity-70 dark:contrast-125 dark:brightness-90 hover:opacity-95 transition-opacity duration-300"
                 allowFullScreen={false}
                 loading="lazy"
               ></iframe>
@@ -100,13 +91,13 @@ export default function ContactSection() {
             {/* Contact cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {contactInfo.map((item) => (
-                <div key={item.text} className="flex gap-3 items-start bg-white/[0.02] border border-white/5 p-3 rounded-sm">
+                <div key={item.text} className="flex gap-3 items-start bg-elevated border border-border p-3 rounded-sm">
                   <item.icon className="text-rubber-red-light w-4 h-4 shrink-0 mt-0.5" />
                   <div>
-                    <h4 className="text-[10px] uppercase font-bold text-steel/50 tracking-wider">
+                    <h4 className="text-[10px] uppercase font-bold text-muted-dim tracking-wider">
                       {item.title}
                     </h4>
-                    <p className="text-[10px] text-steel mt-0.5 leading-relaxed">{item.text}</p>
+                    <p className="text-[10px] text-muted mt-0.5 leading-relaxed">{item.text}</p>
                   </div>
                 </div>
               ))}
@@ -116,12 +107,12 @@ export default function ContactSection() {
           {/* Right Panel: Glassmorphic Message Form */}
           <div className="lg:col-span-7">
             <div className="glass-panel p-6 sm:p-8 rounded-lg relative overflow-hidden">
-              <h3 className="text-lg font-bold text-[#f0f0ec] mb-4">Kirim Pesan Langsung</h3>
+              <h3 className="text-lg font-bold text-foreground mb-4">Kirim Pesan Langsung</h3>
               
               <form className="space-y-3.5" onSubmit={handleSubmit}>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-[10px] font-semibold uppercase tracking-wider text-steel mb-1">
+                    <label className="block text-[10px] font-semibold uppercase tracking-wider text-muted mb-1">
                       Nama Lengkap
                     </label>
                     <input
@@ -130,11 +121,11 @@ export default function ContactSection() {
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       placeholder="Nama Anda"
-                      className={inputClasses}
+                      className="w-full rounded-sm px-4 py-2.5 text-xs theme-input"
                     />
                   </div>
                   <div>
-                    <label className="block text-[10px] font-semibold uppercase tracking-wider text-steel mb-1">
+                    <label className="block text-[10px] font-semibold uppercase tracking-wider text-muted mb-1">
                       Email
                     </label>
                     <input
@@ -143,13 +134,13 @@ export default function ContactSection() {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="email@perusahaan.com"
-                      className={inputClasses}
+                      className="w-full rounded-sm px-4 py-2.5 text-xs theme-input"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-[10px] font-semibold uppercase tracking-wider text-steel mb-1">
+                  <label className="block text-[10px] font-semibold uppercase tracking-wider text-muted mb-1">
                     Subject
                   </label>
                   <input
@@ -157,12 +148,12 @@ export default function ContactSection() {
                     value={subject}
                     onChange={(e) => setSubject(e.target.value)}
                     placeholder="Kerjasama / Pembelian Sampel"
-                    className={inputClasses}
+                    className="w-full rounded-sm px-4 py-2.5 text-xs theme-input"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-[10px] font-semibold uppercase tracking-wider text-steel mb-1">
+                  <label className="block text-[10px] font-semibold uppercase tracking-wider text-muted mb-1">
                     Isi Pesan
                   </label>
                   <textarea
@@ -171,7 +162,7 @@ export default function ContactSection() {
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                     placeholder="Tulis pesan Anda di sini..."
-                    className={inputClasses}
+                    className="w-full rounded-sm px-4 py-2.5 text-xs theme-input"
                   />
                 </div>
 
@@ -196,7 +187,7 @@ export default function ContactSection() {
                         initial={{ opacity: 0, x: 20 }}
                         animate={{ opacity: 1, x: 0 }}
                         exit={{ opacity: 0 }}
-                        className="flex items-center gap-1.5 text-xs text-emerald-400 font-semibold"
+                        className="flex items-center gap-1.5 text-xs text-emerald-500 dark:text-emerald-400 font-semibold"
                       >
                         <CheckCircle className="w-4 h-4 shrink-0" />
                         Pesan Anda berhasil dikirim!

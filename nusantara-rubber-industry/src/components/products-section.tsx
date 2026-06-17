@@ -11,7 +11,7 @@ import BackgroundBlobs from "./background-blobs";
 const ProductsScene = dynamic(() => import("./products-scene"), {
   ssr: false,
   loading: () => (
-    <div className="h-full w-full bg-gradient-to-br from-[#0a1628] to-[#142040] rounded-2xl opacity-20" />
+    <div className="h-full w-full rounded-2xl opacity-20" style={{ background: 'linear-gradient(to bottom right, var(--bg-secondary), var(--bg-primary))' }} />
   ),
 });
 
@@ -102,10 +102,10 @@ export default function ProductsSection() {
               <p className="text-xs font-semibold uppercase tracking-widest text-rubber-red-light font-mono mb-2">
                 E-Commerce Catalog
               </p>
-              <h2 className="text-3xl font-bold text-[#f0f0ec] leading-tight">
+              <h2 className="text-3xl font-bold text-foreground leading-tight">
                 Produk Unggulan & Pemesanan
               </h2>
-              <p className="text-sm text-[#c0c0c0] mt-2 leading-relaxed">
+              <p className="text-sm text-muted mt-2 leading-relaxed">
                 Pesan langsung getah resin karet tersiklisasi dan benang elastis industri 
                 melalui platform e-commerce terintegrasi.
               </p>
@@ -113,13 +113,13 @@ export default function ProductsSection() {
 
             {/* Search Input */}
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-steel/40" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-dim" />
               <input
                 type="text"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Cari produk..."
-                className="w-full bg-white/5 border border-white/10 rounded-sm py-2 pl-9 pr-4 text-xs text-[#f0f0ec] placeholder:text-steel/30 focus:border-rubber-red/50 focus:outline-none transition"
+                className="w-full rounded-sm py-2 pl-9 pr-4 text-xs theme-input"
               />
             </div>
 
@@ -131,8 +131,8 @@ export default function ProductsSection() {
                   onClick={() => setFilter(cat)}
                   className={`px-3 py-1.5 rounded-sm text-[10px] font-mono transition ${
                     filter === cat
-                      ? "bg-rubber-red text-white"
-                      : "bg-white/5 text-steel border border-white/5 hover:text-white"
+                      ? "bg-accent text-white"
+                      : "bg-elevated text-muted border border-border hover:text-foreground"
                   }`}
                 >
                   {cat}
@@ -165,7 +165,7 @@ export default function ProductsSection() {
                     <div>
                       {/* Badge if exists */}
                       {product.badge && (
-                        <span className="absolute top-2 right-2 bg-rubber-red text-white text-[9px] font-mono px-2 py-0.5 rounded-sm uppercase tracking-wider">
+                        <span className="absolute top-2 right-2 bg-accent text-white text-[9px] font-mono px-2 py-0.5 rounded-sm uppercase tracking-wider">
                           {product.badge}
                         </span>
                       )}
@@ -173,10 +173,10 @@ export default function ProductsSection() {
                       <p className="text-[10px] font-mono uppercase text-rubber-red-light">
                         {product.category}
                       </p>
-                      <h3 className="text-sm font-bold text-[#f0f0ec] mt-1.5">
+                      <h3 className="text-sm font-bold text-foreground mt-1.5">
                         {product.name}
                       </h3>
-                      <p className="text-xs text-[#c0c0c0] mt-2 leading-relaxed line-clamp-2">
+                      <p className="text-xs text-muted mt-2 leading-relaxed line-clamp-2">
                         {product.desc}
                       </p>
 
@@ -185,7 +185,7 @@ export default function ProductsSection() {
                         {product.tags.map((tag) => (
                           <span
                             key={tag}
-                            className="text-[9px] bg-white/5 text-steel px-2 py-0.5 rounded-sm font-mono border border-white/5"
+                            className="text-[9px] bg-elevated text-muted px-2 py-0.5 rounded-sm font-mono border border-border"
                           >
                             {tag}
                           </span>
@@ -194,26 +194,27 @@ export default function ProductsSection() {
                     </div>
 
                     {/* Footer card: Price & Actions */}
-                    <div className="flex items-center justify-between mt-5 pt-3 border-t border-white/5">
+                    <div className="flex items-center justify-between mt-5 pt-3 border-t border-border">
                       <div className="flex flex-col">
-                        <span className="text-[9px] uppercase tracking-wider text-steel/50">Harga</span>
-                        <span className="text-sm font-bold text-off-white font-mono leading-tight">
+                        <span className="text-[9px] uppercase tracking-wider text-muted-dim">Harga</span>
+                        <span className="text-sm font-bold text-foreground font-mono leading-tight">
                           {formatPrice(product.price)}
-                          <span className="text-[10px] font-normal text-steel"> / {product.unit}</span>
+                          <span className="text-[10px] font-normal text-muted"> / {product.unit}</span>
                         </span>
                       </div>
                       
                       <div className="flex items-center gap-2">
                         <Link
                           href={`/produk/${product.slug}`}
-                          className="p-2 bg-white/5 hover:bg-white/10 text-steel hover:text-white rounded border border-white/10 transition"
+                          className="p-2 bg-elevated hover:bg-accent/10 text-muted hover:text-foreground rounded border border-border transition"
                           title="Detail Produk"
                         >
                           <Info size={14} />
                         </Link>
                         <button
                           onClick={() => addToCart(product)}
-                          className="px-3 py-2 bg-rubber-red hover:bg-rubber-red-light text-white rounded text-xs font-semibold uppercase tracking-wider flex items-center gap-1.5 transition shadow-md shadow-rubber-red/25"
+                          className="px-3 py-2 bg-accent hover:bg-accent-hover text-white rounded text-xs font-semibold uppercase tracking-wider flex items-center gap-1.5 transition shadow-md"
+                          style={{ boxShadow: '0 4px 12px var(--accent-glow)' }}
                         >
                           <ShoppingCart size={12} />
                           Beli

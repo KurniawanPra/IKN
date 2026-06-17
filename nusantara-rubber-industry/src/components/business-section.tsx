@@ -81,10 +81,10 @@ export default function BusinessSection() {
               <p className="text-xs font-semibold uppercase tracking-widest text-rubber-red-light font-mono mb-2">
                 Lini Bisnis
               </p>
-              <h2 className="text-3xl font-bold text-[#f0f0ec] leading-tight">
+              <h2 className="text-3xl font-bold text-foreground leading-tight">
                 Proses Hilirisasi Karet Alam Modern
               </h2>
-              <p className="text-sm text-[#c0c0c0] mt-2 leading-relaxed">
+              <p className="text-sm text-muted mt-2 leading-relaxed">
                 Dari getah mentah hingga menjadi resin dan produk turunan industri 
                 bernilai tinggi dengan pengawasan mutu terintegrasi.
               </p>
@@ -112,16 +112,16 @@ export default function BusinessSection() {
                     className="glass-panel glass-panel-hover p-4 rounded-md flex flex-col gap-2 relative overflow-hidden"
                   >
                     {/* Glowing index badge */}
-                    <span className="absolute top-2 right-3 font-mono text-[10px] text-white/10 font-bold">
+                    <span className="absolute top-2 right-3 font-mono text-[10px] text-foreground/10 font-bold">
                       {step.step}
                     </span>
 
                     <Icon className="w-8 h-8 text-rubber-red-light shrink-0" />
                     <div>
-                      <h3 className="text-xs font-bold text-[#f0f0ec]">
+                      <h3 className="text-xs font-bold text-foreground">
                         {step.title}
                       </h3>
-                      <p className="text-[10px] text-[#c0c0c0] leading-relaxed mt-1">
+                      <p className="text-[10px] text-muted leading-relaxed mt-1">
                         {step.desc}
                       </p>
                     </div>

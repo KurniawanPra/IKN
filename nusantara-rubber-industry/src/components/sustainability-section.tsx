@@ -50,13 +50,13 @@ export default function SustainabilitySection() {
           {/* Left Panel: Commitments List */}
           <div className="lg:col-span-7 flex flex-col gap-5">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-widest text-emerald-400 font-mono mb-2">
+              <p className="text-xs font-semibold uppercase tracking-widest text-emerald-400 dark:text-emerald-400 font-mono mb-2">
                 Keberlanjutan (Sustainability)
               </p>
-              <h2 className="text-3xl font-bold text-[#f0f0ec] leading-tight">
+              <h2 className="text-3xl font-bold text-foreground leading-tight">
                 Komitmen Terhadap Bumi & Manusia
               </h2>
-              <p className="text-sm text-[#c0c0c0] mt-2 leading-relaxed">
+              <p className="text-sm text-muted mt-2 leading-relaxed">
                 Nusantara Rubber Industry menerapkan standar manufaktur ramah lingkungan 
                 melalui optimalisasi bahan baku alam dan proses produksi rendah karbon.
               </p>
@@ -76,13 +76,13 @@ export default function SustainabilitySection() {
                     className="glass-panel p-4 rounded-md flex gap-4 items-start"
                   >
                     <div className="p-2 bg-emerald-500/10 rounded-sm shrink-0">
-                      <Icon className="w-5 h-5 text-emerald-400" />
+                      <Icon className="w-5 h-5 text-emerald-500 dark:text-emerald-400" />
                     </div>
                     <div>
-                      <h3 className="text-xs font-bold text-[#f0f0ec]">
+                      <h3 className="text-xs font-bold text-foreground">
                         {item.title}
                       </h3>
-                      <p className="text-[11px] text-[#c0c0c0] leading-relaxed mt-1">
+                      <p className="text-[11px] text-muted leading-relaxed mt-1">
                         {item.desc}
                       </p>
                     </div>

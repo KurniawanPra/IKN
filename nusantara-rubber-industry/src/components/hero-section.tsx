@@ -8,7 +8,7 @@ import BackgroundBlobs from "./background-blobs";
 const HeroScene = dynamic(() => import("./hero-scene"), {
   ssr: false,
   loading: () => (
-    <div className="h-full w-full bg-gradient-to-br from-[#0a1628] to-[#142040] rounded-2xl opacity-20" />
+    <div className="h-full w-full rounded-2xl opacity-20" style={{ background: 'linear-gradient(to bottom right, var(--bg-secondary), var(--bg-primary))' }} />
   ),
 });
 
@@ -58,7 +58,7 @@ export default function HeroSection() {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="inline-block w-fit rounded-full border border-white/10 bg-white/5 backdrop-blur-md px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-[#c0c0c0]"
+            className="inline-block w-fit rounded-full border border-border bg-elevated backdrop-blur-md px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-muted"
           >
             Since 1965 — Market Leader
           </motion.span>
@@ -67,7 +67,7 @@ export default function HeroSection() {
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="text-4xl font-bold leading-[1.15] tracking-tight text-[#f0f0ec] md:text-5xl lg:text-6xl"
+            className="text-4xl font-bold leading-[1.15] tracking-tight text-foreground md:text-5xl lg:text-6xl"
           >
             <span className="block">
               {headlineWords1.map((word, i) => (
@@ -97,7 +97,7 @@ export default function HeroSection() {
             custom={0.8}
             initial="hidden"
             animate="visible"
-            className="max-w-xl text-base md:text-lg leading-relaxed text-[#c0c0c0] font-sans"
+            className="max-w-xl text-base md:text-lg leading-relaxed text-muted font-sans"
           >
             Salah satu market leader dalam hilirisasi karet alam di Indonesia. 
             Menghasilkan produk resin karet dan benang karet berkualitas premium 
@@ -131,14 +131,14 @@ export default function HeroSection() {
             custom={1.2}
             initial="hidden"
             animate="visible"
-            className="flex gap-8 border-t border-white/10 pt-6 mt-2"
+            className="flex gap-8 border-t border-border pt-6 mt-2"
           >
             {stats.map((stat) => (
               <div key={stat.label} className="flex flex-col">
-                <span className="text-xl md:text-2xl font-bold text-[#f0f0ec] font-mono">
+                <span className="text-xl md:text-2xl font-bold text-foreground font-mono">
                   {stat.value}
                 </span>
-                <span className="text-[10px] md:text-xs text-[#c0c0c0]/70 uppercase tracking-wider mt-1">{stat.label}</span>
+                <span className="text-[10px] md:text-xs text-muted-dim uppercase tracking-wider mt-1">{stat.label}</span>
               </div>
             ))}
           </motion.div>
@@ -166,14 +166,14 @@ export default function HeroSection() {
         className="absolute bottom-6 left-1/2 z-10 -translate-x-1/2 hidden md:block"
       >
         <a href="#about" className="flex flex-col items-center gap-1">
-          <span className="text-[9px] uppercase tracking-[0.25em] text-[#c0c0c0]/50 font-mono">
+          <span className="text-[9px] uppercase tracking-[0.25em] text-muted-dim font-mono">
             Scroll Down
           </span>
           <motion.div
             animate={{ y: [0, 4, 0] }}
             transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
           >
-            <ChevronDown className="h-4 w-4 text-[#c0c0c0]/50" />
+            <ChevronDown className="h-4 w-4 text-muted-dim" />
           </motion.div>
         </a>
       </motion.div>

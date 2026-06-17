@@ -140,10 +140,10 @@ export default function AboutSection() {
               <span className="text-xs font-semibold uppercase tracking-widest text-rubber-red-light font-mono">
                 Tentang Kami
               </span>
-              <h2 className="text-3xl font-bold text-[#f0f0ec] md:text-4xl leading-tight">
+              <h2 className="text-3xl font-bold text-foreground md:text-4xl leading-tight">
                 Warisan Keunggulan Industri Karet Alam
               </h2>
-              <p className="text-sm md:text-base leading-relaxed text-[#c0c0c0]">
+              <p className="text-sm md:text-base leading-relaxed text-muted">
                 PT. Industri Karet Nusantara (IKN), anak usaha PT Perkebunan
                 Nusantara III (Persero), telah menjadi pelopor hilirisasi karet
                 sejak didirikan. Melalui teknologi modern dan pengawasan kualitas
@@ -165,10 +165,10 @@ export default function AboutSection() {
                 >
                   <item.icon className="h-6 w-6 text-rubber-red-light shrink-0" />
                   <div>
-                    <h4 className="font-semibold text-xs text-[#f0f0ec] mb-1">
+                    <h4 className="font-semibold text-xs text-foreground mb-1">
                       {item.title}
                     </h4>
-                    <p className="text-[11px] text-[#c0c0c0] leading-relaxed">
+                    <p className="text-[11px] text-muted leading-relaxed">
                       {item.desc}
                     </p>
                   </div>
@@ -211,7 +211,7 @@ export default function AboutSection() {
                       <span className="font-mono font-bold text-xs text-rubber-red-light">
                         {item.year}
                       </span>
-                      <p className="text-xs text-[#c0c0c0] mt-0.5 leading-relaxed">{item.desc}</p>
+                      <p className="text-xs text-muted mt-0.5 leading-relaxed">{item.desc}</p>
                     </div>
                   </motion.div>
                 ))}
@@ -226,18 +226,18 @@ export default function AboutSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, ease: "easeOut" }}
-          className="mt-12 md:mt-16 grid gap-6 border-t border-white/5 pt-8 grid-cols-3"
+          className="mt-12 md:mt-16 grid gap-6 border-t border-border pt-8 grid-cols-3"
         >
           {stats.map((stat) => (
             <div key={stat.label} className="text-center">
-              <div className="text-2xl md:text-3xl font-bold text-[#f0f0ec] font-mono">
+              <div className="text-2xl md:text-3xl font-bold text-foreground font-mono">
                 <CountUp
                   target={stat.target}
                   suffix={stat.suffix}
                   isDecimal={stat.isDecimal}
                 />
               </div>
-              <span className="text-[10px] md:text-xs text-steel uppercase tracking-wider mt-1 block">{stat.label}</span>
+              <span className="text-[10px] md:text-xs text-muted-dim uppercase tracking-wider mt-1 block">{stat.label}</span>
             </div>
           ))}
         </motion.div>

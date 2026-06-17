@@ -9,7 +9,7 @@ import BackgroundBlobs from "./background-blobs";
 const MediaScene = dynamic(() => import("./media-scene"), {
   ssr: false,
   loading: () => (
-    <div className="h-full w-full bg-gradient-to-br from-[#0a1628] to-[#142040] rounded-2xl opacity-20" />
+    <div className="h-full w-full rounded-2xl opacity-20" style={{ background: 'linear-gradient(to bottom right, var(--bg-secondary), var(--bg-primary))' }} />
   ),
 });
 
@@ -97,10 +97,10 @@ export default function MediaSection() {
               <p className="text-xs font-semibold uppercase tracking-widest text-rubber-red-light font-mono mb-2">
                 Media & Publikasi
               </p>
-              <h2 className="text-3xl font-bold text-[#f0f0ec] leading-tight">
+              <h2 className="text-3xl font-bold text-foreground leading-tight">
                 Berita & Kegiatan Terbaru
               </h2>
-              <p className="text-sm text-[#c0c0c0] mt-2 leading-relaxed">
+              <p className="text-sm text-muted mt-2 leading-relaxed">
                 Ikuti perkembangan riset, ekspor, pameran B2B, dan ekspansi pasar 
                 Nusantara Rubber Industry secara berkala.
               </p>
@@ -114,8 +114,8 @@ export default function MediaSection() {
                   onClick={() => setActiveFilter(filter)}
                   className={`px-3 py-1.5 text-xs font-mono rounded-sm transition-colors ${
                     activeFilter === filter
-                      ? "bg-rubber-red text-white"
-                      : "bg-white/5 text-[#c0c0c0] hover:text-[#f0f0ec] border border-white/5"
+                      ? "bg-accent text-white"
+                      : "bg-elevated text-muted hover:text-foreground border border-border"
                   }`}
                 >
                   {filter}
@@ -156,25 +156,29 @@ export default function MediaSection() {
                           alt={item.title}
                           className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                         />
-                        <span className="absolute top-2 left-2 bg-[#060e1a]/85 backdrop-blur-sm text-rubber-red-light text-[9px] font-mono px-2.5 py-1 rounded-sm uppercase border border-white/5 tracking-wider">
+                        <span className="absolute top-2 left-2 backdrop-blur-sm text-rubber-red-light text-[9px] font-mono px-2.5 py-1 rounded-sm uppercase border border-border tracking-wider"
+                          style={{ background: 'var(--overlay-bg)' }}
+                        >
                           {item.category}
                         </span>
-                        <div className="absolute top-2 right-2 p-1.5 rounded-sm bg-[#060e1a]/85 backdrop-blur-sm border border-white/5">
-                          <Icon className="w-3.5 h-3.5 text-steel/70" />
+                        <div className="absolute top-2 right-2 p-1.5 rounded-sm backdrop-blur-sm border border-border"
+                          style={{ background: 'var(--overlay-bg)' }}
+                        >
+                          <Icon className="w-3.5 h-3.5 text-muted-dim" />
                         </div>
                       </div>
 
                       {/* Content Body */}
                       <div className="p-4 flex flex-col justify-between flex-1 gap-2.5">
                         <div>
-                          <h3 className="text-sm font-bold text-[#f0f0ec] line-clamp-1">
+                          <h3 className="text-sm font-bold text-foreground line-clamp-1">
                             {item.title}
                           </h3>
-                          <p className="text-xs text-[#c0c0c0] mt-1.5 leading-relaxed line-clamp-2">
+                          <p className="text-xs text-muted mt-1.5 leading-relaxed line-clamp-2">
                             {item.desc}
                           </p>
                         </div>
-                        <span className="block text-[10px] text-steel/60 font-mono">
+                        <span className="block text-[10px] text-muted-dim font-mono">
                           {item.date}
                         </span>
                       </div>
@@ -198,7 +202,8 @@ export default function MediaSection() {
               animate={{ opacity: 0.6 }}
               exit={{ opacity: 0 }}
               onClick={() => setSelectedItem(null)}
-              className="fixed inset-0 z-50 bg-[#060e1a]/80 backdrop-blur-md"
+              className="fixed inset-0 z-50 backdrop-blur-md"
+              style={{ background: 'var(--overlay-bg)' }}
             />
 
             {/* Modal Content Card */}
@@ -208,7 +213,8 @@ export default function MediaSection() {
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95, y: 20 }}
                 transition={{ type: "spring", duration: 0.4 }}
-                className="w-full max-w-2xl bg-[#0a1628]/95 backdrop-blur-xl border border-white/10 rounded-lg shadow-2xl overflow-hidden pointer-events-auto flex flex-col max-h-[90vh] lg:max-h-[80vh] font-sans"
+                className="w-full max-w-2xl backdrop-blur-xl border border-border rounded-lg shadow-2xl overflow-hidden pointer-events-auto flex flex-col max-h-[90vh] lg:max-h-[80vh] font-sans"
+                style={{ background: 'color-mix(in srgb, var(--bg-secondary) 95%, transparent)' }}
               >
                 {/* Modal Image Header */}
                 <div className="relative h-60 sm:h-72 w-full overflow-hidden shrink-0">
@@ -217,7 +223,7 @@ export default function MediaSection() {
                     alt={selectedItem.title}
                     className="w-full h-full object-cover"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0a1628] via-transparent to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
                   
                   {/* Close button */}
                   <button
@@ -229,7 +235,7 @@ export default function MediaSection() {
                   </button>
 
                   {/* Category badge */}
-                  <span className="absolute bottom-4 left-6 bg-rubber-red text-white text-xs font-mono px-3 py-1 rounded-sm uppercase tracking-wider">
+                  <span className="absolute bottom-4 left-6 bg-accent text-white text-xs font-mono px-3 py-1 rounded-sm uppercase tracking-wider">
                     {selectedItem.category}
                   </span>
                 </div>
@@ -237,18 +243,18 @@ export default function MediaSection() {
                 {/* Modal Body Info */}
                 <div className="p-6 sm:p-8 overflow-y-auto no-scrollbar flex-1 flex flex-col gap-4">
                   <div className="flex flex-col gap-2">
-                    <span className="text-xs text-steel/60 font-mono block">
+                    <span className="text-xs text-muted-dim font-mono block">
                       Tanggal Publikasi: {selectedItem.date}
                     </span>
-                    <h3 className="text-xl sm:text-2xl font-bold text-[#f0f0ec] leading-snug">
+                    <h3 className="text-xl sm:text-2xl font-bold text-foreground leading-snug">
                       {selectedItem.title}
                     </h3>
                   </div>
 
-                  <div className="h-px bg-white/5 w-full" />
+                  <div className="h-px bg-border w-full" />
 
                   {/* Rich details text for the company profile */}
-                  <p className="text-sm text-[#c0c0c0] leading-relaxed whitespace-pre-line font-sans">
+                  <p className="text-sm text-muted leading-relaxed whitespace-pre-line font-sans">
                     {selectedItem.desc}
                     
                     {"\n\n"}
@@ -263,7 +269,7 @@ export default function MediaSection() {
                 </div>
 
                 {/* Modal Footer */}
-                <div className="p-4 bg-black/20 border-t border-white/5 flex justify-end shrink-0">
+                <div className="p-4 border-t border-border flex justify-end shrink-0" style={{ background: 'var(--bg-elevated)' }}>
                   <button
                     onClick={() => setSelectedItem(null)}
                     className="btn-outline px-6 py-2 rounded text-xs tracking-wider"

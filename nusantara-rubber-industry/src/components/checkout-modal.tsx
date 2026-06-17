@@ -71,7 +71,8 @@ export default function CheckoutModal() {
             animate={{ opacity: 0.6 }}
             exit={{ opacity: 0 }}
             onClick={handleClose}
-            className="fixed inset-0 z-50 bg-[#060e1a]/85 backdrop-blur-md"
+            className="fixed inset-0 z-50 backdrop-blur-md"
+            style={{ background: 'var(--overlay-bg)' }}
           />
 
           {/* Modal Panel */}
@@ -81,15 +82,16 @@ export default function CheckoutModal() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               transition={{ duration: 0.3 }}
-              className="relative w-full max-w-2xl bg-[#0a1628]/95 backdrop-blur-xl border border-white/10 rounded-lg shadow-2xl p-6 sm:p-8 pointer-events-auto overflow-hidden"
+              className="relative w-full max-w-2xl backdrop-blur-xl border border-border rounded-lg shadow-2xl p-6 sm:p-8 pointer-events-auto overflow-hidden"
+              style={{ background: 'color-mix(in srgb, var(--bg-secondary) 95%, transparent)' }}
             >
               {/* Background Glow */}
-              <div className="absolute top-0 right-0 w-48 h-48 rounded-full bg-rubber-red/10 blur-[60px] pointer-events-none -z-10" />
+              <div className="absolute top-0 right-0 w-48 h-48 rounded-full blur-[60px] pointer-events-none -z-10" style={{ background: 'var(--accent-glow)' }} />
 
               {/* Close Button */}
               <button
                 onClick={handleClose}
-                className="absolute top-4 right-4 text-steel hover:text-white transition p-1.5"
+                className="absolute top-4 right-4 text-muted hover:text-foreground transition p-1.5"
                 aria-label="Close checkout"
               >
                 <X className="w-5 h-5" />
@@ -97,8 +99,8 @@ export default function CheckoutModal() {
 
               {!isSuccess ? (
                 <>
-                  <h3 className="text-xl font-bold text-[#f0f0ec] mb-6 flex items-center gap-2">
-                    <ShoppingBag className="w-5 h-5 text-rubber-red" />
+                  <h3 className="text-xl font-bold text-foreground mb-6 flex items-center gap-2">
+                    <ShoppingBag className="w-5 h-5 text-accent" />
                     Checkout Pemesanan
                   </h3>
 
@@ -106,7 +108,7 @@ export default function CheckoutModal() {
                     {/* Checkout Form */}
                     <form onSubmit={handleSubmit} className="lg:col-span-7 space-y-4">
                       <div>
-                        <label className="block text-xs font-semibold uppercase tracking-wider text-steel mb-1.5">
+                        <label className="block text-xs font-semibold uppercase tracking-wider text-muted mb-1.5">
                           Nama Penerima
                         </label>
                         <input
@@ -115,13 +117,13 @@ export default function CheckoutModal() {
                           value={name}
                           onChange={(e) => setName(e.target.value)}
                           placeholder="Budi Santoso"
-                          className="w-full bg-white/5 border border-white/10 rounded-sm px-4 py-2.5 text-[#f0f0ec] placeholder:text-steel/30 focus:border-rubber-red/50 focus:outline-none transition text-sm"
+                          className="w-full rounded-sm px-4 py-2.5 text-sm theme-input"
                         />
                       </div>
 
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                          <label className="block text-xs font-semibold uppercase tracking-wider text-steel mb-1.5">
+                          <label className="block text-xs font-semibold uppercase tracking-wider text-muted mb-1.5">
                             Email
                           </label>
                           <input
@@ -130,11 +132,11 @@ export default function CheckoutModal() {
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             placeholder="budi@perusahaan.com"
-                            className="w-full bg-white/5 border border-white/10 rounded-sm px-4 py-2.5 text-[#f0f0ec] placeholder:text-steel/30 focus:border-rubber-red/50 focus:outline-none transition text-sm"
+                            className="w-full rounded-sm px-4 py-2.5 text-sm theme-input"
                           />
                         </div>
                         <div>
-                          <label className="block text-xs font-semibold uppercase tracking-wider text-steel mb-1.5">
+                          <label className="block text-xs font-semibold uppercase tracking-wider text-muted mb-1.5">
                             WhatsApp / Telepon
                           </label>
                           <input
@@ -143,13 +145,13 @@ export default function CheckoutModal() {
                             value={phone}
                             onChange={(e) => setPhone(e.target.value)}
                             placeholder="08123456789"
-                            className="w-full bg-white/5 border border-white/10 rounded-sm px-4 py-2.5 text-[#f0f0ec] placeholder:text-steel/30 focus:border-rubber-red/50 focus:outline-none transition text-sm"
+                            className="w-full rounded-sm px-4 py-2.5 text-sm theme-input"
                           />
                         </div>
                       </div>
 
                       <div>
-                        <label className="block text-xs font-semibold uppercase tracking-wider text-steel mb-1.5">
+                        <label className="block text-xs font-semibold uppercase tracking-wider text-muted mb-1.5">
                           Alamat Pengiriman Lengkap
                         </label>
                         <textarea
@@ -158,12 +160,12 @@ export default function CheckoutModal() {
                           value={address}
                           onChange={(e) => setAddress(e.target.value)}
                           placeholder="Nama Jalan, Nomor, Kecamatan, Kota, Kode Pos"
-                          className="w-full bg-white/5 border border-white/10 rounded-sm px-4 py-2.5 text-[#f0f0ec] placeholder:text-steel/30 focus:border-rubber-red/50 focus:outline-none transition text-sm"
+                          className="w-full rounded-sm px-4 py-2.5 text-sm theme-input"
                         />
                       </div>
 
                       <div>
-                        <label className="block text-xs font-semibold uppercase tracking-wider text-steel mb-1.5">
+                        <label className="block text-xs font-semibold uppercase tracking-wider text-muted mb-1.5">
                           Metode Pembayaran
                         </label>
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
@@ -176,9 +178,12 @@ export default function CheckoutModal() {
                               key={item.id}
                               className={`flex items-center justify-center p-2.5 border rounded-sm cursor-pointer transition text-xs font-medium ${
                                 payment === item.id
-                                  ? "bg-rubber-red/10 border-rubber-red text-[#f0f0ec]"
-                                  : "bg-white/5 border-white/10 text-steel hover:bg-white/10"
+                                  ? "border-accent text-foreground"
+                                  : "border-border text-muted hover:text-foreground"
                               }`}
+                              style={{
+                                background: payment === item.id ? 'var(--accent-glow)' : 'var(--input-bg)',
+                              }}
                             >
                               <input
                                 type="radio"
@@ -197,7 +202,7 @@ export default function CheckoutModal() {
                       <button
                         type="submit"
                         disabled={isSubmitting}
-                        className="w-full btn-primary bg-rubber-red text-white py-3 rounded-sm font-medium uppercase tracking-wide hover:bg-rubber-red-light transition text-sm flex items-center justify-center mt-6"
+                        className="w-full btn-primary py-3 rounded-sm font-medium uppercase tracking-wide text-sm flex items-center justify-center mt-6"
                       >
                         {isSubmitting ? (
                           <span className="h-5 w-5 animate-spin rounded-full border-2 border-white/30 border-t-white" />
@@ -208,23 +213,23 @@ export default function CheckoutModal() {
                     </form>
 
                     {/* Order Summary */}
-                    <div className="lg:col-span-5 bg-white/5 border border-white/5 p-4 rounded-sm flex flex-col justify-between">
+                    <div className="lg:col-span-5 bg-elevated border border-border p-4 rounded-sm flex flex-col justify-between">
                       <div>
-                        <h4 className="text-xs font-semibold uppercase tracking-wider text-[#f0f0ec] mb-4 pb-2 border-b border-white/5">
+                        <h4 className="text-xs font-semibold uppercase tracking-wider text-foreground mb-4 pb-2 border-b border-border">
                           Ringkasan Produk
                         </h4>
                         <div className="space-y-3 max-h-[180px] overflow-y-auto scrollbar-thin">
                           {cart.map((item) => (
                             <div key={item.product.slug} className="flex justify-between items-start text-xs">
                               <div className="max-w-[70%]">
-                                <p className="font-semibold text-[#f0f0ec] truncate">
+                                <p className="font-semibold text-foreground truncate">
                                   {item.product.name}
                                 </p>
-                                <p className="text-steel">
+                                <p className="text-muted">
                                   {item.quantity} {item.product.unit} × {formatPrice(item.product.price)}
                                 </p>
                               </div>
-                              <span className="font-mono font-medium text-[#f0f0ec]">
+                              <span className="font-mono font-medium text-foreground">
                                 {formatPrice(item.product.price * item.quantity)}
                               </span>
                             </div>
@@ -232,18 +237,18 @@ export default function CheckoutModal() {
                         </div>
                       </div>
 
-                      <div className="mt-6 pt-4 border-t border-white/5 space-y-2">
-                        <div className="flex justify-between items-center text-xs text-steel">
+                      <div className="mt-6 pt-4 border-t border-border space-y-2">
+                        <div className="flex justify-between items-center text-xs text-muted">
                           <span>Subtotal</span>
                           <span className="font-mono">{formatPrice(cartTotal)}</span>
                         </div>
-                        <div className="flex justify-between items-center text-xs text-steel">
+                        <div className="flex justify-between items-center text-xs text-muted">
                           <span>Pengiriman (Ekspedisi Kargo)</span>
-                          <span className="text-emerald-400 font-medium">B2B Cargo (Calculated)</span>
+                          <span className="text-emerald-500 dark:text-emerald-400 font-medium">B2B Cargo (Calculated)</span>
                         </div>
-                        <div className="flex justify-between items-center text-sm font-bold text-[#f0f0ec] pt-2 border-t border-white/5">
+                        <div className="flex justify-between items-center text-sm font-bold text-foreground pt-2 border-t border-border">
                           <span>Estimasi Total</span>
-                          <span className="font-mono text-rubber-red-light">{formatPrice(cartTotal)}</span>
+                          <span className="font-mono text-accent">{formatPrice(cartTotal)}</span>
                         </div>
                       </div>
                     </div>
@@ -256,19 +261,19 @@ export default function CheckoutModal() {
                   animate={{ opacity: 1, scale: 1 }}
                   className="py-12 flex flex-col items-center justify-center text-center"
                 >
-                  <CheckCircle className="w-16 h-16 text-emerald-400 mb-6 animate-pulse" />
-                  <h3 className="text-2xl font-bold text-[#f0f0ec] mb-2">Pemesanan Berhasil Terkirim!</h3>
-                  <p className="text-sm text-steel mb-1">
-                    Nomor Referensi Anda: <span className="font-mono text-[#f0f0ec] font-bold">{orderRef}</span>
+                  <CheckCircle className="w-16 h-16 text-emerald-500 dark:text-emerald-400 mb-6 animate-pulse" />
+                  <h3 className="text-2xl font-bold text-foreground mb-2">Pemesanan Berhasil Terkirim!</h3>
+                  <p className="text-sm text-muted mb-1">
+                    Nomor Referensi Anda: <span className="font-mono text-foreground font-bold">{orderRef}</span>
                   </p>
-                  <p className="text-xs text-steel/70 max-w-sm mt-3">
+                  <p className="text-xs text-muted-dim max-w-sm mt-3">
                     {payment === "WhatsApp Direct"
                       ? "Rincian pesanan telah dikirim ke WhatsApp sales representative kami. Anda akan segera dihubungi untuk konfirmasi pengiriman kargo dan invoice."
                       : "Email konfirmasi instruksi pembayaran telah dikirim ke alamat email Anda. Mohon periksa folder masuk/spam."}
                   </p>
                   <button
                     onClick={handleClose}
-                    className="mt-8 px-6 py-2.5 bg-white/5 border border-white/10 text-[#f0f0ec] rounded-sm text-sm font-medium hover:bg-white/10 hover:border-white/20 transition flex items-center gap-2"
+                    className="mt-8 px-6 py-2.5 bg-elevated border border-border text-foreground rounded-sm text-sm font-medium hover:bg-accent/10 hover:border-accent/30 transition flex items-center gap-2"
                   >
                     Kembali ke Halaman Utama <ArrowRight className="w-4 h-4" />
                   </button>
