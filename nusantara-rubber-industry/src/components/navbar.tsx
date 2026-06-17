@@ -50,9 +50,7 @@ export default function Navbar() {
   return (
     <>
       <nav
-        className={`fixed top-0 left-0 right-0 z-50 h-20 flex items-center transition-all duration-500 font-sans ${
-          scrolled ? "glass-nav shadow-lg" : "bg-transparent border-b border-transparent"
-        }`}
+        className="fixed top-0 left-0 right-0 z-50 h-20 flex items-center transition-all duration-300 font-sans glass-nav shadow-lg"
       >
         <div className="w-full max-w-7xl mx-auto px-6 flex items-center justify-between">
           <a

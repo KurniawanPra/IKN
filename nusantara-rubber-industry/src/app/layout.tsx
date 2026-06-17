@@ -16,7 +16,7 @@ const geistMono = localFont({
 })
 
 export const metadata: Metadata = {
-  title: 'PT. Industri Karet Nusantara — Well-Established Rubber-Based Downstream Company',
+  title: 'PT. Industri Karet Nusantara',
   description: 'PT. Industri Karet Nusantara (IKN), anak usaha PT Perkebunan Nusantara III (Persero). Produsen Resiprene 35, cyclicised natural rubber resin berkualitas tinggi untuk coating industri global.',
 }
 

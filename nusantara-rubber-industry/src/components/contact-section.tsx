@@ -86,9 +86,15 @@ export default function ContactSection() {
               </p>
             </div>
 
-            {/* 3D Scene */}
-            <div className="hidden lg:block h-[150px] md:h-[180px] w-full relative">
-              <ContactScene />
+            {/* Interactive Dark Map */}
+            <div className="w-full h-[180px] md:h-[200px] rounded-sm overflow-hidden border border-white/10 relative shadow-lg bg-black/40">
+              <iframe
+                title="Peta Lokasi PT. Industri Karet Nusantara"
+                src="https://maps.google.com/maps?q=PT%20Industri%20Karet%20Nusantara,%20Tanjung%20Morawa&t=&z=14&ie=UTF8&iwloc=&output=embed"
+                className="w-full h-full border-0 grayscale invert opacity-70 contrast-125 brightness-90 hover:opacity-95 transition-opacity duration-300"
+                allowFullScreen={false}
+                loading="lazy"
+              ></iframe>
             </div>
 
             {/* Contact cards */}

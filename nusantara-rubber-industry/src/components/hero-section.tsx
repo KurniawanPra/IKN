@@ -13,7 +13,6 @@ const HeroScene = dynamic(() => import("./hero-scene"), {
 });
 
 const headlineWords1 = ["PT.", "Industri", "Karet", "Nusantara"];
-const headlineWords2 = ["—", "Downstream", "Rubber", "Products"];
 
 const containerVariants: Variants = {
   hidden: {},
@@ -81,18 +80,17 @@ export default function HeroSection() {
                 </motion.span>
               ))}
             </span>
-            <span className="mt-2 block text-3xl font-bold tracking-tight text-rubber-red-light md:text-4xl lg:text-5xl">
-              {headlineWords2.map((word, i) => (
-                <motion.span
-                  key={i}
-                  variants={wordVariants}
-                  className="mr-[0.3em] inline-block"
-                >
-                  {word}
-                </motion.span>
-              ))}
-            </span>
           </motion.h1>
+
+          <motion.p
+            variants={fadeUp as unknown as Variants}
+            custom={0.6}
+            initial="hidden"
+            animate="visible"
+            className="text-xs md:text-sm font-semibold tracking-wider text-rubber-red-light font-mono uppercase -mt-2"
+          >
+            Well-Established Rubber-Based Downstream Company
+          </motion.p>
 
           <motion.p
             variants={fadeUp as unknown as Variants}
