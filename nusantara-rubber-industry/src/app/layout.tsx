@@ -1,31 +1,34 @@
-import './globals.css';
-import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
-import { Navbar } from '@/components/navbar';
-import { Footer } from '@/components/footer';
+import './globals.css'
+import type { Metadata } from 'next'
+import localFont from 'next/font/local'
 
-const inter = Inter({ subsets: ['latin'] });
+const geistSans = localFont({
+  src: './fonts/GeistVF.woff',
+  variable: '--font-geist-sans',
+  weight: '100 900',
+})
+
+const geistMono = localFont({
+  src: './fonts/GeistMonoVF.woff',
+  variable: '--font-geist-mono',
+  weight: '100 900',
+})
 
 export const metadata: Metadata = {
-  title: 'Nusantara Rubber Industry - Premium Natural Rubber Products',
-  description: 'Leading Indonesian rubber manufacturer specializing in high-quality natural rubber products for global markets',
-  icons: {
-    icon: '/favicon.ico',
-  },
-};
+  title: 'PT. Industri Karet Nusantara — Well-Established Rubber-Based Downstream Company',
+  description: 'PT. Industri Karet Nusantara (IKN), anak usaha PT Perkebunan Nusantara III (Persero). Produsen Resiprene 35, cyclicised natural rubber resin berkualitas tinggi untuk coating industri global.',
+}
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
   return (
-    <html lang="id">
-      <body className={inter.className}>
-        <Navbar />
-        <main className="min-h-[calc(100vh-4rem)]">{children}</main>
-        <Footer />
+    <html lang="id" className="scroll-smooth">
+      <body className={`${geistSans.variable} ${geistMono.variable} font-sans`}>
+        {children}
       </body>
     </html>
-  );
+  )
 }

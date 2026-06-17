@@ -1,161 +1,92 @@
-'use client';
+"use client";
 
-import { motion } from 'framer-motion';
+import { motion } from "framer-motion";
+import { MapPin, Phone, Mail, Globe } from "lucide-react";
 
-export function ContactSection() {
-  const contactInfo = [
-    {
-      icon: '✉️',
-      title: 'Alamat Kantor Pusat',
-      details: 'Jl. Raya Industri No. 123, Kabupaten Serang, Banten 42182, Indonesia'
-    },
-    {
-      icon: '📞',
-      title: 'Telepon & WhatsApp',
-      details: '+62 254 1234567 (Telp) | +62 812 3456789 (WhatsApp)'
-    },
-    {
-      icon: '📧',
-      title: 'Email',
-      details: 'info@nusantararubber.co.id | sales@nusantararubber.co.id'
-    }
-  ];
+const contactInfo = [
+  {
+    icon: MapPin,
+    text: "Jl. Medan - Tanjung Morawa Km 9,5, Medan 20148, Sumatera Utara, Indonesia",
+  },
+  {
+    icon: Phone,
+    text: "+62 61 786 7356 / +62 811 648 0083",
+  },
+  {
+    icon: Mail,
+    text: "ikn@ptikn.com",
+  },
+  {
+    icon: Globe,
+    text: "ikn.co.id",
+  },
+];
 
+const inputClasses =
+  "w-full bg-white/5 border border-white/10 rounded-sm px-4 py-3 text-off-white placeholder:text-steel/50 focus:border-rubber-red/50 focus:outline-none transition";
+
+export default function ContactSection() {
   return (
-    <section className="section-padding bg-white">
-      <div className="max-w-7xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-16"
-        >
-          <div className="luxury-line" />
-          <h2 className="section-title">Hubungi Tim Premium Kami</h2>
-          <p className="section-subtitle">Siap membantu Anda dengan kebutuhan karet alam eksklusif. Hubungi tim konsierge kami untuk konsultasi personal dan penawaran khusus.</p>
-        </motion.div>
-        
-        <div className="grid gap-12 md:grid-cols-2 mb-12">
-          {/* Contact Info */}
+    <section id="contact" className="bg-navy py-20">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           <motion.div
-            initial={{ x: -50, opacity: 0 }}
-            whileInView={{ x: 0, opacity: 1 }}
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="space-y-8"
+            transition={{ duration: 0.6 }}
           >
-            {contactInfo.map((info, index) => (
-              <motion.div
-                key={index}
-                initial={{ y: 20, opacity: 0 }}
-                whileInView={{ y: 0, opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.15 }}
-                className="flex items-start gap-6 card-premium p-6"
-              >
-                <div className="w-16 h-16 bg-gradient-to-br from-amber-600 to-yellow-500 rounded-full flex items-center justify-center flex-shrink-0 text-white text-2xl">
-                  {info.icon}
-                </div>
-                <div className="flex-1">
-                  <h3 className="text-lg font-playfair font-bold mb-2 text-gray-900">{info.title}</h3>
-                  <p className="text-gray-600 font-montserrat font-light leading-relaxed">
-                    {info.details}
-                  </p>
-                </div>
-              </motion.div>
-            ))}
+            <p className="text-rubber-red font-mono uppercase tracking-widest text-sm">
+              Hubungi Kami
+            </p>
+            <h2 className="text-3xl font-bold text-off-white mt-3">
+              Mari Berdiskusi
+            </h2>
 
-            {/* Office Hours */}
-            <motion.div
-              initial={{ y: 20, opacity: 0 }}
-              whileInView={{ y: 0, opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.45 }}
-              className="card-premium p-6"
-            >
-              <h3 className="text-lg font-playfair font-bold mb-4 text-gray-900">Jam Operasional</h3>
-              <div className="space-y-2 font-montserrat font-light text-gray-600">
-                <div className="flex justify-between">
-                  <span>Senin - Jumat:</span>
-                  <span className="font-semibold">08:00 - 17:00 WIB</span>
+            <div className="mt-8 space-y-5">
+              {contactInfo.map((item) => (
+                <div key={item.text} className="flex items-start gap-3">
+                  <item.icon className="text-rubber-red w-5 h-5 flex-shrink-0 mt-0.5" />
+                  <p className="text-steel text-sm">{item.text}</p>
                 </div>
-                <div className="flex justify-between">
-                  <span>Sabtu:</span>
-                  <span className="font-semibold">09:00 - 13:00 WIB</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Minggu & Libur:</span>
-                  <span className="font-semibold">Tutup</span>
-                </div>
-              </div>
-            </motion.div>
+              ))}
+            </div>
           </motion.div>
-          
-          {/* Contact Form */}
-          <motion.div
-            initial={{ x: 50, opacity: 0 }}
-            whileInView={{ x: 0, opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="card-luxury"
-          >
-            <h3 className="text-2xl font-playfair font-bold mb-6 text-gray-900">Kirim Pesan</h3>
-            
-            <motion.form
-              initial={{ y: 20, opacity: 0 }}
-              whileInView={{ y: 0, opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="space-y-5"
-            >
-              <div className="grid gap-4 md:grid-cols-2">
-                <input
-                  type="text"
-                  placeholder="Nama Lengkap"
-                  className="w-full px-5 py-3 bg-white/60 backdrop-blur-sm border border-white/40 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all font-montserrat font-light"
-                />
-                <input
-                  type="email"
-                  placeholder="Alamat Email"
-                  className="w-full px-5 py-3 bg-white/60 backdrop-blur-sm border border-white/40 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all font-montserrat font-light"
-                />
-              </div>
-              
-              <input
-                type="tel"
-                placeholder="Nomor Telepon"
-                className="w-full px-5 py-3 bg-white/60 backdrop-blur-sm border border-white/40 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all font-montserrat font-light"
-              />
 
-              <select className="w-full px-5 py-3 bg-white/60 backdrop-blur-sm border border-white/40 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all font-montserrat font-light text-gray-600">
-                <option value="">Pilih Topik Pertanyaan</option>
-                <option value="product">Informasi Produk</option>
-                <option value="pricing">Harga & Diskon</option>
-                <option value="delivery">Pengiriman</option>
-                <option value="partnership">Kemitraan Bisnis</option>
-                <option value="other">Lainnya</option>
-              </select>
-              
-              <textarea
-                placeholder="Pesan Anda..."
-                rows="4"
-                className="w-full px-5 py-3 bg-white/60 backdrop-blur-sm border border-white/40 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all resize-none font-montserrat font-light"
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+              <input
+                type="text"
+                placeholder="Nama Lengkap"
+                className={inputClasses}
               />
-              
-              <motion.button
+              <input
+                type="email"
+                placeholder="Email"
+                className={inputClasses}
+              />
+              <input
+                type="text"
+                placeholder="Subject"
+                className={inputClasses}
+              />
+              <textarea
+                rows={4}
+                placeholder="Pesan"
+                className={inputClasses}
+              />
+              <button
                 type="submit"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="w-full btn-luxury"
+                className="bg-rubber-red text-white w-full py-3 rounded-sm font-medium hover:bg-rubber-red-light transition"
               >
                 Kirim Pesan
-              </motion.button>
-
-              <p className="text-xs text-gray-600 font-montserrat font-light text-center">
-                Kami akan merespons dalam 24 jam kerja
-              </p>
-            </motion.form>
+              </button>
+            </form>
           </motion.div>
         </div>
       </div>

@@ -1,66 +1,142 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { motion } from 'framer-motion';
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import { Menu, X } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
-export function Navbar() {
+const navItems = [
+  { label: "Home", href: "#hero" },
+  { label: "About Us", href: "#about" },
+  { label: "Business", href: "#business" },
+  { label: "Media", href: "#media" },
+  { label: "Sustainability", href: "#sustainability" },
+  { label: "Produk", href: "#produk" },
+];
+
+export default function Navbar() {
+  const [scrolled, setScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 50);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    if (mobileOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileOpen]);
+
+  const handleNavClick = (href: string) => {
+    setMobileOpen(false);
+    const id = href.replace("#", "");
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
-    <motion.nav
-      initial={{ y: -100, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.8, ease: [0.6, 0.01, 0.05, 0.95] }}
-      className="bg-white/70 backdrop-blur-xl border-b border-white/30 sticky top-0 z-50"
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex h-20 items-center justify-between">
-          <div className="flex-shrink-0">
-            <Link href="/" className="flex items-center space-x-3 group">
-              <div className="w-10 h-10 bg-gradient-to-br from-amber-600 to-yellow-500 rounded-full flex items-center justify-center">
-                <span className="text-white font-playfair font-bold text-lg">𝓝</span>
-              </div>
-              <span className="text-xl font-playfair font-bold bg-clip-text text-transparent bg-gradient-to-r from-amber-700 to-yellow-600 group-hover:from-amber-600 group-hover:to-yellow-500 transition-all">
-                Nusantara
-              </span>
+    <>
+      <nav
+        className={`fixed top-0 left-0 right-0 z-50 h-20 flex items-center transition-all duration-500 font-sans ${
+          scrolled
+            ? "bg-[#0a1628]/95 backdrop-blur-md shadow-lg"
+            : "bg-transparent"
+        }`}
+      >
+        <div className="w-full max-w-7xl mx-auto px-6 flex items-center justify-between">
+          <a
+            href="#hero"
+            onClick={(e) => {
+              e.preventDefault();
+              handleNavClick("#hero");
+            }}
+            className="flex items-center gap-3"
+          >
+            <span className="text-[#f0f0ec] font-bold text-2xl tracking-tight">
+              IKN
+            </span>
+            <span className="hidden sm:block text-[#f0f0ec]/70 text-sm leading-tight">
+              PT. Industri Karet
+              <br />
+              Nusantara
+            </span>
+          </a>
+
+          <div className="hidden lg:flex items-center gap-8">
+            {navItems.map((item) => (
+              <a
+                key={item.href}
+                href={item.href}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleNavClick(item.href);
+                }}
+                className="text-[#f0f0ec] text-sm font-medium hover:text-[#c44040] transition-colors duration-300"
+              >
+                {item.label}
+              </a>
+            ))}
+            <Link
+              href="/login"
+              className="ml-4 px-5 py-2 text-sm font-medium text-[#f0f0ec] border border-[#f0f0ec]/40 rounded hover:border-[#c44040] hover:text-[#c44040] transition-all duration-300"
+            >
+              Login
             </Link>
           </div>
-          
-          <div className="hidden md:flex space-x-8">
-            <Link href="/" className="text-gray-700 font-montserrat font-light hover:text-amber-600 transition-colors duration-300 relative group">
-              Beranda
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-amber-600 to-yellow-500 group-hover:w-full transition-all duration-300" />
-            </Link>
-            <Link href="/about" className="text-gray-700 font-montserrat font-light hover:text-amber-600 transition-colors duration-300 relative group">
-              Tentang Kami
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-amber-600 to-yellow-500 group-hover:w-full transition-all duration-300" />
-            </Link>
-            <Link href="/products" className="text-gray-700 font-montserrat font-light hover:text-amber-600 transition-colors duration-300 relative group">
-              Produk
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-amber-600 to-yellow-500 group-hover:w-full transition-all duration-300" />
-            </Link>
-            <Link href="/features" className="text-gray-700 font-montserrat font-light hover:text-amber-600 transition-colors duration-300 relative group">
-              Keunggulan
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-amber-600 to-yellow-500 group-hover:w-full transition-all duration-300" />
-            </Link>
-            <Link href="/testimonials" className="text-gray-700 font-montserrat font-light hover:text-amber-600 transition-colors duration-300 relative group">
-              Testimoni
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-amber-600 to-yellow-500 group-hover:w-full transition-all duration-300" />
-            </Link>
-            <Link href="/contact" className="text-gray-700 font-montserrat font-light hover:text-amber-600 transition-colors duration-300 relative group">
-              Kontak
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-amber-600 to-yellow-500 group-hover:w-full transition-all duration-300" />
-            </Link>
-          </div>
-          
-          <div className="flex items-center space-x-3">
-            <button className="px-4 py-2 text-amber-600 font-montserrat font-semibold border border-amber-600/50 rounded-lg hover:bg-amber-50 transition-colors duration-300">
-              ID
-            </button>
-            <button className="px-4 py-2 bg-gradient-to-r from-amber-600 to-yellow-500 text-white font-montserrat font-semibold rounded-lg hover:shadow-lg transition-all duration-300">
-              EN
-            </button>
-          </div>
+
+          <button
+            onClick={() => setMobileOpen(!mobileOpen)}
+            className="lg:hidden text-[#f0f0ec] p-2"
+            aria-label="Toggle menu"
+          >
+            {mobileOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
         </div>
-      </div>
-    </motion.nav>
+      </nav>
+
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.div
+            initial={{ y: "-100%" }}
+            animate={{ y: 0 }}
+            exit={{ y: "-100%" }}
+            transition={{ type: "tween", duration: 0.35, ease: "easeInOut" }}
+            className="fixed inset-0 z-40 bg-[#0a1628] flex flex-col items-center justify-center gap-8 lg:hidden"
+          >
+            {navItems.map((item) => (
+              <a
+                key={item.href}
+                href={item.href}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleNavClick(item.href);
+                }}
+                className="text-[#f0f0ec] text-2xl font-medium hover:text-[#c44040] transition-colors duration-300"
+              >
+                {item.label}
+              </a>
+            ))}
+            <Link
+              href="/login"
+              onClick={() => setMobileOpen(false)}
+              className="mt-4 px-8 py-3 text-lg font-medium text-[#f0f0ec] border border-[#f0f0ec]/40 rounded hover:border-[#c44040] hover:text-[#c44040] transition-all duration-300"
+            >
+              Login
+            </Link>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 }

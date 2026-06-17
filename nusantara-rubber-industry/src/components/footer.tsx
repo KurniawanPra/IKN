@@ -1,99 +1,90 @@
-import Link from 'next/link';
+import Link from "next/link";
 
-export function Footer() {
+const produkLinks = [
+  { label: "Resiprene 35", href: "/produk/resiprene-35" },
+  { label: "RUBIN", href: "/produk/rubin" },
+  { label: "Cyclized Rubber", href: "/produk/cyclized-rubber" },
+  { label: "Rubber Thread", href: "/produk/rubber-thread" },
+];
+
+const perusahaanLinks = [
+  { label: "Tentang Kami", href: "#about" },
+  { label: "Lini Bisnis", href: "#bisnis" },
+  { label: "Media", href: "#media" },
+  { label: "Keberlanjutan", href: "#keberlanjutan" },
+];
+
+export default function Footer() {
   return (
-    <footer className="bg-gradient-to-b from-gray-900 to-gray-950 text-white/90">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-4 mb-12">
+    <footer className="bg-[#060e1a]">
+      <div className="max-w-7xl mx-auto px-6 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           <div>
-            <h3 className="text-xl font-playfair font-bold mb-4 text-white">Nusantara Premium</h3>
-            <p className="text-sm font-montserrat font-light text-white/70 mb-6 leading-relaxed">
-              Produsen karet alam eksklusif Indonesia dengan komitmen pada kemewahan, keberlanjutan, dan inovasi sejak 1995
+            <p className="text-2xl font-bold text-off-white">IKN</p>
+            <p className="text-sm text-steel mt-2">
+              PT. Industri Karet Nusantara
             </p>
-            <div className="flex space-x-4">
-              {[
-                { icon: '📘', label: 'Facebook' },
-                { icon: '𝕏', label: 'Twitter' },
-                { icon: '📷', label: 'Instagram' },
-                { icon: '🔗', label: 'LinkedIn' }
-              ].map((social, i) => (
-                <a
-                  key={i}
-                  href="#"
-                  className="w-10 h-10 bg-gradient-to-br from-amber-600 to-yellow-500 rounded-full flex items-center justify-center text-white hover:shadow-lg transition-all duration-300 hover:-translate-y-1 text-lg"
-                  title={social.label}
-                >
-                  {social.icon}
-                </a>
-              ))}
-            </div>
+            <p className="text-xs text-steel-dark mt-1">
+              Anak usaha PT Perkebunan Nusantara III (Persero)
+            </p>
+            <p className="text-xs text-steel-dark">
+              Holding Perkebunan Nusantara
+            </p>
           </div>
-          
+
           <div>
-            <h4 className="text-sm font-bold mb-6 text-white uppercase tracking-widest font-montserrat">Koleksi Premium</h4>
-            <ul className="space-y-3 text-sm">
-              {['Karet Alam TSR', 'Karet Alam RSS', 'Karet Latex Murni', 'Karet Crepe Premium'].map((item, i) => (
-                <li key={i}>
-                  <Link href="/products" className="font-montserrat font-light text-white/70 hover:text-amber-400 transition-colors duration-300">
-                    → {item}
+            <p className="text-sm font-semibold text-off-white mb-4">Produk</p>
+            <ul className="space-y-2">
+              {produkLinks.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="text-sm text-steel hover:text-off-white transition"
+                  >
+                    {link.label}
                   </Link>
                 </li>
               ))}
             </ul>
           </div>
-          
+
           <div>
-            <h4 className="text-sm font-bold mb-6 text-white uppercase tracking-widest font-montserrat">Informasi</h4>
-            <ul className="space-y-3 text-sm">
-              {[
-                { href: '/about', label: 'Tentang Kami' },
-                { href: '/features', label: 'Keunggulan Kami' },
-                { href: '/testimonials', label: 'Testimoni' },
-                { href: '/contact', label: 'Kontak' }
-              ].map((item, i) => (
-                <li key={i}>
-                  <Link href={item.href} className="font-montserrat font-light text-white/70 hover:text-amber-400 transition-colors duration-300">
-                    → {item.label}
+            <p className="text-sm font-semibold text-off-white mb-4">
+              Perusahaan
+            </p>
+            <ul className="space-y-2">
+              {perusahaanLinks.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="text-sm text-steel hover:text-off-white transition"
+                  >
+                    {link.label}
                   </Link>
                 </li>
               ))}
             </ul>
           </div>
-          
+
           <div>
-            <h4 className="text-sm font-bold mb-6 text-white uppercase tracking-widest font-montserrat">Sertifikasi</h4>
-            <div className="space-y-3 text-xs">
-              {[
-                { icon: '✓', cert: 'ISO 9001' },
-                { icon: '✓', cert: 'ISO 14001' },
-                { icon: '✓', cert: 'SNI Approved' },
-                { icon: '✓', cert: 'FSC Certified' }
-              ].map((item, i) => (
-                <div key={i} className="flex items-center gap-3 p-2 bg-white/5 rounded-lg">
-                  <span className="w-5 h-5 bg-gradient-to-r from-amber-600 to-yellow-500 rounded-full flex items-center justify-center text-white text-xs font-bold">
-                    {item.icon}
-                  </span>
-                  <span className="font-montserrat font-light text-white/70">{item.cert}</span>
-                </div>
-              ))}
+            <p className="text-sm font-semibold text-off-white mb-4">Kontak</p>
+            <div className="space-y-2">
+              <p className="text-sm text-steel">
+                Jl. Medan - Tanjung Morawa Km 9,5, Medan 20148
+              </p>
+              <p className="text-sm text-steel">+62 61 786 7356</p>
+              <p className="text-sm text-steel">ikn@ptikn.com</p>
             </div>
           </div>
         </div>
-        
-        {/* Divider */}
-        <div className="h-px bg-gradient-to-r from-transparent via-amber-600/50 to-transparent mb-8" />
-        
-        {/* Bottom */}
-        <div className="pt-8 text-center text-sm text-white/60 font-montserrat font-light">
-          <p className="mb-3">&copy; {new Date().getFullYear()} Nusantara Rubber Industry. Semua Hak Dilindungi.</p>
-          <div className="flex justify-center gap-6">
-            <Link href="/privacy" className="hover:text-amber-400 transition-colors duration-300">
-              Kebijakan Privasi
-            </Link>
-            <Link href="/terms" className="hover:text-amber-400 transition-colors duration-300">
-              Syarat & Ketentuan
-            </Link>
-          </div>
+
+        <div className="border-t border-white/5 mt-8 pt-8 text-center">
+          <p className="text-xs text-steel-dark">
+            © 2026 PT. Industri Karet Nusantara. All rights reserved.
+          </p>
+          <p className="text-xs text-steel-dark mt-1">
+            Subsidiary of PT Perkebunan Nusantara III (Persero)
+          </p>
         </div>
       </div>
     </footer>

@@ -1,144 +1,183 @@
-'use client';
+"use client";
 
-import { motion } from 'framer-motion';
-import Link from 'next/link';
+import dynamic from "next/dynamic";
+import { motion } from "framer-motion";
+import { ChevronDown } from "lucide-react";
 
-export function HeroSection() {
+const HeroScene = dynamic(() => import("./hero-scene"), {
+  ssr: false,
+  loading: () => (
+    <div className="h-full w-full bg-gradient-to-br from-[#0a1628] to-[#1a2a4a] rounded-2xl" />
+  ),
+});
+
+const headlineWords1 = ["PT.", "Industri", "Karet", "Nusantara"];
+const headlineWords2 = ["—", "Well-Established", "Rubber-Based", "Downstream", "Company"];
+
+const containerVariants = {
+  hidden: {},
+  visible: {
+    transition: { staggerChildren: 0.08, delayChildren: 0.3 },
+  },
+};
+
+const wordVariants = {
+  hidden: { opacity: 0, y: 20, filter: "blur(8px)" },
+  visible: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: { duration: 0.5, ease: "easeOut" },
+  },
+};
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 30 },
+  visible: (delay: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: "easeOut", delay },
+  }),
+};
+
+const stats = [
+  { value: "60+", label: "Tahun" },
+  { value: "20+", label: "Negara Ekspor" },
+  { value: "11.2%", label: "Revenue Growth" },
+];
+
+export default function HeroSection() {
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden pt-20">
-      {/* Animated Background */}
-      <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-amber-50 via-white to-yellow-50"></div>
-        
-        {/* Floating Elements */}
-        <motion.div
-          animate={{ y: [0, 30, 0], x: [0, 15, 0] }}
-          transition={{ duration: 8, repeat: Infinity }}
-          className="absolute top-20 right-20 w-72 h-72 bg-gradient-to-br from-amber-200/30 to-yellow-200/20 rounded-full blur-3xl"
-        />
-        <motion.div
-          animate={{ y: [0, -30, 0], x: [0, -15, 0] }}
-          transition={{ duration: 10, repeat: Infinity, delay: 1 }}
-          className="absolute bottom-20 left-20 w-96 h-96 bg-gradient-to-br from-yellow-200/20 to-amber-200/30 rounded-full blur-3xl"
-        />
-      </div>
-      
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-        <div className="flex flex-col lg:flex-row items-center gap-16">
-          <motion.div 
-            initial={{ x: -100, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ duration: 1, delay: 0.2 }}
-            className="lg:w-1/2 text-center lg:text-left"
+    <section
+      id="hero"
+      className="relative min-h-[100dvh] flex items-center overflow-hidden"
+      style={{
+        background: "linear-gradient(135deg, #060f1f 0%, #0a1628 50%, #0e1d38 100%)",
+        fontFamily: "var(--font-geist-sans)",
+      }}
+    >
+      <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col-reverse items-center gap-8 px-6 py-20 lg:flex-row lg:gap-12 lg:py-0">
+        <div className="flex flex-col gap-8 lg:w-1/2">
+          <motion.span
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="inline-block w-fit rounded-full border border-[#c0c0c0]/20 bg-[#c0c0c0]/5 px-4 py-1.5 text-xs font-medium uppercase tracking-widest text-[#c0c0c0]"
           >
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.4 }}
-              className="mb-6"
-            >
-              <span className="inline-block px-6 py-2 bg-gradient-to-r from-amber-600 to-yellow-500 text-white text-sm font-bold tracking-widest uppercase rounded-full mb-4">
-                Kemewahan Alami Sejati
-              </span>
-            </motion.div>
+            Since 1965 — Rubber-Based Downstream Company
+          </motion.span>
 
-            <motion.h1
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 1, delay: 0.3 }}
-              className="text-6xl lg:text-7xl font-playfair font-bold mb-6 text-gray-900 leading-tight"
-            >
-              Karet Alam <span className="bg-clip-text text-transparent bg-gradient-to-r from-amber-600 to-yellow-500">Premium</span> dari Nusantara
-            </motion.h1>
-            
-            <motion.p
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 1, delay: 0.5 }}
-              className="text-xl text-gray-600 mb-10 max-w-xl font-montserrat font-light leading-relaxed"
-            >
-              Kemewahan yang terlahir dari alam. Produk karet alam eksklusif dengan standar kualitas internasional tertinggi, dipercaya oleh brand-brand mewah global sejak 1995
-            </motion.p>
-            
-            <motion.div
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 1, delay: 0.7 }}
-              className="flex flex-col sm:flex-row gap-6 justify-center lg:justify-start"
-            >
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Link href="/products" className="btn-luxury inline-block">
-                  Koleksi Premium Kami
-                </Link>
-              </motion.div>
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Link href="/about" className="btn-outline inline-block">
-                  Pelajari Cerita Kami
-                </Link>
-              </motion.div>
-            </motion.div>
+          <motion.h1
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="text-4xl font-bold leading-[1.1] tracking-tight text-[#f0f0ec] md:text-5xl lg:text-6xl"
+          >
+            <span className="block">
+              {headlineWords1.map((word, i) => (
+                <motion.span
+                  key={i}
+                  variants={wordVariants}
+                  className="mr-[0.3em] inline-block"
+                >
+                  {word}
+                </motion.span>
+              ))}
+            </span>
+            <span className="mt-2 block text-3xl font-bold tracking-tight text-[#c0c0c0] md:text-4xl lg:text-5xl">
+              {headlineWords2.map((word, i) => (
+                <motion.span
+                  key={i}
+                  variants={wordVariants}
+                  className="mr-[0.3em] inline-block"
+                >
+                  {word}
+                </motion.span>
+              ))}
+            </span>
+          </motion.h1>
 
-            {/* Stats */}
-            <motion.div
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 1, delay: 0.9 }}
-              className="mt-12 flex gap-12 justify-center lg:justify-start text-center lg:text-left"
+          <motion.p
+            variants={fadeUp}
+            custom={1.0}
+            initial="hidden"
+            animate="visible"
+            className="max-w-xl text-lg leading-relaxed text-[#c0c0c0]"
+          >
+            Salah satu market leader di industri karet Indonesia. Produk
+            berkualitas tinggi dengan reputasi global, siap melayani kebutuhan
+            industri Anda.
+          </motion.p>
+
+          <motion.div
+            variants={fadeUp}
+            custom={1.3}
+            initial="hidden"
+            animate="visible"
+            className="flex flex-wrap gap-4"
+          >
+            <a
+              href="#produk"
+              className="inline-flex items-center justify-center rounded-lg bg-[#8b1a1a] px-6 py-3 text-sm font-semibold text-white transition-all duration-300 hover:bg-[#a52020] hover:shadow-lg hover:shadow-[#8b1a1a]/25"
             >
-              <div>
-                <p className="text-3xl font-playfair font-bold text-amber-600">25+</p>
-                <p className="text-gray-600 font-montserrat font-light">Tahun Keunggulan</p>
-              </div>
-              <div>
-                <p className="text-3xl font-playfair font-bold text-amber-600">500+</p>
-                <p className="text-gray-600 font-montserrat font-light">Brand Global</p>
-              </div>
-              <div>
-                <p className="text-3xl font-playfair font-bold text-amber-600">∞</p>
-                <p className="text-gray-600 font-montserrat font-light">Kepuasan Pelanggan</p>
-              </div>
-            </motion.div>
+              Lihat Produk Kami
+            </a>
+            <a
+              href="#about"
+              className="inline-flex items-center justify-center rounded-lg border border-[#c0c0c0]/30 px-6 py-3 text-sm font-semibold text-[#c0c0c0] transition-all duration-300 hover:border-[#c0c0c0]/60 hover:bg-[#c0c0c0]/5"
+            >
+              Tentang Perusahaan
+            </a>
           </motion.div>
-          
-          <motion.div 
-            initial={{ x: 100, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ duration: 1, delay: 0.4 }}
-            className="lg:w-1/2"
+
+          <motion.div
+            variants={fadeUp}
+            custom={1.6}
+            initial="hidden"
+            animate="visible"
+            className="flex gap-8 border-t border-[#c0c0c0]/10 pt-6"
           >
-            <motion.div
-              animate={{ y: [0, 20, 0] }}
-              transition={{ duration: 6, repeat: Infinity }}
-              className="relative"
-            >
-              <div className="card-luxury p-0 overflow-hidden">
-                <motion.img
-                  whileHover={{ scale: 1.05 }}
-                  className="w-full h-auto object-cover rounded-3xl"
-                  src="/images/hero/premium-rubber.jpg"
-                  alt="Karet alam premium dari Nusantara"
-                />
+            {stats.map((stat) => (
+              <div key={stat.label} className="flex flex-col">
+                <span className="text-2xl font-bold text-[#f0f0ec]">
+                  {stat.value}
+                </span>
+                <span className="text-xs text-[#c0c0c0]/70">{stat.label}</span>
               </div>
-              
-              {/* Floating Card */}
-              <motion.div
-                animate={{ y: [0, -10, 0], x: [0, 5, 0] }}
-                transition={{ duration: 8, repeat: Infinity, delay: 2 }}
-                className="absolute -bottom-8 -left-8 card-luxury p-6 max-w-xs"
-              >
-                <p className="font-playfair text-sm font-bold text-gray-900 mb-2">Sertifikasi Premium</p>
-                <p className="font-montserrat text-xs text-gray-600 font-light">Memenuhi standar internasional tertinggi untuk kemewahan dan kualitas</p>
-              </motion.div>
-            </motion.div>
+            ))}
           </motion.div>
         </div>
+
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
+          className="aspect-square w-full max-w-lg lg:w-1/2 lg:max-w-none"
+        >
+          <div className="h-full w-full">
+            <HeroScene />
+          </div>
+        </motion.div>
       </div>
+
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 2.0, duration: 0.6 }}
+        className="absolute bottom-8 left-1/2 z-10 -translate-x-1/2"
+      >
+        <a href="#about" className="flex flex-col items-center gap-1">
+          <span className="text-[10px] uppercase tracking-[0.2em] text-[#c0c0c0]/50">
+            Scroll
+          </span>
+          <motion.div
+            animate={{ y: [0, 6, 0] }}
+            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <ChevronDown className="h-5 w-5 text-[#c0c0c0]/50" />
+          </motion.div>
+        </a>
+      </motion.div>
     </section>
   );
 }
