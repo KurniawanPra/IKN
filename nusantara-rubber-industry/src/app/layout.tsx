@@ -1,6 +1,7 @@
 import './globals.css'
 import type { Metadata } from 'next'
 import localFont from 'next/font/local'
+import { CartProvider } from '@/components/providers/cart-provider'
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -27,7 +28,9 @@ export default function RootLayout({
   return (
     <html lang="id" className="scroll-smooth">
       <body className={`${geistSans.variable} ${geistMono.variable} font-sans`}>
-        {children}
+        <CartProvider>
+          {children}
+        </CartProvider>
       </body>
     </html>
   )

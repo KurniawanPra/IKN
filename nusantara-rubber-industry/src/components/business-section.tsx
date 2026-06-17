@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import dynamic from "next/dynamic";
+import { motion, Variants } from "framer-motion";
 import {
   TreePine,
   Droplets,
@@ -8,115 +9,130 @@ import {
   Thermometer,
   Package,
   Ship,
-  ArrowRight,
 } from "lucide-react";
+import BackgroundBlobs from "./background-blobs";
+
+const BusinessScene = dynamic(() => import("./business-scene"), {
+  ssr: false,
+  loading: () => (
+    <div className="h-full w-full bg-gradient-to-br from-emerald-950/20 to-teal-900/10 rounded-2xl opacity-20" />
+  ),
+});
 
 const steps = [
   {
     icon: TreePine,
     step: "01",
     title: "Perkebunan Karet",
-    desc: "Karet alam berkualitas dari perkebunan PTPN III di Sumatera Utara",
+    desc: "Lateks premium dari perkebunan nasional berkelanjutan.",
   },
   {
     icon: Droplets,
     step: "02",
     title: "Penyadapan Lateks",
-    desc: "Pengumpulan lateks segar dengan teknik penyadapan presisi",
+    desc: "Pengumpulan lateks segar dengan teknik penyadapan presisi.",
   },
   {
     icon: FlaskConical,
     step: "03",
     title: "Proses Siklisasi",
-    desc: "Transformasi karet alam menjadi resin melalui proses cyclization dengan teknologi modern",
+    desc: "Modifikasi kimia getah karet menjadi resin bernilai tinggi.",
   },
   {
     icon: Thermometer,
     step: "04",
     title: "Quality Control",
-    desc: "Pengujian ketat di laboratorium untuk memastikan standar internasional",
+    desc: "Pengujian laboratorium ketat berstandar ekspor.",
   },
   {
     icon: Package,
     step: "05",
     title: "Pengemasan",
-    desc: "Pengemasan produk dengan standar ekspor untuk menjaga kualitas",
+    desc: "Pengemasan kedap udara standar kargo internasional.",
   },
   {
     icon: Ship,
     step: "06",
     title: "Distribusi Global",
-    desc: "Pengiriman ke pasar Oceania, Eropa Barat, dan Eropa Timur",
+    desc: "Pengiriman kontainer ke manufaktur Eropa, Asia, & Oceania.",
   },
 ];
 
+const cardVariants = {
+  hidden: { opacity: 0, y: 15 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.4, delay: i * 0.08 },
+  }),
+};
+
 export default function BusinessSection() {
   return (
-    <section
-      id="business"
-      className="min-h-screen bg-[#0a1628] px-6 sm:px-8 lg:px-12 py-20"
-    >
-      <div className="max-w-7xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="mb-16"
-        >
-          <p className="uppercase tracking-widest text-[#8b1a1a] text-sm font-mono mb-3">
-            Lini Bisnis
-          </p>
-          <h2 className="text-3xl md:text-4xl font-bold text-[#f0f0ec] mb-4">
-            Proses Hilirisasi Karet Alam
-          </h2>
-          <p className="text-[#c0c0c0]">
-            Dari bahan mentah hingga produk industri berkualitas tinggi
-          </p>
-        </motion.div>
+    <div className="relative min-h-full lg:h-full w-full flex items-start lg:items-center overflow-y-auto lg:overflow-hidden no-scrollbar font-sans">
+      <BackgroundBlobs sectionId="business" />
 
-        <div className="overflow-x-auto pb-4 -mx-6 px-6 sm:-mx-8 sm:px-8 lg:-mx-12 lg:px-12">
-          <div className="flex gap-0 snap-x snap-mandatory items-stretch">
-            {steps.map((step, index) => {
-              const Icon = step.icon;
-              return (
-                <div key={step.step} className="flex items-center flex-shrink-0">
+      <div className="relative z-10 mx-auto max-w-7xl px-6 py-24 lg:py-0 w-full flex flex-col justify-start lg:justify-center min-h-full h-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          
+          {/* Left Panel: Content & 3D Scene */}
+          <div className="lg:col-span-5 flex flex-col gap-6">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-widest text-rubber-red-light font-mono mb-2">
+                Lini Bisnis
+              </p>
+              <h2 className="text-3xl font-bold text-[#f0f0ec] leading-tight">
+                Proses Hilirisasi Karet Alam Modern
+              </h2>
+              <p className="text-sm text-[#c0c0c0] mt-2 leading-relaxed">
+                Dari getah mentah hingga menjadi resin dan produk turunan industri 
+                bernilai tinggi dengan pengawasan mutu terintegrasi.
+              </p>
+            </div>
+
+            {/* 3D Scene Canvas (No cut-off boxes or labels) */}
+            <div className="hidden lg:block h-[220px] md:h-[280px] w-full relative">
+              <BusinessScene />
+            </div>
+          </div>
+
+          {/* Right Panel: Grid of Steps */}
+          <div className="lg:col-span-7">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3 gap-4">
+              {steps.map((step, index) => {
+                const Icon = step.icon;
+                return (
                   <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
+                    key={step.step}
+                    variants={cardVariants as unknown as Variants}
+                    custom={index}
+                    initial="hidden"
+                    whileInView="visible"
                     viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                    whileHover={{ y: -4, borderColor: "rgba(139, 26, 26, 0.2)" }}
-                    className="min-w-[280px] md:min-w-[320px] snap-center bg-[#142040] border border-white/5 rounded-sm p-6 transition-colors"
+                    className="glass-panel glass-panel-hover p-4 rounded-md flex flex-col gap-2 relative overflow-hidden"
                   >
-                    <span className="font-mono text-[#8b1a1a] text-sm">
+                    {/* Glowing index badge */}
+                    <span className="absolute top-2 right-3 font-mono text-[10px] text-white/10 font-bold">
                       {step.step}
                     </span>
-                    <Icon className="w-10 h-10 text-[#8b1a1a] mb-4 mt-3" />
-                    <h3 className="text-lg font-semibold text-[#f0f0ec] mb-2">
-                      {step.title}
-                    </h3>
-                    <p className="text-sm text-[#c0c0c0] leading-relaxed">
-                      {step.desc}
-                    </p>
+
+                    <Icon className="w-8 h-8 text-rubber-red-light shrink-0" />
+                    <div>
+                      <h3 className="text-xs font-bold text-[#f0f0ec]">
+                        {step.title}
+                      </h3>
+                      <p className="text-[10px] text-[#c0c0c0] leading-relaxed mt-1">
+                        {step.desc}
+                      </p>
+                    </div>
                   </motion.div>
-                  {index < steps.length - 1 && (
-                    <motion.div
-                      initial={{ opacity: 0 }}
-                      whileInView={{ opacity: 1 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.4, delay: index * 0.1 + 0.2 }}
-                      className="flex-shrink-0 px-3"
-                    >
-                      <ArrowRight className="w-5 h-5 text-[#c0c0c0]" />
-                    </motion.div>
-                  )}
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
+
         </div>
       </div>
-    </section>
+    </div>
   );
 }

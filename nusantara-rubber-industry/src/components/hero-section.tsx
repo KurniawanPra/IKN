@@ -1,33 +1,34 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import { ChevronDown } from "lucide-react";
+import BackgroundBlobs from "./background-blobs";
 
 const HeroScene = dynamic(() => import("./hero-scene"), {
   ssr: false,
   loading: () => (
-    <div className="h-full w-full bg-gradient-to-br from-[#0a1628] to-[#1a2a4a] rounded-2xl" />
+    <div className="h-full w-full bg-gradient-to-br from-[#0a1628] to-[#142040] rounded-2xl opacity-20" />
   ),
 });
 
 const headlineWords1 = ["PT.", "Industri", "Karet", "Nusantara"];
-const headlineWords2 = ["—", "Well-Established", "Rubber-Based", "Downstream", "Company"];
+const headlineWords2 = ["—", "Downstream", "Rubber", "Products"];
 
-const containerVariants = {
+const containerVariants: Variants = {
   hidden: {},
   visible: {
     transition: { staggerChildren: 0.08, delayChildren: 0.3 },
   },
 };
 
-const wordVariants = {
+const wordVariants: Variants = {
   hidden: { opacity: 0, y: 20, filter: "blur(8px)" },
   visible: {
     opacity: 1,
     y: 0,
     filter: "blur(0px)",
-    transition: { duration: 0.5, ease: "easeOut" },
+    transition: { duration: 0.5, ease: "easeOut" as const },
   },
 };
 
@@ -36,42 +37,38 @@ const fadeUp = {
   visible: (delay: number) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.6, ease: "easeOut", delay },
+    transition: { duration: 0.6, ease: "easeOut" as const, delay },
   }),
 };
 
 const stats = [
-  { value: "60+", label: "Tahun" },
+  { value: "60+", label: "Tahun Pengalaman" },
   { value: "20+", label: "Negara Ekspor" },
   { value: "11.2%", label: "Revenue Growth" },
 ];
 
 export default function HeroSection() {
   return (
-    <section
-      id="hero"
-      className="relative min-h-[100dvh] flex items-center overflow-hidden"
-      style={{
-        background: "linear-gradient(135deg, #060f1f 0%, #0a1628 50%, #0e1d38 100%)",
-        fontFamily: "var(--font-geist-sans)",
-      }}
-    >
-      <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col-reverse items-center gap-8 px-6 py-20 lg:flex-row lg:gap-12 lg:py-0">
-        <div className="flex flex-col gap-8 lg:w-1/2">
+    <div className="relative min-h-full lg:h-full w-full flex items-start lg:items-center overflow-y-auto lg:overflow-hidden no-scrollbar">
+      <BackgroundBlobs sectionId="hero" />
+
+      <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col-reverse lg:flex-row items-center gap-8 lg:gap-12 px-6 pt-24 pb-12 min-h-full h-auto justify-start lg:justify-center lg:pt-20">
+        {/* Text Area */}
+        <div className="flex flex-col gap-6 lg:w-1/2 justify-center">
           <motion.span
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="inline-block w-fit rounded-full border border-[#c0c0c0]/20 bg-[#c0c0c0]/5 px-4 py-1.5 text-xs font-medium uppercase tracking-widest text-[#c0c0c0]"
+            className="inline-block w-fit rounded-full border border-white/10 bg-white/5 backdrop-blur-md px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-[#c0c0c0]"
           >
-            Since 1965 — Rubber-Based Downstream Company
+            Since 1965 — Market Leader
           </motion.span>
 
           <motion.h1
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="text-4xl font-bold leading-[1.1] tracking-tight text-[#f0f0ec] md:text-5xl lg:text-6xl"
+            className="text-4xl font-bold leading-[1.15] tracking-tight text-[#f0f0ec] md:text-5xl lg:text-6xl"
           >
             <span className="block">
               {headlineWords1.map((word, i) => (
@@ -84,7 +81,7 @@ export default function HeroSection() {
                 </motion.span>
               ))}
             </span>
-            <span className="mt-2 block text-3xl font-bold tracking-tight text-[#c0c0c0] md:text-4xl lg:text-5xl">
+            <span className="mt-2 block text-3xl font-bold tracking-tight text-rubber-red-light md:text-4xl lg:text-5xl">
               {headlineWords2.map((word, i) => (
                 <motion.span
                   key={i}
@@ -98,86 +95,90 @@ export default function HeroSection() {
           </motion.h1>
 
           <motion.p
-            variants={fadeUp}
-            custom={1.0}
+            variants={fadeUp as unknown as Variants}
+            custom={0.8}
             initial="hidden"
             animate="visible"
-            className="max-w-xl text-lg leading-relaxed text-[#c0c0c0]"
+            className="max-w-xl text-base md:text-lg leading-relaxed text-[#c0c0c0] font-sans"
           >
-            Salah satu market leader di industri karet Indonesia. Produk
-            berkualitas tinggi dengan reputasi global, siap melayani kebutuhan
-            industri Anda.
+            Salah satu market leader dalam hilirisasi karet alam di Indonesia. 
+            Menghasilkan produk resin karet dan benang karet berkualitas premium 
+            yang dipercaya di pasar domestik maupun mancanegara.
           </motion.p>
 
           <motion.div
-            variants={fadeUp}
-            custom={1.3}
+            variants={fadeUp as unknown as Variants}
+            custom={1.0}
             initial="hidden"
             animate="visible"
             className="flex flex-wrap gap-4"
           >
             <a
               href="#produk"
-              className="inline-flex items-center justify-center rounded-lg bg-[#8b1a1a] px-6 py-3 text-sm font-semibold text-white transition-all duration-300 hover:bg-[#a52020] hover:shadow-lg hover:shadow-[#8b1a1a]/25"
+              className="btn-primary"
             >
-              Lihat Produk Kami
+              Katalog Produk
             </a>
             <a
               href="#about"
-              className="inline-flex items-center justify-center rounded-lg border border-[#c0c0c0]/30 px-6 py-3 text-sm font-semibold text-[#c0c0c0] transition-all duration-300 hover:border-[#c0c0c0]/60 hover:bg-[#c0c0c0]/5"
+              className="btn-outline"
             >
-              Tentang Perusahaan
+              Tentang Kami
             </a>
           </motion.div>
 
+          {/* Stats glass card */}
           <motion.div
-            variants={fadeUp}
-            custom={1.6}
+            variants={fadeUp as unknown as Variants}
+            custom={1.2}
             initial="hidden"
             animate="visible"
-            className="flex gap-8 border-t border-[#c0c0c0]/10 pt-6"
+            className="flex gap-8 border-t border-white/10 pt-6 mt-2"
           >
             {stats.map((stat) => (
               <div key={stat.label} className="flex flex-col">
-                <span className="text-2xl font-bold text-[#f0f0ec]">
+                <span className="text-xl md:text-2xl font-bold text-[#f0f0ec] font-mono">
                   {stat.value}
                 </span>
-                <span className="text-xs text-[#c0c0c0]/70">{stat.label}</span>
+                <span className="text-[10px] md:text-xs text-[#c0c0c0]/70 uppercase tracking-wider mt-1">{stat.label}</span>
               </div>
             ))}
           </motion.div>
         </div>
 
+        {/* 3D Scene Area */}
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
-          className="aspect-square w-full max-w-lg lg:w-1/2 lg:max-w-none"
+          className="hidden lg:block w-full h-[250px] sm:h-[350px] lg:h-[450px] lg:w-1/2 relative"
         >
-          <div className="h-full w-full">
+          <div className="h-full w-full relative z-10">
             <HeroScene />
           </div>
+          {/* Subtle glow behind canvas */}
+          <div className="absolute inset-0 bg-gradient-to-tr from-rubber-red/10 to-transparent blur-3xl -z-10 rounded-full" />
         </motion.div>
       </div>
 
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 2.0, duration: 0.6 }}
-        className="absolute bottom-8 left-1/2 z-10 -translate-x-1/2"
+        transition={{ delay: 1.8, duration: 0.6 }}
+        className="absolute bottom-6 left-1/2 z-10 -translate-x-1/2 hidden md:block"
       >
         <a href="#about" className="flex flex-col items-center gap-1">
-          <span className="text-[10px] uppercase tracking-[0.2em] text-[#c0c0c0]/50">
-            Scroll
+          <span className="text-[9px] uppercase tracking-[0.25em] text-[#c0c0c0]/50 font-mono">
+            Scroll Down
           </span>
           <motion.div
-            animate={{ y: [0, 6, 0] }}
+            animate={{ y: [0, 4, 0] }}
             transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
           >
-            <ChevronDown className="h-5 w-5 text-[#c0c0c0]/50" />
+            <ChevronDown className="h-4 w-4 text-[#c0c0c0]/50" />
           </motion.div>
         </a>
       </motion.div>
-    </section>
+    </div>
   );
 }

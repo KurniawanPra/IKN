@@ -51,15 +51,16 @@ function Scene() {
   const { pointer } = useThree();
 
   useFrame(() => {
+    // Smooth transition tracking (0.02)
     groupRef.current.rotation.y = THREE.MathUtils.lerp(
       groupRef.current.rotation.y,
-      pointer.x * 0.1,
-      0.05
+      pointer.x * 0.3,
+      0.02
     );
     groupRef.current.rotation.x = THREE.MathUtils.lerp(
       groupRef.current.rotation.x,
-      pointer.y * 0.1,
-      0.05
+      pointer.y * 0.25,
+      0.02
     );
   });
 
@@ -83,7 +84,7 @@ function Scene() {
 export default function HeroScene() {
   return (
     <Canvas
-      camera={{ position: [0, 0, 6], fov: 45 }}
+      camera={{ position: [0, 0, 7.2], fov: 45 }} // Moved camera back (from 6.0 to 7.2) to prevent clipping
       gl={{ antialias: true, alpha: true }}
       style={{ width: "100%", height: "100%" }}
     >

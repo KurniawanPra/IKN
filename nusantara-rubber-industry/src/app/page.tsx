@@ -1,6 +1,5 @@
 "use client";
 
-import LenisProvider from "@/components/providers/lenis-provider";
 import Navbar from "@/components/navbar";
 import HeroSection from "@/components/hero-section";
 import AboutSection from "@/components/about-section";
@@ -11,10 +10,12 @@ import ProductsSection from "@/components/products-section";
 import ContactSection from "@/components/contact-section";
 import Footer from "@/components/footer";
 import ScrollIndicator from "@/components/scroll-indicator";
+import CartDrawer from "@/components/cart-drawer";
+import CheckoutModal from "@/components/checkout-modal";
 
 export default function HomePage() {
   return (
-    <LenisProvider>
+    <div className="relative">
       <Navbar />
       <ScrollIndicator
         sections={[
@@ -27,16 +28,35 @@ export default function HomePage() {
           { id: "contact", label: "Contact" },
         ]}
       />
-      <main>
-        <HeroSection />
-        <AboutSection />
-        <BusinessSection />
-        <MediaSection />
-        <SustainabilitySection />
-        <ProductsSection />
-        <ContactSection />
+      <main className="snap-container">
+        <section id="hero" className="snap-section">
+          <HeroSection />
+        </section>
+        <section id="about" className="snap-section">
+          <AboutSection />
+        </section>
+        <section id="business" className="snap-section">
+          <BusinessSection />
+        </section>
+        <section id="media" className="snap-section">
+          <MediaSection />
+        </section>
+        <section id="sustainability" className="snap-section">
+          <SustainabilitySection />
+        </section>
+        <section id="produk" className="snap-section">
+          <ProductsSection />
+        </section>
+        <section id="contact" className="snap-section">
+          <ContactSection />
+        </section>
+        <section className="snap-section !h-auto">
+          <Footer />
+        </section>
       </main>
-      <Footer />
-    </LenisProvider>
+
+      <CartDrawer />
+      <CheckoutModal />
+    </div>
   );
 }

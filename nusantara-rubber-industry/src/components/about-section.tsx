@@ -1,33 +1,42 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { motion } from "framer-motion";
+import dynamic from "next/dynamic";
+import { motion, Variants } from "framer-motion";
 import { Shield, Wrench, Clock } from "lucide-react";
+import BackgroundBlobs from "./background-blobs";
+
+const AboutScene = dynamic(() => import("./about-scene"), {
+  ssr: false,
+  loading: () => (
+    <div className="h-full w-full bg-gradient-to-br from-emerald-950/20 to-teal-900/10 rounded-2xl opacity-20" />
+  ),
+});
 
 const valueProps = [
   {
     icon: Shield,
-    title: "Product Knowledge & Reputation",
-    desc: "Pemahaman mendalam terhadap produk dan reputasi sebagai market leader menjadi penentu pilihan klien",
+    title: "Kualitas & Reputasi Global",
+    desc: "Pemahaman mendalam terhadap standar produk dan reputasi market leader hilirisasi karet.",
   },
   {
     icon: Wrench,
-    title: "Complete Solution & Custom Design",
-    desc: "Solusi lengkap dari karet alam berkualitas, siap pakai atau custom-design sesuai kebutuhan",
+    title: "Solusi Kustomisasi Industri",
+    desc: "Menyediakan resin karet alam dan benang karet siap pakai maupun custom-design.",
   },
   {
     icon: Clock,
-    title: "Customer Satisfaction & Prompt Delivery",
-    desc: "Mengutamakan kepuasan pelanggan dengan ketepatan waktu pengiriman",
+    title: "Pengiriman Tepat Waktu",
+    desc: "Mengutamakan kepuasan klien B2B global dengan ketepatan dan efisiensi logistik.",
   },
 ];
 
 const milestones = [
-  { year: "1965", desc: "Awal berdiri sebagai bagian dari ekosistem perkebunan nasional" },
-  { year: "1996", desc: "Mulai produksi Resiprene 35, resin karet alam tersiklisasi pertama di Indonesia" },
-  { year: "2006", desc: "Resmi berdiri sebagai PT. Industri Karet Nusantara di bawah PTPN III" },
-  { year: "2024", desc: "Partisipasi di pameran B2B Chemical Indonesia, JIExpo Kemayoran. Revenue growth 11.2%" },
-  { year: "2026", desc: "Peresmian IKN Store oleh Plt. Direktur V.T. Moses Situmorang & SEVP Amalia Nasution" },
+  { year: "1965", desc: "Awal berdiri sebagai bagian dari ekosistem perkebunan nasional." },
+  { year: "1996", desc: "Produksi Resiprene 35, resin karet tersiklisasi pertama di Indonesia." },
+  { year: "2006", desc: "Resmi berdiri sebagai PT. Industri Karet Nusantara di bawah PTPN III." },
+  { year: "2024", desc: "Perluasan ekspor resin karet ke pasar Eropa Barat dan Oceania." },
+  { year: "2026", desc: "Peresmian platform e-commerce IKN Store untuk pasar domestik." },
 ];
 
 const stats = [
@@ -108,95 +117,101 @@ const timelineItemVariants = {
   visible: (i: number) => ({
     opacity: 1,
     x: 0,
-    transition: { duration: 0.5, ease: "easeOut", delay: i * 0.15 },
+    transition: { duration: 0.5, delay: i * 0.15 },
   }),
 };
 
 export default function AboutSection() {
   return (
-    <section
-      id="about"
-      className="relative min-h-screen bg-[#142040]"
-      style={{ fontFamily: "var(--font-geist-sans)" }}
-    >
-      <div className="mx-auto max-w-7xl px-6 py-20 lg:py-28">
-        <div className="flex flex-col gap-16 lg:flex-row lg:gap-20">
-          <div className="flex flex-col gap-8 lg:w-1/2">
+    <div className="relative min-h-full lg:h-full w-full flex items-start lg:items-center overflow-y-auto lg:overflow-hidden no-scrollbar font-sans">
+      <BackgroundBlobs sectionId="about" />
+
+      <div className="relative z-10 mx-auto max-w-7xl px-6 py-24 lg:py-0 w-full flex flex-col justify-start lg:justify-center min-h-full h-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+          {/* Left Panel */}
+          <div className="lg:col-span-7 flex flex-col gap-6">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, ease: "easeOut" }}
-              className="flex flex-col gap-5"
+              className="flex flex-col gap-3"
             >
-              <span className="text-sm font-medium uppercase tracking-widest text-[#8b1a1a]">
+              <span className="text-xs font-semibold uppercase tracking-widest text-rubber-red-light font-mono">
                 Tentang Kami
               </span>
-              <h2 className="text-3xl font-bold text-[#f0f0ec] md:text-4xl">
-                Warisan 60 Tahun Keunggulan Industri Karet
+              <h2 className="text-3xl font-bold text-[#f0f0ec] md:text-4xl leading-tight">
+                Warisan Keunggulan Industri Karet Alam
               </h2>
-              <p className="leading-relaxed text-[#c0c0c0]">
+              <p className="text-sm md:text-base leading-relaxed text-[#c0c0c0]">
                 PT. Industri Karet Nusantara (IKN), anak usaha PT Perkebunan
-                Nusantara III (Persero), telah menjadi perusahaan hilirisasi karet
-                terkemuka sejak didirikan. Dengan dukungan teknologi modern dan
-                pengawasan ahli bereputasi tinggi, IKN menghasilkan produk resin
-                karet berkualitas tertinggi yang diekspor ke pasar global.
+                Nusantara III (Persero), telah menjadi pelopor hilirisasi karet
+                sejak didirikan. Melalui teknologi modern dan pengawasan kualitas
+                ketat, kami memproses getah karet alam menjadi resin berkualitas 
+                ekspor untuk mendukung rantai pasok industri global.
               </p>
             </motion.div>
 
-            <div className="grid grid-cols-1 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-2">
               {valueProps.map((item, i) => (
                 <motion.div
                   key={item.title}
-                  variants={cardVariants}
+                  variants={cardVariants as unknown as Variants}
                   custom={i}
                   initial="hidden"
                   whileInView="visible"
                   viewport={{ once: true }}
-                  className="rounded-sm border border-white/5 bg-[#0a1628]/50 p-5 transition-colors duration-300 hover:border-[#8b1a1a]/30"
+                  className="glass-panel glass-panel-hover p-5 rounded-md flex flex-col items-start gap-3"
                 >
-                  <div className="flex items-start gap-4">
-                    <item.icon className="mt-0.5 h-5 w-5 shrink-0 text-[#8b1a1a]" />
-                    <div className="flex flex-col gap-1">
-                      <span className="font-medium text-[#f0f0ec]">
-                        {item.title}
-                      </span>
-                      <span className="text-sm text-[#c0c0c0]">{item.desc}</span>
-                    </div>
+                  <item.icon className="h-6 w-6 text-rubber-red-light shrink-0" />
+                  <div>
+                    <h4 className="font-semibold text-xs text-[#f0f0ec] mb-1">
+                      {item.title}
+                    </h4>
+                    <p className="text-[11px] text-[#c0c0c0] leading-relaxed">
+                      {item.desc}
+                    </p>
                   </div>
                 </motion.div>
               ))}
             </div>
           </div>
 
-          <div className="lg:w-1/2">
+          {/* Right Panel */}
+          <div className="lg:col-span-5 flex flex-col gap-6 justify-center">
+            {/* 3D Scene of Polymer Chain (No outline or boxes, floats freely) */}
+            <div className="hidden lg:block h-[220px] md:h-[260px] w-full relative">
+              <AboutScene />
+            </div>
+
+            {/* Milestones timeline card */}
             <motion.div
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
-              className="relative pl-8"
+              className="glass-panel p-5 rounded-md relative max-h-[200px] overflow-y-auto no-scrollbar"
             >
-              <div className="absolute left-[7px] top-2 bottom-2 w-0.5 bg-[#8b1a1a]/30" />
-              <div className="flex flex-col gap-10">
+              <div className="absolute left-[23px] top-6 bottom-6 w-0.5 bg-rubber-red/20" />
+              <div className="flex flex-col gap-6">
                 {milestones.map((item, i) => (
                   <motion.div
                     key={item.year}
-                    variants={timelineItemVariants}
+                    variants={timelineItemVariants as unknown as Variants}
                     custom={i}
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true }}
-                    className="relative"
+                    className="relative pl-8 flex gap-4 items-start"
                   >
-                    <div className="absolute -left-8 top-1 flex items-center justify-center">
-                      <div className="h-4 w-4 rounded-full bg-[#8b1a1a]" />
+                    <div className="absolute left-[3px] top-1.5 flex items-center justify-center">
+                      <div className="h-3 w-3 rounded-full bg-rubber-red ring-4 ring-rubber-red/20" />
                     </div>
-                    <div className="flex flex-col gap-1">
-                      <span className="font-mono font-bold text-[#8b1a1a]">
+                    <div>
+                      <span className="font-mono font-bold text-xs text-rubber-red-light">
                         {item.year}
                       </span>
-                      <span className="text-sm text-[#c0c0c0]">{item.desc}</span>
+                      <p className="text-xs text-[#c0c0c0] mt-0.5 leading-relaxed">{item.desc}</p>
                     </div>
                   </motion.div>
                 ))}
@@ -205,27 +220,28 @@ export default function AboutSection() {
           </div>
         </div>
 
+        {/* Stats Section */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, ease: "easeOut" }}
-          className="mt-20 grid gap-8 border-t border-white/5 pt-12 md:grid-cols-3"
+          className="mt-12 md:mt-16 grid gap-6 border-t border-white/5 pt-8 grid-cols-3"
         >
           {stats.map((stat) => (
             <div key={stat.label} className="text-center">
-              <div className="text-4xl font-bold text-[#f0f0ec]">
+              <div className="text-2xl md:text-3xl font-bold text-[#f0f0ec] font-mono">
                 <CountUp
                   target={stat.target}
                   suffix={stat.suffix}
                   isDecimal={stat.isDecimal}
                 />
               </div>
-              <span className="text-sm text-[#c0c0c0]">{stat.label}</span>
+              <span className="text-[10px] md:text-xs text-steel uppercase tracking-wider mt-1 block">{stat.label}</span>
             </div>
           ))}
         </motion.div>
       </div>
-    </section>
+    </div>
   );
 }
