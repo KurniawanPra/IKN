@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef } from "react";
 import { Calendar, Newspaper, Image as ImageIcon, ArrowRight, ShieldCheck, Cpu } from "lucide-react";
-import BackgroundBlobs from "./background-blobs";
 import Link from "next/link";
 import { gsap } from "gsap";
 
@@ -262,7 +261,6 @@ export default function LatestNewsSection() {
       ref={containerRef}
       className="relative min-h-full lg:h-full w-full flex items-start lg:items-center overflow-y-auto lg:overflow-hidden no-scrollbar font-sans"
     >
-      <BackgroundBlobs sectionId="media" transparentBg={true} />
 
       <div className="relative z-10 mx-auto max-w-7xl px-6 py-24 lg:py-0 w-full flex flex-col justify-start lg:justify-center min-h-full h-auto gap-8 sm:gap-10">
         {/* Header */}

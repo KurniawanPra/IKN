@@ -1,0 +1,5 @@
+- Built on Next.js 14 App Router with TypeScript, using `src/app` for file-based routing and `src/components` for UI composition.
+- Global state managed via React Context providers (`CartProvider`, `ThemeProvider`) wrapped in the root `layout.tsx`.
+- Visual layer leverages Three.js (`@react-three/fiber`, `@react-three/drei`) for 3D scenes and GSAP/Framer Motion for complex animations.
+- Styling uses Tailwind CSS with a custom design system defined in `globals.css` (CSS variables for theming) and `tailwind.config.ts`.
+- Public assets (images, fonts) are served from the `public` directory, with local font optimization via `next/font/local`.

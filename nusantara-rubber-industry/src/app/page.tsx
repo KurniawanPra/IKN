@@ -6,19 +6,20 @@ import LatestNewsSection from "@/components/latest-news-section";
 import MapSection from "@/components/map-section";
 import Footer from "@/components/footer";
 import ScrollIndicator from "@/components/scroll-indicator";
-import CartDrawer from "@/components/cart-drawer";
-import CheckoutModal from "@/components/checkout-modal";
 
-import { Entropy } from "@/components/ui/entropy";
+import { Boxes } from "@/components/ui/background-boxes";
 import CompanyVideosSection from "@/components/company-videos-section";
 
 export default function HomePage() {
   return (
     <div className="relative">
-      {/* Home Background Entropy Particle System */}
-      <div className="fixed inset-0 w-full h-full -z-20 bg-background overflow-hidden pointer-events-none flex items-center justify-center transition-colors duration-500">
-        <Entropy className="opacity-35 scale-[1.5] md:scale-[2.2]" size={800} />
+      {/* Interactive Boxes Grid Background - behind everything */}
+      <div className="fixed inset-0 w-full h-full -z-20 bg-background overflow-hidden transition-colors duration-500 pointer-events-none">
+        <Boxes />
+        {/* Radial mask to soften the grid edges */}
+        <div className="absolute inset-0 bg-background/40 [mask-image:radial-gradient(ellipse_at_center,transparent_30%,black_100%)]" />
       </div>
+      
       <Navbar />
       <ScrollIndicator
         sections={[
@@ -43,9 +44,6 @@ export default function HomePage() {
           <Footer />
         </section>
       </main>
-
-      <CartDrawer />
-      <CheckoutModal />
     </div>
   );
 }

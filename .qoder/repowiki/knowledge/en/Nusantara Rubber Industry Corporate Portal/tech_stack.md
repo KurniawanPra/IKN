@@ -1,0 +1,1 @@
+Next.js 14, React 18, TypeScript, Tailwind CSS, Three.js (via @react-three/fiber), GSAP, Framer Motion, Lenis (smooth scroll), Radix UI primitives.

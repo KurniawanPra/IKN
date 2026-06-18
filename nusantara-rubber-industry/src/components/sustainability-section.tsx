@@ -117,7 +117,7 @@ export default function SustainabilitySection() {
               </p>
             </div>
 
-            <div ref={commitmentsRef} id="sustainability-certificate" className="flex flex-col gap-3">
+            <div ref={commitmentsRef} className="flex flex-col gap-3">
               {commitments.map((item) => {
                 const Icon = item.icon;
                 return (
@@ -143,7 +143,7 @@ export default function SustainabilitySection() {
           </div>
 
           {/* Right Panel: 3D Emerald Leaf Scene */}
-          <div ref={rightPanelRef} id="sustainability-customers" className="hidden lg:block lg:col-span-5 flex flex-col items-center justify-center">
+          <div ref={rightPanelRef} className="hidden lg:block lg:col-span-5 flex flex-col items-center justify-center">
             <div className="w-full h-[280px] sm:h-[350px] lg:h-[400px] relative">
               <SustainabilityScene />
               {/* Green Glow behind the scene */}

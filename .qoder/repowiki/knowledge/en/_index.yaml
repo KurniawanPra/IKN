@@ -1,0 +1,92 @@
+# 知识卡导出索引文件
+schema_version: 1
+locale: en-US
+branch: main
+exported_at: "2026-06-18T06:18:42Z"
+modules:
+    "":
+        dir_name: Nusantara Rubber Industry Corporate Portal
+        title: Nusantara Rubber Industry Corporate Portal
+        scope:
+            - nusantara-rubber-industry/
+            - opencode.json
+            - nusantara-rubber-industry\.eslintrc.json
+            - nusantara-rubber-industry\.gitignore
+            - nusantara-rubber-industry\README.md
+            - nusantara-rubber-industry\next-env.d.ts
+            - nusantara-rubber-industry\next.config.mjs
+            - nusantara-rubber-industry\package-lock.json
+            - nusantara-rubber-industry\package.json
+            - nusantara-rubber-industry\postcss.config.mjs
+            - nusantara-rubber-industry\public\images\exhibition.png
+            - nusantara-rubber-industry\public\images\hero-rubber.jpg
+            - nusantara-rubber-industry\public\images\ikn_store.png
+            - nusantara-rubber-industry\public\images\plantation.png
+            - nusantara-rubber-industry\public\images\products\crepe.jpg
+            - nusantara-rubber-industry\public\images\products\latex.jpg
+            - nusantara-rubber-industry\public\images\products\rss.jpg
+            - nusantara-rubber-industry\public\images\products\tsr.jpg
+            - nusantara-rubber-industry\public\images\reactor.png
+            - nusantara-rubber-industry\public\images\rnd_lab.png
+            - nusantara-rubber-industry\public\images\rubin-logo.png
+            - nusantara-rubber-industry\public\images\shipping.png
+            - nusantara-rubber-industry\public\images\testimonials\1.jpg
+            - nusantara-rubber-industry\public\images\testimonials\2.jpg
+            - nusantara-rubber-industry\public\images\testimonials\3.jpg
+            - nusantara-rubber-industry\public\images\testimonials\collage.jpg
+            - nusantara-rubber-industry\public\robots.txt
+            - nusantara-rubber-industry\src\app\about\page.tsx
+            - nusantara-rubber-industry\src\app\business\page.tsx
+            - nusantara-rubber-industry\src\app\favicon.ico
+            - nusantara-rubber-industry\src\app\fonts\GeistMonoVF.woff
+            - nusantara-rubber-industry\src\app\fonts\GeistVF.woff
+            - nusantara-rubber-industry\src\app\globals.css
+            - nusantara-rubber-industry\src\app\layout.tsx
+            - nusantara-rubber-industry\src\app\login\page.tsx
+            - nusantara-rubber-industry\src\app\media\page.tsx
+            - nusantara-rubber-industry\src\app\page.tsx
+            - nusantara-rubber-industry\src\app\sustainability\page.tsx
+            - nusantara-rubber-industry\src\components\about-scene.tsx
+            - nusantara-rubber-industry\src\components\about-section.tsx
+            - nusantara-rubber-industry\src\components\background-blobs.tsx
+            - nusantara-rubber-industry\src\components\business-scene.tsx
+            - nusantara-rubber-industry\src\components\business-section.tsx
+            - nusantara-rubber-industry\src\components\cart-drawer.tsx
+            - nusantara-rubber-industry\src\components\checkout-modal.tsx
+            - nusantara-rubber-industry\src\components\company-videos-section.tsx
+            - nusantara-rubber-industry\src\components\contact-scene.tsx
+            - nusantara-rubber-industry\src\components\contact-section.tsx
+            - nusantara-rubber-industry\src\components\footer.tsx
+            - nusantara-rubber-industry\src\components\hero-scene.tsx
+            - nusantara-rubber-industry\src\components\hero-section.tsx
+            - nusantara-rubber-industry\src\components\latest-news-section.tsx
+            - nusantara-rubber-industry\src\components\map-section.tsx
+            - nusantara-rubber-industry\src\components\media-scene.tsx
+            - nusantara-rubber-industry\src\components\media-section.tsx
+            - nusantara-rubber-industry\src\components\navbar.tsx
+            - nusantara-rubber-industry\src\components\product-detail-content.tsx
+            - nusantara-rubber-industry\src\components\products-scene.tsx
+            - nusantara-rubber-industry\src\components\products-section.tsx
+            - nusantara-rubber-industry\src\components\providers\cart-provider.tsx
+            - nusantara-rubber-industry\src\components\providers\lenis-provider.tsx
+            - nusantara-rubber-industry\src\components\providers\theme-provider.tsx
+            - nusantara-rubber-industry\src\components\scroll-indicator.tsx
+            - nusantara-rubber-industry\src\components\section-wrapper.tsx
+            - nusantara-rubber-industry\src\components\stacked-gallery.tsx
+            - nusantara-rubber-industry\src\components\sustainability-scene.tsx
+            - nusantara-rubber-industry\src\components\sustainability-section.tsx
+            - nusantara-rubber-industry\src\components\theme-toggle.tsx
+            - nusantara-rubber-industry\src\components\ui\background-boxes.tsx
+            - nusantara-rubber-industry\src\components\ui\button.tsx
+            - nusantara-rubber-industry\src\components\ui\demo.tsx
+            - nusantara-rubber-industry\src\components\ui\entropy.tsx
+            - nusantara-rubber-industry\src\components\ui\video-player-demo.tsx
+            - nusantara-rubber-industry\src\components\ui\video-player.tsx
+            - nusantara-rubber-industry\src\lib\utils.ts
+            - nusantara-rubber-industry\tailwind.config.ts
+            - nusantara-rubber-industry\tsconfig.json
+            - nusantara-rubber-industry\tsconfig.tsbuildinfo
+        source_files: []
+        children: []
+        depends_on: []
+        related_to: []

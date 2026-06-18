@@ -3,6 +3,8 @@ import type { Metadata } from 'next'
 import localFont from 'next/font/local'
 import { CartProvider } from '@/components/providers/cart-provider'
 import { ThemeProvider } from '@/components/providers/theme-provider'
+import CartDrawer from '@/components/cart-drawer'
+import CheckoutModal from '@/components/checkout-modal'
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -53,6 +55,8 @@ export default function RootLayout({
         <ThemeProvider>
           <CartProvider>
             {children}
+            <CartDrawer />
+            <CheckoutModal />
           </CartProvider>
         </ThemeProvider>
       </body>

@@ -1,0 +1,4 @@
+- Components interacting with client-side APIs or state are marked with "use client" directive.
+- Complex animations are implemented using GSAP timelines within useEffect hooks, often cleaned up via gsap.context().
+- Theming is handled via CSS variables toggled by a class on the document root, with localStorage persistence.
+- UI components are organized into subdirectories like `providers` and `ui` for better separation of concerns.

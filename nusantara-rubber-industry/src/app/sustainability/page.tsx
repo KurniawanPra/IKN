@@ -4,6 +4,8 @@ import React from "react";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import SustainabilitySection from "@/components/sustainability-section";
+import SustainabilityCertificateSection from "@/components/sustainability-certificate-section";
+import SustainabilityCustomersSection from "@/components/sustainability-customers-section";
 import BackgroundBlobs from "@/components/background-blobs";
 import ScrollIndicator from "@/components/scroll-indicator";
 import { motion } from "framer-motion";
@@ -35,7 +37,9 @@ export default function SustainabilityPage() {
           { id: "sustainability-hero", label: "Sustainability" },
           { id: "sustainability-main", label: "Commitments" },
           { id: "sustainability-certificate", label: "Certificates" },
+          { id: "sustainability-cert-detail", label: "Cert Details" },
           { id: "sustainability-customers", label: "Customers" },
+          { id: "sustainability-cust-detail", label: "Customer Details" },
           { id: "sustainability-cta", label: "Governance" },
         ]}
       />
@@ -108,7 +112,12 @@ export default function SustainabilityPage() {
           </div>
         </section>
 
-        {/* Section 3: Our Customers */}
+        {/* Section 3: Certificate Details (Tabbed) */}
+        <section id="sustainability-cert-detail" className="snap-section relative overflow-y-auto lg:overflow-hidden no-scrollbar border-t border-border/40">
+          <SustainabilityCertificateSection />
+        </section>
+
+        {/* Section 4: Our Customers */}
         <section id="sustainability-customers" className="snap-section relative flex items-center overflow-y-auto lg:overflow-hidden no-scrollbar border-t border-border/40">
           <div className="max-w-5xl mx-auto px-6 py-20 lg:py-0 w-full">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 mb-12">
@@ -142,6 +151,11 @@ export default function SustainabilityPage() {
               ))}
             </div>
           </div>
+        </section>
+
+        {/* Section 6: Customer Details (Tabbed) */}
+        <section id="sustainability-cust-detail" className="snap-section relative overflow-y-auto lg:overflow-hidden no-scrollbar border-t border-border/40 bg-elevated/10">
+          <SustainabilityCustomersSection />
         </section>
 
         {/* CTA Governance Links */}

@@ -1,0 +1,1 @@
+A Next.js-based corporate website for a rubber industry leader, featuring interactive 3D visuals, e-commerce capabilities, and dynamic content sections.

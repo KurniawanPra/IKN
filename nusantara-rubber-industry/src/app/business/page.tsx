@@ -5,10 +5,13 @@ import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import BusinessSection from "@/components/business-section";
 import ProductsSection from "@/components/products-section";
+import ResipreneSection from "@/components/resiprene-section";
+import RubberArticlesSection from "@/components/rubber-articles-section";
 import BackgroundBlobs from "@/components/background-blobs";
 import { motion } from "framer-motion";
-import { ArrowRight, Cpu } from "lucide-react";
 import ScrollIndicator from "@/components/scroll-indicator";
+import Link from "next/link";
+import { ArrowRight, Cpu } from "lucide-react";
 
 export default function BusinessPage() {
   return (
@@ -20,6 +23,8 @@ export default function BusinessPage() {
           { id: "business-hero", label: "Business" },
           { id: "business-process", label: "Process" },
           { id: "business-products", label: "Products" },
+          { id: "business-resiprene", label: "Resiprene" },
+          { id: "business-rubber-articles", label: "Rubber Articles" },
           { id: "business-cta", label: "Quotation" },
         ]}
       />
@@ -62,7 +67,17 @@ export default function BusinessPage() {
           <BusinessSection />
         </section>
         
-        {/* Section 2: Products Catalog */}
+        {/* Section 2: Resiprene 35 Detail */}
+        <section id="business-resiprene" className="snap-section relative overflow-y-auto lg:overflow-hidden no-scrollbar border-t border-border/40">
+          <ResipreneSection />
+        </section>
+
+        {/* Section 3: Rubber Articles Detail */}
+        <section id="business-rubber-articles" className="snap-section relative overflow-y-auto lg:overflow-hidden no-scrollbar border-t border-border/40 bg-elevated/10">
+          <RubberArticlesSection />
+        </section>
+
+        {/* Section 4: Products Catalog */}
         <section id="business-products" className="snap-section relative overflow-y-auto lg:overflow-hidden no-scrollbar border-t border-border/40 bg-elevated/10">
           <ProductsSection />
         </section>
@@ -90,22 +105,22 @@ export default function BusinessPage() {
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto justify-center mt-2">
-                <a
-                  href="https://ikn.co.id/resiprene-products/"
+                <Link
+                  href="/business#business-rubber-articles"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn-primary px-8 py-3 text-xs flex items-center justify-center gap-2"
                 >
                   Resiprene Products <ArrowRight className="w-4 h-4" />
-                </a>
-                <a
-                  href="https://ikn.co.id/rubber-article-products/"
+                </Link>
+                <Link
+                  href="/business#business-rubber-articles"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn-outline px-8 py-3 text-xs flex items-center justify-center gap-2"
                 >
                   Rubber Article Products
-                </a>
+                </Link>
               </div>
             </motion.div>
           </div>

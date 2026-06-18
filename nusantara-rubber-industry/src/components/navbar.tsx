@@ -42,9 +42,9 @@ const navItems: NavItem[] = [
     label: "Business",
     href: "/business",
     submenu: [
-      { label: "Resiprene Products", href: "https://ikn.co.id/resiprene-products/", isExternal: true },
-      { label: "Rubber Article Products", href: "https://ikn.co.id/rubber-article-products/", isExternal: true },
-      { label: "Dummy Form kosong", href: "/business/ecommerce/dummy-form", isForm: true },
+      { label: "Resiprene Products", href: "/business#business-resiprene", isExternal: false },
+      { label: "Rubber Article Products", href: "/business#business-rubber-articles", isExternal: false },
+      { label: "Dummy Form kosong", href: "/business/ecommerce/dummy-form", isForm: false },
     ],
   },
   {
@@ -80,11 +80,15 @@ const navItems: NavItem[] = [
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [dropdownX, setDropdownX] = useState<number>(0);
   const [mobileSubmenuOpen, setMobileSubmenuOpen] = useState<Record<string, boolean>>({});
   const { setIsCartOpen, cartCount } = useCart();
   const pathname = usePathname();
   const router = useRouter();
   const dropdownRefs = useRef<Record<number, HTMLDivElement | null>>({});
+  const navItemRefs = useRef<Record<number, HTMLDivElement | null>>({});
+  const leaveTimerRef = useRef<Record<number, NodeJS.Timeout | null>>({});
+  const isHoveringRef = useRef<Record<number, boolean>>({});
 
   useEffect(() => {
     if (mobileOpen) {
@@ -192,35 +196,94 @@ export default function Navbar() {
     }
   };
 
-  const handleMouseEnter = (index: number) => {
+  const openDropdown = (index: number) => {
+    if (leaveTimerRef.current[index]) {
+      clearTimeout(leaveTimerRef.current[index]);
+      leaveTimerRef.current[index] = null;
+    }
+    isHoveringRef.current[index] = true;
+
+    // Calculate dropdown X position based on cursor/nav item position
+    const navEl = navItemRefs.current[index];
+    if (navEl) {
+      const rect = navEl.getBoundingClientRect();
+      const dropdownWidth = 240; // w-60 = 15rem = 240px
+      let x = 0;
+
+      // Clamp so dropdown doesn't overflow viewport
+      const rightEdge = rect.left + dropdownWidth;
+      if (rightEdge > window.innerWidth - 16) {
+        x = window.innerWidth - 16 - dropdownWidth - rect.left;
+      }
+
+      setDropdownX(x);
+    }
+
     setHoveredIndex(index);
     const el = dropdownRefs.current[index];
     if (el) {
+      gsap.killTweensOf(el);
       gsap.fromTo(
         el,
-        { opacity: 0, y: 10, display: "block" },
-        { opacity: 1, y: 0, duration: 0.25, ease: "power2.out" }
+        { opacity: 0, y: 8, display: "block" },
+        { opacity: 1, y: 0, duration: 0.2, ease: "power2.out" }
       );
     }
   };
 
-  const handleMouseLeave = (index: number) => {
-    const el = dropdownRefs.current[index];
-    if (el) {
-      gsap.to(el, {
-        opacity: 0,
-        y: 10,
-        duration: 0.2,
-        ease: "power2.in",
-        onComplete: () => {
-          if (hoveredIndex === index) {
-            setHoveredIndex(null);
-          }
-        },
-      });
+  const closeDropdown = (index: number, immediate = false) => {
+    isHoveringRef.current[index] = false;
+
+    const doClose = () => {
+      if (isHoveringRef.current[index]) return; // re-entered, cancel
+
+      const el = dropdownRefs.current[index];
+      if (el) {
+        gsap.to(el, {
+          opacity: 0,
+          y: 8,
+          duration: 0.15,
+          ease: "power2.in",
+          onComplete: () => {
+            setHoveredIndex((prev) => (prev === index ? null : prev));
+          },
+        });
+      } else {
+        setHoveredIndex((prev) => (prev === index ? null : prev));
+      }
+    };
+
+    if (immediate) {
+      doClose();
     } else {
-      setHoveredIndex(null);
+      // Small delay so cursor can bridge from nav item to dropdown
+      leaveTimerRef.current[index] = setTimeout(doClose, 120);
     }
+  };
+
+  const handleDropdownMouseMove = (e: React.MouseEvent, index: number) => {
+    // Track cursor X within the dropdown for precise highlight
+    const el = dropdownRefs.current[index];
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const relX = e.clientX - rect.left;
+    const relY = e.clientY - rect.top;
+
+    // Find which submenu item the cursor is over
+    const items = el.querySelectorAll<HTMLElement>("[data-submenu-item]");
+    items.forEach((item) => {
+      const itemRect = item.getBoundingClientRect();
+      const isOver =
+        e.clientY >= itemRect.top &&
+        e.clientY <= itemRect.bottom &&
+        e.clientX >= itemRect.left &&
+        e.clientX <= itemRect.right;
+      if (isOver) {
+        item.classList.add("submenu-active");
+      } else {
+        item.classList.remove("submenu-active");
+      }
+    });
   };
 
   return (
@@ -249,44 +312,79 @@ export default function Navbar() {
               return (
                 <div
                   key={item.label}
+                  ref={(el) => { navItemRefs.current[index] = el; }}
                   className="relative group py-2"
-                  onMouseEnter={() => hasSubmenu && handleMouseEnter(index)}
-                  onMouseLeave={() => hasSubmenu && handleMouseLeave(index)}
+                  onMouseEnter={() => hasSubmenu && openDropdown(index)}
+                  onMouseLeave={() => hasSubmenu && closeDropdown(index)}
                 >
                   <a
                     href={item.href}
                     onClick={(e) => handleNavClick(e, item.href)}
-                    className="text-foreground text-sm font-medium hover:text-accent-hover transition-colors duration-300 flex items-center gap-1"
+                    className={`text-sm font-medium transition-colors duration-300 flex items-center gap-1 ${
+                      hoveredIndex === index
+                        ? "text-accent-hover"
+                        : "text-foreground hover:text-accent-hover"
+                    }`}
                   >
                     {item.label}
                     {hasSubmenu && (
-                      <ChevronDown className="w-3.5 h-3.5 transition-transform duration-300 group-hover:rotate-180" />
+                      <ChevronDown
+                        className={`w-3.5 h-3.5 transition-transform duration-300 ${
+                          hoveredIndex === index ? "rotate-180" : ""
+                        }`}
+                      />
                     )}
                   </a>
 
                   {hasSubmenu && (
-                    <div
-                      ref={(el) => {
-                        dropdownRefs.current[index] = el;
-                      }}
-                      className="absolute left-0 mt-2 w-60 rounded-md shadow-lg border border-border glass-panel overflow-hidden z-50 py-1.5 hidden"
-                      style={{ opacity: 0, transform: "translateY(10px)" }}
-                    >
-                      {item.submenu!.map((sub) => (
-                        <a
-                          key={sub.label}
-                          href={sub.href}
-                          target={sub.isExternal ? "_blank" : undefined}
-                          rel={sub.isExternal ? "noopener noreferrer" : undefined}
-                          onClick={(e) =>
-                            handleNavClick(e, sub.href, sub.isForm, sub.isExternal)
-                          }
-                          className="block px-4 py-2 text-xs font-medium text-foreground hover:bg-accent/10 hover:text-accent-hover transition"
-                        >
-                          {sub.label}
-                        </a>
-                      ))}
-                    </div>
+                    <>
+                      {/* Invisible bridge zone between nav item and dropdown */}
+                      <div
+                        className="absolute left-0 right-0 top-full h-3 z-40"
+                        style={{ transform: `translateX(${dropdownX}px)`, width: "240px" }}
+                        onMouseEnter={() => openDropdown(index)}
+                        onMouseLeave={() => closeDropdown(index)}
+                      />
+                      {/* Dropdown panel */}
+                      <div
+                        ref={(el) => {
+                          dropdownRefs.current[index] = el;
+                        }}
+                        className="absolute top-full z-50 rounded-md shadow-lg border border-border glass-panel overflow-hidden py-1.5 hidden"
+                        style={{
+                          opacity: 0,
+                          transform: `translateX(${dropdownX}px) translateY(8px)`,
+                          width: "240px",
+                        }}
+                        onMouseEnter={() => openDropdown(index)}
+                        onMouseLeave={() => closeDropdown(index)}
+                        onMouseMove={(e) => handleDropdownMouseMove(e, index)}
+                      >
+                        {item.submenu!.map((sub) => (
+                          <a
+                            key={sub.label}
+                            href={sub.href}
+                            data-submenu-item
+                            target={sub.isExternal ? "_blank" : undefined}
+                            rel={sub.isExternal ? "noopener noreferrer" : undefined}
+                            onClick={(e) =>
+                              handleNavClick(e, sub.href, sub.isForm, sub.isExternal)
+                            }
+                            className="block px-4 py-2.5 text-xs font-medium text-foreground hover:bg-accent/10 hover:text-accent-hover transition-colors duration-150 cursor-pointer"
+                          >
+                            <span className="flex items-center gap-2">
+                              {sub.isExternal && (
+                                <span className="w-1.5 h-1.5 rounded-full bg-rubber-red-light/60 shrink-0" />
+                              )}
+                              {sub.isForm && (
+                                <span className="w-1.5 h-1.5 rounded-full bg-amber-400/60 shrink-0" />
+                              )}
+                              {sub.label}
+                            </span>
+                          </a>
+                        ))}
+                      </div>
+                    </>
                   )}
                 </div>
               );

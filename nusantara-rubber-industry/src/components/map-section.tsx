@@ -2,7 +2,6 @@
 
 import { useEffect, useRef } from "react";
 import { MapPin, Phone, Mail, Globe, ExternalLink } from "lucide-react";
-import BackgroundBlobs from "./background-blobs";
 import { gsap } from "gsap";
 
 const contactInfo = [
@@ -97,7 +96,6 @@ export default function MapSection() {
       ref={containerRef}
       className="relative min-h-full lg:h-full w-full flex items-start lg:items-center overflow-y-auto lg:overflow-hidden no-scrollbar font-sans"
     >
-      <BackgroundBlobs transparentBg={true} />
 
       <div className="relative z-10 mx-auto max-w-7xl px-6 py-24 lg:py-0 w-full flex flex-col justify-start lg:justify-center min-h-full h-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
