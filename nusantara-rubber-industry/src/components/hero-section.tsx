@@ -87,7 +87,7 @@ export default function HeroSection() {
 
   return (
     <div ref={containerRef} className="relative min-h-full lg:h-full w-full flex items-start lg:items-center overflow-y-auto lg:overflow-hidden no-scrollbar">
-      <BackgroundBlobs sectionId="hero" />
+      <BackgroundBlobs sectionId="hero" transparentBg={true} />
 
       <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col-reverse lg:flex-row items-center gap-8 lg:gap-12 px-6 pt-24 pb-12 min-h-full h-auto justify-start lg:justify-center lg:pt-20">
         {/* Text Area */}

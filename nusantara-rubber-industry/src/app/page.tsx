@@ -9,13 +9,21 @@ import ScrollIndicator from "@/components/scroll-indicator";
 import CartDrawer from "@/components/cart-drawer";
 import CheckoutModal from "@/components/checkout-modal";
 
+import { Entropy } from "@/components/ui/entropy";
+import CompanyVideosSection from "@/components/company-videos-section";
+
 export default function HomePage() {
   return (
     <div className="relative">
+      {/* Home Background Entropy Particle System */}
+      <div className="fixed inset-0 w-full h-full -z-20 bg-background overflow-hidden pointer-events-none flex items-center justify-center transition-colors duration-500">
+        <Entropy className="opacity-35 scale-[1.5] md:scale-[2.2]" size={800} />
+      </div>
       <Navbar />
       <ScrollIndicator
         sections={[
           { id: "hero", label: "Home" },
+          { id: "company-videos", label: "Video" },
           { id: "latest-news", label: "Latest News" },
           { id: "map", label: "Lokasi" },
         ]}
@@ -23,6 +31,9 @@ export default function HomePage() {
       <main className="snap-container">
         <section id="hero" className="snap-section">
           <HeroSection />
+        </section>
+        <section id="company-videos" className="snap-section">
+          <CompanyVideosSection />
         </section>
         <section id="latest-news" className="snap-section">
           <LatestNewsSection />

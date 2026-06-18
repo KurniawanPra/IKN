@@ -4,9 +4,10 @@ import { useTheme } from "./providers/theme-provider";
 
 interface BackgroundBlobsProps {
   sectionId?: string;
+  transparentBg?: boolean;
 }
 
-export default function BackgroundBlobs({ sectionId }: BackgroundBlobsProps) {
+export default function BackgroundBlobs({ sectionId, transparentBg = false }: BackgroundBlobsProps) {
   const { theme } = useTheme();
   const isDark = theme === "dark";
 
@@ -64,7 +65,7 @@ export default function BackgroundBlobs({ sectionId }: BackgroundBlobsProps) {
   return (
     <div
       className="absolute inset-0 overflow-hidden pointer-events-none -z-10 transition-colors duration-500"
-      style={{ backgroundColor: 'var(--bg-primary)' }}
+      style={{ backgroundColor: transparentBg ? 'transparent' : 'var(--bg-primary)' }}
     >
       {/* Glow orb 1 */}
       <div

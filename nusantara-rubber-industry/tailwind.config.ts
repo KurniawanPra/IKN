@@ -29,12 +29,14 @@ export default {
           DEFAULT: '#f0f0ec',
         },
         /* Semantic theme tokens using CSS variables */
-        background: 'var(--bg-primary)',
+        background: 'var(--background)',
         surface: 'var(--bg-secondary)',
         elevated: 'var(--bg-elevated)',
-        foreground: 'var(--text-primary)',
+        foreground: 'var(--foreground)',
         muted: 'var(--text-secondary)',
         'muted-dim': 'var(--text-muted)',
+        primary: 'var(--text-primary)',
+        secondary: 'var(--text-secondary)',
         accent: {
           DEFAULT: 'var(--accent)',
           hover: 'var(--accent-hover)',
@@ -42,7 +44,7 @@ export default {
         border: 'var(--border-color)',
       },
       fontFamily: {
-        sans: ['var(--font-geist-sans)'],
+        sans: ['var(--font-noto)', 'var(--font-geist-sans)', 'ui-sans-serif', 'system-ui'],
         mono: ['var(--font-geist-mono)'],
       },
       animation: {
