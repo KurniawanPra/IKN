@@ -1,24 +1,90 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { Menu, X, ShoppingBag } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
+import { Menu, X, ShoppingBag, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCart } from "./providers/cart-provider";
 import ThemeToggle from "./theme-toggle";
+import { gsap } from "gsap";
+import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 
-const navItems = [
-  { label: "Home", href: "#hero" },
-  { label: "About Us", href: "#about" },
-  { label: "Business", href: "#business" },
-  { label: "Media", href: "#media" },
-  { label: "Sustainability", href: "#sustainability" },
-  { label: "Produk", href: "#produk" },
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollToPlugin);
+}
+
+interface SubmenuItem {
+  label: string;
+  href: string;
+  isExternal?: boolean;
+  isForm?: boolean;
+}
+
+interface NavItem {
+  label: string;
+  href: string;
+  submenu?: SubmenuItem[];
+}
+
+const navItems: NavItem[] = [
+  { label: "Home", href: "/" },
+  {
+    label: "About Us",
+    href: "/about",
+    submenu: [
+      { label: "History", href: "/about#about-history" },
+      { label: "Vision dan Mission", href: "/about#about-vision-mission" },
+      { label: "Contact Us", href: "/about#about-contact" },
+    ],
+  },
+  {
+    label: "Business",
+    href: "/business",
+    submenu: [
+      { label: "Resiprene Products", href: "https://ikn.co.id/resiprene-products/", isExternal: true },
+      { label: "Rubber Article Products", href: "https://ikn.co.id/rubber-article-products/", isExternal: true },
+      { label: "Dummy Form kosong", href: "/business/ecommerce/dummy-form", isForm: true },
+    ],
+  },
+  {
+    label: "Media",
+    href: "/media",
+    submenu: [
+      { label: "Gallery", href: "/media#media-gallery" },
+      { label: "News", href: "/media#media-news" },
+    ],
+  },
+  {
+    label: "Sustainability",
+    href: "/sustainability",
+    submenu: [
+      { label: "Certificate", href: "/sustainability#sustainability-certificate" },
+      { label: "Our Customers", href: "/sustainability#sustainability-customers" },
+      {
+        label: "Brochure Resiprene 35",
+        href: "https://drive.google.com/file/d/13KhOBIzmm9RsNHRR1NXmnbt1AM3taoyF/view?usp=drive_link",
+        isExternal: true,
+      },
+      {
+        label: "Brochure Rubber Articles",
+        href: "https://drive.google.com/file/d/1NG1A0FH48M21G1UjcyI9HpBjLfj8PFdz/view?usp=drive_link",
+        isExternal: true,
+      },
+      { label: "Whistle Blowing System", href: "/sustainability/whistle-blowing", isForm: true },
+      { label: "Reach Compliance", href: "/sustainability/reach-compliance", isForm: true },
+    ],
+  },
 ];
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [mobileSubmenuOpen, setMobileSubmenuOpen] = useState<Record<string, boolean>>({});
   const { setIsCartOpen, cartCount } = useCart();
+  const pathname = usePathname();
+  const router = useRouter();
+  const dropdownRefs = useRef<Record<number, HTMLDivElement | null>>({});
 
   useEffect(() => {
     if (mobileOpen) {
@@ -31,27 +97,139 @@ export default function Navbar() {
     };
   }, [mobileOpen]);
 
-  const handleNavClick = (href: string) => {
+  // Handle direct scroll logic on mount if there's a hash
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash && typeof window !== "undefined") {
+      const targetId = hash.replace("#", "");
+      // Wait a moment for page layout/hydration to complete
+      const timer = setTimeout(() => {
+        const el = document.getElementById(targetId);
+        if (el) {
+          const container = document.querySelector(".snap-container");
+          if (container) {
+            el.scrollIntoView({ behavior: "smooth" });
+          } else {
+            gsap.to(window, {
+              duration: 1.2,
+              scrollTo: { y: el, offsetY: 80 },
+              ease: "power3.out",
+            });
+          }
+        }
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+  }, [pathname]);
+
+  const handleNavClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    href: string,
+    isForm?: boolean,
+    isExternal?: boolean
+  ) => {
+    if (isExternal) {
+      return;
+    }
+
     setMobileOpen(false);
-    const id = href.replace("#", "");
-    const el = document.getElementById(id);
+
+    if (isForm) {
+      e.preventDefault();
+      router.push(href);
+      return;
+    }
+
+    if (href === "/") {
+      e.preventDefault();
+      const currentRoute = pathname === "" ? "/" : pathname;
+      if (currentRoute === "/") {
+        const container = document.querySelector(".snap-container");
+        if (container) {
+          container.scrollTo({ top: 0, behavior: "smooth" });
+        } else {
+          gsap.to(window, {
+            duration: 1.2,
+            scrollTo: { y: 0 },
+            ease: "power3.out",
+          });
+        }
+        window.history.pushState(null, "", "/");
+      } else {
+        router.push("/");
+      }
+      return;
+    }
+
+    if (href.includes("#")) {
+      e.preventDefault();
+      const [route, targetId] = href.split("#");
+      
+      const targetRoute = route === "" ? "/" : route;
+      const currentRoute = pathname === "" ? "/" : pathname;
+
+      if (currentRoute === targetRoute) {
+        const el = document.getElementById(targetId);
+        if (el) {
+          const container = document.querySelector(".snap-container");
+          if (container) {
+            el.scrollIntoView({ behavior: "smooth" });
+          } else {
+            gsap.to(window, {
+              duration: 1.2,
+              scrollTo: { y: el, offsetY: 80 },
+              ease: "power3.out",
+            });
+          }
+          window.history.pushState(null, "", href);
+        }
+      } else {
+        router.push(href);
+      }
+    } else {
+      e.preventDefault();
+      router.push(href);
+    }
+  };
+
+  const handleMouseEnter = (index: number) => {
+    setHoveredIndex(index);
+    const el = dropdownRefs.current[index];
     if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
+      gsap.fromTo(
+        el,
+        { opacity: 0, y: 10, display: "block" },
+        { opacity: 1, y: 0, duration: 0.25, ease: "power2.out" }
+      );
+    }
+  };
+
+  const handleMouseLeave = (index: number) => {
+    const el = dropdownRefs.current[index];
+    if (el) {
+      gsap.to(el, {
+        opacity: 0,
+        y: 10,
+        duration: 0.2,
+        ease: "power2.in",
+        onComplete: () => {
+          if (hoveredIndex === index) {
+            setHoveredIndex(null);
+          }
+        },
+      });
+    } else {
+      setHoveredIndex(null);
     }
   };
 
   return (
     <>
-      <nav
-        className="fixed top-0 left-0 right-0 z-50 h-20 flex items-center transition-all duration-300 font-sans glass-nav shadow-lg"
-      >
+      <nav className="fixed top-0 left-0 right-0 z-50 h-20 flex items-center transition-all duration-300 font-sans glass-nav shadow-lg">
         <div className="w-full max-w-7xl mx-auto px-6 flex items-center justify-between">
-          <a
-            href="#hero"
-            onClick={(e) => {
-              e.preventDefault();
-              handleNavClick("#hero");
-            }}
+          <Link
+            href="/"
+            onClick={(e) => handleNavClick(e, "/")}
             className="flex items-center gap-3"
           >
             <span className="text-foreground font-bold text-2xl tracking-tight">
@@ -62,23 +240,57 @@ export default function Navbar() {
               <br />
               Industry
             </span>
-          </a>
+          </Link>
 
           {/* Desktop Nav */}
           <div className="hidden lg:flex items-center gap-8">
-            {navItems.map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleNavClick(item.href);
-                }}
-                className="text-foreground text-sm font-medium hover:text-accent-hover transition-colors duration-300"
-              >
-                {item.label}
-              </a>
-            ))}
+            {navItems.map((item, index) => {
+              const hasSubmenu = !!item.submenu;
+              return (
+                <div
+                  key={item.label}
+                  className="relative group py-2"
+                  onMouseEnter={() => hasSubmenu && handleMouseEnter(index)}
+                  onMouseLeave={() => hasSubmenu && handleMouseLeave(index)}
+                >
+                  <a
+                    href={item.href}
+                    onClick={(e) => handleNavClick(e, item.href)}
+                    className="text-foreground text-sm font-medium hover:text-accent-hover transition-colors duration-300 flex items-center gap-1"
+                  >
+                    {item.label}
+                    {hasSubmenu && (
+                      <ChevronDown className="w-3.5 h-3.5 transition-transform duration-300 group-hover:rotate-180" />
+                    )}
+                  </a>
+
+                  {hasSubmenu && (
+                    <div
+                      ref={(el) => {
+                        dropdownRefs.current[index] = el;
+                      }}
+                      className="absolute left-0 mt-2 w-60 rounded-md shadow-lg border border-border glass-panel overflow-hidden z-50 py-1.5 hidden"
+                      style={{ opacity: 0, transform: "translateY(10px)" }}
+                    >
+                      {item.submenu!.map((sub) => (
+                        <a
+                          key={sub.label}
+                          href={sub.href}
+                          target={sub.isExternal ? "_blank" : undefined}
+                          rel={sub.isExternal ? "noopener noreferrer" : undefined}
+                          onClick={(e) =>
+                            handleNavClick(e, sub.href, sub.isForm, sub.isExternal)
+                          }
+                          className="block px-4 py-2 text-xs font-medium text-foreground hover:bg-accent/10 hover:text-accent-hover transition"
+                        >
+                          {sub.label}
+                        </a>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
 
             {/* Theme Toggle */}
             <ThemeToggle />
@@ -143,29 +355,88 @@ export default function Navbar() {
             animate={{ y: 0 }}
             exit={{ y: "-100%" }}
             transition={{ type: "tween", duration: 0.35, ease: "easeInOut" }}
-            className="fixed inset-0 z-40 backdrop-blur-xl flex flex-col items-center justify-center gap-8 lg:hidden font-sans"
-            style={{ background: 'var(--overlay-bg)', backdropFilter: 'blur(24px)' }}
+            className="fixed inset-0 z-40 backdrop-blur-xl flex flex-col items-center justify-center gap-6 lg:hidden font-sans overflow-y-auto"
+            style={{ background: "var(--overlay-bg)", backdropFilter: "blur(24px)" }}
           >
-            {navItems.map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleNavClick(item.href);
-                }}
-                className="text-foreground text-2xl font-medium hover:text-accent-hover transition-colors duration-300"
+            <div className="w-full flex flex-col gap-4 py-8 items-center max-h-[85vh] overflow-y-auto no-scrollbar">
+              {navItems.map((item) => {
+                const hasSubmenu = !!item.submenu;
+                const isOpen = !!mobileSubmenuOpen[item.label];
+
+                return (
+                  <div key={item.label} className="w-full flex flex-col items-center shrink-0">
+                    <div className="flex items-center justify-between w-full max-w-xs px-4">
+                      <a
+                        href={item.href}
+                        onClick={(e) => {
+                          if (hasSubmenu) {
+                            e.preventDefault();
+                            setMobileSubmenuOpen((prev) => ({
+                              ...prev,
+                              [item.label]: !prev[item.label],
+                            }));
+                          } else {
+                            handleNavClick(e, item.href);
+                          }
+                        }}
+                        className="text-foreground text-xl font-medium hover:text-accent-hover transition-colors duration-300"
+                      >
+                        {item.label}
+                      </a>
+                      {hasSubmenu && (
+                        <button
+                          onClick={() =>
+                            setMobileSubmenuOpen((prev) => ({
+                              ...prev,
+                              [item.label]: !prev[item.label],
+                            }))
+                          }
+                          className="p-2 text-foreground"
+                        >
+                          <ChevronDown
+                            className={`w-5 h-5 transition-transform duration-300 ${
+                              isOpen ? "rotate-180" : ""
+                            }`}
+                          />
+                        </button>
+                      )}
+                    </div>
+
+                    {hasSubmenu && (
+                      <motion.div
+                        initial={false}
+                        animate={{ height: isOpen ? "auto" : 0 }}
+                        className="overflow-hidden w-full max-w-xs flex flex-col items-center"
+                      >
+                        <div className="flex flex-col items-center py-2.5 gap-3.5 w-full bg-elevated/45 rounded-md mt-1.5 border border-border/40">
+                          {item.submenu!.map((sub) => (
+                            <a
+                              key={sub.label}
+                              href={sub.href}
+                              target={sub.isExternal ? "_blank" : undefined}
+                              rel={sub.isExternal ? "noopener noreferrer" : undefined}
+                              onClick={(e) =>
+                                handleNavClick(e, sub.href, sub.isForm, sub.isExternal)
+                              }
+                              className="text-muted text-sm font-medium hover:text-accent-hover transition-colors duration-200"
+                            >
+                              {sub.label}
+                            </a>
+                          ))}
+                        </div>
+                      </motion.div>
+                    )}
+                  </div>
+                );
+              })}
+              <Link
+                href="/login"
+                onClick={() => setMobileOpen(false)}
+                className="mt-4 px-8 py-3 text-lg font-medium text-foreground border border-border rounded hover:border-accent hover:text-accent transition-all duration-300 w-full max-w-xs text-center"
               >
-                {item.label}
-              </a>
-            ))}
-            <Link
-              href="/login"
-              onClick={() => setMobileOpen(false)}
-              className="mt-4 px-8 py-3 text-lg font-medium text-foreground border border-border rounded hover:border-accent hover:text-accent transition-all duration-300"
-            >
-              Login
-            </Link>
+                Login
+              </Link>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

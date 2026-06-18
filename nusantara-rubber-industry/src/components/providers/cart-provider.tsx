@@ -76,7 +76,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       }
       return [...prev, { product, quantity }];
     });
-    // Open the cart drawer when an item is added
+    // Open untuk produk
     setIsCartOpen(true);
   };
 

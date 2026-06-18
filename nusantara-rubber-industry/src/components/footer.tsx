@@ -8,10 +8,10 @@ const produkLinks = [
 ];
 
 const perusahaanLinks = [
-  { label: "Tentang Kami", href: "#about" },
-  { label: "Lini Bisnis", href: "#bisnis" },
-  { label: "Media", href: "#media" },
-  { label: "Keberlanjutan", href: "#keberlanjutan" },
+  { label: "Tentang Kami", href: "/about" },
+  { label: "Lini Bisnis", href: "/business" },
+  { label: "Media", href: "/media" },
+  { label: "Keberlanjutan", href: "/sustainability" },
 ];
 
 export default function Footer() {

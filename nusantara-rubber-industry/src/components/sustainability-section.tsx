@@ -1,9 +1,10 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import dynamic from "next/dynamic";
-import { motion, Variants } from "framer-motion";
 import { Leaf, Recycle, Shield } from "lucide-react";
 import BackgroundBlobs from "./background-blobs";
+import { gsap } from "gsap";
 
 const SustainabilityScene = dynamic(() => import("./sustainability-scene"), {
   ssr: false,
@@ -30,25 +31,79 @@ const commitments = [
   },
 ];
 
-const cardVariants = {
-  hidden: { opacity: 0, y: 15 },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5, delay: i * 0.15 },
-  }),
-};
-
 export default function SustainabilitySection() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const leftPanelRef = useRef<HTMLDivElement>(null);
+  const commitmentsRef = useRef<HTMLDivElement>(null);
+  const rightPanelRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const left = leftPanelRef.current;
+    const commitmentsList = commitmentsRef.current;
+    const right = rightPanelRef.current;
+
+    // Setup elements initial states
+    gsap.set([left, right], { opacity: 0, y: 30 });
+    if (commitmentsList) {
+      gsap.set(commitmentsList.children, { opacity: 0, x: -25 });
+    }
+
+    const observerOptions = {
+      root: null,
+      threshold: 0.1,
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          if (entry.target === left) {
+            gsap.to(left, {
+              opacity: 1,
+              y: 0,
+              duration: 0.6,
+              ease: "power2.out",
+            });
+            observer.unobserve(left);
+          } else if (entry.target === commitmentsList) {
+            gsap.to(commitmentsList.children, {
+              opacity: 1,
+              x: 0,
+              stagger: 0.12,
+              duration: 0.55,
+              ease: "power2.out",
+            });
+            observer.unobserve(commitmentsList);
+          } else if (entry.target === right) {
+            gsap.to(right, {
+              opacity: 1,
+              y: 0,
+              duration: 0.8,
+              ease: "power2.out",
+            });
+            observer.unobserve(right);
+          }
+        }
+      });
+    }, observerOptions);
+
+    if (left) observer.observe(left);
+    if (commitmentsList) observer.observe(commitmentsList);
+    if (right) observer.observe(right);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
   return (
-    <div className="relative min-h-full lg:h-full w-full flex items-start lg:items-center overflow-y-auto lg:overflow-hidden no-scrollbar font-sans">
+    <div ref={containerRef} className="relative min-h-full lg:h-full w-full flex items-start lg:items-center overflow-y-auto lg:overflow-hidden no-scrollbar font-sans">
       <BackgroundBlobs sectionId="sustainability" />
 
       <div className="relative z-10 mx-auto max-w-7xl px-6 py-24 lg:py-0 w-full flex flex-col justify-start lg:justify-center min-h-full h-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           
           {/* Left Panel: Commitments List */}
-          <div className="lg:col-span-7 flex flex-col gap-5">
+          <div ref={leftPanelRef} className="lg:col-span-7 flex flex-col gap-5">
             <div>
               <p className="text-xs font-semibold uppercase tracking-widest text-emerald-400 dark:text-emerald-400 font-mono mb-2">
                 Keberlanjutan (Sustainability)
@@ -62,17 +117,12 @@ export default function SustainabilitySection() {
               </p>
             </div>
 
-            <div className="flex flex-col gap-3">
-              {commitments.map((item, i) => {
+            <div ref={commitmentsRef} id="sustainability-certificate" className="flex flex-col gap-3">
+              {commitments.map((item) => {
                 const Icon = item.icon;
                 return (
-                  <motion.div
+                  <div
                     key={item.title}
-                    variants={cardVariants as unknown as Variants}
-                    custom={i}
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true }}
                     className="glass-panel p-4 rounded-md flex gap-4 items-start"
                   >
                     <div className="p-2 bg-emerald-500/10 rounded-sm shrink-0">
@@ -86,14 +136,14 @@ export default function SustainabilitySection() {
                         {item.desc}
                       </p>
                     </div>
-                  </motion.div>
+                  </div>
                 );
               })}
             </div>
           </div>
 
-          {/* Right Panel: 3D Emerald Leaf Scene (No cut-off boxes or labels) */}
-          <div className="hidden lg:block lg:col-span-5 flex flex-col items-center justify-center">
+          {/* Right Panel: 3D Emerald Leaf Scene */}
+          <div ref={rightPanelRef} id="sustainability-customers" className="hidden lg:block lg:col-span-5 flex flex-col items-center justify-center">
             <div className="w-full h-[280px] sm:h-[350px] lg:h-[400px] relative">
               <SustainabilityScene />
               {/* Green Glow behind the scene */}

@@ -1,21 +1,16 @@
 "use client";
 
+import { useRef, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { motion, Variants } from "framer-motion";
-import {
-  TreePine,
-  Droplets,
-  FlaskConical,
-  Thermometer,
-  Package,
-  Ship,
-} from "lucide-react";
+import { TreePine, Droplets, FlaskConical, Thermometer, Package, Ship } from "lucide-react";
 import BackgroundBlobs from "./background-blobs";
+import StackedGallery from "./stacked-gallery";
 
 const BusinessScene = dynamic(() => import("./business-scene"), {
   ssr: false,
   loading: () => (
-    <div className="h-full w-full bg-gradient-to-br from-emerald-950/20 to-teal-900/10 rounded-2xl opacity-20" />
+    <div className="h-full w-full rounded-2xl opacity-20" style={{ background: 'linear-gradient(to bottom right, var(--bg-secondary), var(--bg-primary))' }} />
   ),
 });
 

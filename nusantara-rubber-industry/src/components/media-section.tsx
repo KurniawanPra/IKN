@@ -1,17 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import dynamic from "next/dynamic";
-import { motion, AnimatePresence, Variants } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Calendar, Newspaper, Image as ImageIcon, X } from "lucide-react";
 import BackgroundBlobs from "./background-blobs";
+import { gsap } from "gsap";
 
-const MediaScene = dynamic(() => import("./media-scene"), {
-  ssr: false,
-  loading: () => (
-    <div className="h-full w-full rounded-2xl opacity-20" style={{ background: 'linear-gradient(to bottom right, var(--bg-secondary), var(--bg-primary))' }} />
-  ),
-});
+import StackedGallery from "./stacked-gallery";
 
 const filters = ["Semua", "Berita", "Event", "Galeri"] as const;
 
@@ -66,34 +62,118 @@ const categoryIcons: Record<string, typeof Calendar> = {
   Galeri: ImageIcon,
 };
 
-const cardVariants = {
-  hidden: { opacity: 0, y: 15 },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.4, delay: i * 0.08 },
-  }),
-};
-
 export default function MediaSection() {
   const [activeFilter, setActiveFilter] = useState<string>("Semua");
   const [selectedItem, setSelectedItem] = useState<(typeof mediaItems)[0] | null>(null);
+  
+  const containerRef = useRef<HTMLDivElement>(null);
+  const leftPanelRef = useRef<HTMLDivElement>(null);
+  const filterButtonsRef = useRef<HTMLDivElement>(null);
+  const gridContainerRef = useRef<HTMLDivElement>(null);
+
+  // Auto-switch filters based on hash
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const handleHash = () => {
+        if (window.location.hash === "#media-gallery") {
+          setActiveFilter("Galeri");
+        } else if (window.location.hash === "#media-news") {
+          setActiveFilter("Berita");
+        }
+      };
+      handleHash();
+      window.addEventListener("hashchange", handleHash);
+      return () => window.removeEventListener("hashchange", handleHash);
+    }
+  }, []);
 
   const filtered =
     activeFilter === "Semua"
       ? mediaItems
       : mediaItems.filter((item) => item.category === activeFilter);
 
+  // GSAP scroll anim on load/view using IntersectionObserver
+  useEffect(() => {
+    const leftPanel = leftPanelRef.current;
+    const filterButtons = filterButtonsRef.current;
+    const gridContainer = gridContainerRef.current;
+
+    // Setup elements initial states
+    gsap.set([leftPanel, filterButtons, gridContainer], {
+      opacity: 0,
+      y: 30,
+    });
+
+    const observerOptions = {
+      root: null,
+      threshold: 0.1,
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          if (entry.target === leftPanel) {
+            gsap.to(leftPanel, {
+              opacity: 1,
+              y: 0,
+              duration: 0.6,
+              ease: "power2.out",
+            });
+            observer.unobserve(leftPanel);
+          } else if (entry.target === filterButtons) {
+            gsap.to(filterButtons, {
+              opacity: 1,
+              y: 0,
+              duration: 0.5,
+              ease: "power2.out",
+            });
+            observer.unobserve(filterButtons);
+          } else if (entry.target === gridContainer) {
+            gsap.to(gridContainer, {
+              opacity: 1,
+              y: 0,
+              duration: 0.7,
+              ease: "power2.out",
+            });
+            observer.unobserve(gridContainer);
+          }
+        }
+      });
+    }, observerOptions);
+
+    if (leftPanel) observer.observe(leftPanel);
+    if (filterButtons) observer.observe(filterButtons);
+    if (gridContainer) observer.observe(gridContainer);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
+  // GSAP stagger anim on filter change
+  useEffect(() => {
+    if (gridContainerRef.current) {
+      const cards = gridContainerRef.current.querySelectorAll(".media-card");
+      if (cards.length > 0) {
+        gsap.fromTo(
+          cards,
+          { opacity: 0, scale: 0.95, y: 15 },
+          { opacity: 1, scale: 1, y: 0, stagger: 0.06, duration: 0.45, ease: "power2.out" }
+        );
+      }
+    }
+  }, [activeFilter]);
+
   return (
-    <div className="relative min-h-full lg:h-full w-full flex items-start lg:items-center overflow-y-auto lg:overflow-hidden no-scrollbar font-sans">
+    <div ref={containerRef} id="media" className="relative min-h-full lg:h-full w-full flex items-start lg:items-center overflow-y-auto lg:overflow-hidden no-scrollbar font-sans">
       <BackgroundBlobs />
 
       <div className="relative z-10 mx-auto max-w-7xl px-6 py-24 lg:py-0 w-full flex flex-col justify-start lg:justify-center min-h-full h-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           
           {/* Left Panel: Content, Filters, 3D Canvas */}
-          <div className="lg:col-span-4 flex flex-col gap-6">
-            <div>
+          <div ref={leftPanelRef} className="lg:col-span-4 flex flex-col gap-6">
+            <div id="media-news">
               <p className="text-xs font-semibold uppercase tracking-widest text-rubber-red-light font-mono mb-2">
                 Media & Publikasi
               </p>
@@ -106,8 +186,7 @@ export default function MediaSection() {
               </p>
             </div>
 
-            {/* Filter buttons */}
-            <div className="flex flex-wrap gap-2">
+            <div ref={filterButtonsRef} className="flex flex-wrap gap-2">
               {filters.map((filter) => (
                 <button
                   key={filter}
@@ -123,69 +202,63 @@ export default function MediaSection() {
               ))}
             </div>
 
-            {/* 3D Scene (No cut-off boxes or labels) */}
-            <div className="hidden lg:block h-[180px] md:h-[220px] w-full relative">
-              <MediaScene />
+            {/* Gallery Stacked Cards */}
+            <div className="hidden lg:block w-full relative">
+              <StackedGallery />
             </div>
           </div>
 
           {/* Right Panel: Scrollable Grid of News Cards */}
           <div className="lg:col-span-8">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 h-auto lg:max-h-[460px] overflow-visible lg:overflow-y-auto no-scrollbar">
-              <AnimatePresence mode="popLayout">
-                {filtered.map((item, i) => {
-                  const Icon = categoryIcons[item.category];
+            <div
+              ref={gridContainerRef}
+              className="grid grid-cols-1 sm:grid-cols-2 gap-4 h-auto lg:max-h-[460px] overflow-visible lg:overflow-y-auto no-scrollbar"
+            >
+              {filtered.map((item) => {
+                const Icon = categoryIcons[item.category];
 
-                  return (
-                    <motion.div
-                      key={item.title}
-                      variants={cardVariants as unknown as Variants}
-                      custom={i}
-                      initial="hidden"
-                      whileInView="visible"
-                      exit={{ opacity: 0, scale: 0.95 }}
-                      viewport={{ once: true }}
-                      layout
-                      className="glass-panel glass-panel-hover p-0 rounded-md flex flex-col overflow-hidden relative cursor-pointer"
-                      onClick={() => setSelectedItem(item)}
-                    >
-                      {/* Image Header */}
-                      <div className="h-40 w-full overflow-hidden relative">
-                        <img 
-                          src={item.image} 
-                          alt={item.title}
-                          className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-                        />
-                        <span className="absolute top-2 left-2 backdrop-blur-sm text-rubber-red-light text-[9px] font-mono px-2.5 py-1 rounded-sm uppercase border border-border tracking-wider"
-                          style={{ background: 'var(--overlay-bg)' }}
-                        >
-                          {item.category}
-                        </span>
-                        <div className="absolute top-2 right-2 p-1.5 rounded-sm backdrop-blur-sm border border-border"
-                          style={{ background: 'var(--overlay-bg)' }}
-                        >
-                          <Icon className="w-3.5 h-3.5 text-muted-dim" />
-                        </div>
+                return (
+                  <div
+                    key={item.title}
+                    className="media-card glass-panel glass-panel-hover p-0 rounded-md flex flex-col overflow-hidden relative cursor-pointer"
+                    onClick={() => setSelectedItem(item)}
+                  >
+                    {/* Image Header */}
+                    <div className="h-40 w-full overflow-hidden relative">
+                      <img 
+                        src={item.image} 
+                        alt={item.title}
+                        className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                      />
+                      <span className="absolute top-2 left-2 backdrop-blur-sm text-rubber-red-light text-[9px] font-mono px-2.5 py-1 rounded-sm uppercase border border-border tracking-wider"
+                        style={{ background: 'var(--overlay-bg)' }}
+                      >
+                        {item.category}
+                      </span>
+                      <div className="absolute top-2 right-2 p-1.5 rounded-sm backdrop-blur-sm border border-border"
+                        style={{ background: 'var(--overlay-bg)' }}
+                      >
+                        <Icon className="w-3.5 h-3.5 text-muted-dim" />
                       </div>
+                    </div>
 
-                      {/* Content Body */}
-                      <div className="p-4 flex flex-col justify-between flex-1 gap-2.5">
-                        <div>
-                          <h3 className="text-sm font-bold text-foreground line-clamp-1">
-                            {item.title}
-                          </h3>
-                          <p className="text-xs text-muted mt-1.5 leading-relaxed line-clamp-2">
-                            {item.desc}
-                          </p>
-                        </div>
-                        <span className="block text-[10px] text-muted-dim font-mono">
-                          {item.date}
-                        </span>
+                    {/* Content Body */}
+                    <div className="p-4 flex flex-col justify-between flex-1 gap-2.5">
+                      <div>
+                        <h3 className="text-sm font-bold text-foreground line-clamp-1">
+                          {item.title}
+                        </h3>
+                        <p className="text-xs text-muted mt-1.5 leading-relaxed line-clamp-2">
+                          {item.desc}
+                        </p>
                       </div>
-                    </motion.div>
-                  );
-                })}
-              </AnimatePresence>
+                      <span className="block text-[10px] text-muted-dim font-mono">
+                        {item.date}
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
 

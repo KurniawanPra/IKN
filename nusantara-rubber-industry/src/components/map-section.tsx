@@ -4,11 +4,6 @@ import { useEffect, useRef } from "react";
 import { MapPin, Phone, Mail, Globe, ExternalLink } from "lucide-react";
 import BackgroundBlobs from "./background-blobs";
 import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
 
 const contactInfo = [
   {
@@ -40,39 +35,61 @@ export default function MapSection() {
   const cardsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.set([leftRef.current, mapRef.current], { opacity: 0, y: 30 });
-      if (cardsRef.current) {
-        gsap.set(cardsRef.current.children, { opacity: 0, x: -20 });
-      }
+    const left = leftRef.current;
+    const cards = cardsRef.current;
+    const map = mapRef.current;
 
-      gsap.to(leftRef.current, {
-        opacity: 1,
-        y: 0,
-        duration: 0.65,
-        scrollTrigger: { trigger: leftRef.current, start: "top 85%" },
+    // Set initial state
+    gsap.set([left, map], { opacity: 0, y: 30 });
+    if (cards) {
+      gsap.set(cards.children, { opacity: 0, x: -20 });
+    }
+
+    const observerOptions = {
+      root: null,
+      threshold: 0.1,
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          if (entry.target === left) {
+            gsap.to(left, {
+              opacity: 1,
+              y: 0,
+              duration: 0.65,
+              ease: "power2.out",
+            });
+            observer.unobserve(left);
+          } else if (entry.target === cards) {
+            gsap.to(cards.children, {
+              opacity: 1,
+              x: 0,
+              stagger: 0.1,
+              duration: 0.5,
+              ease: "power2.out",
+            });
+            observer.unobserve(cards);
+          } else if (entry.target === map) {
+            gsap.to(map, {
+              opacity: 1,
+              y: 0,
+              duration: 0.8,
+              ease: "power2.out",
+            });
+            observer.unobserve(map);
+          }
+        }
       });
+    }, observerOptions);
 
-      if (cardsRef.current) {
-        gsap.to(cardsRef.current.children, {
-          opacity: 1,
-          x: 0,
-          stagger: 0.1,
-          duration: 0.5,
-          ease: "power2.out",
-          scrollTrigger: { trigger: cardsRef.current, start: "top 85%" },
-        });
-      }
+    if (left) observer.observe(left);
+    if (cards) observer.observe(cards);
+    if (map) observer.observe(map);
 
-      gsap.to(mapRef.current, {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        scrollTrigger: { trigger: mapRef.current, start: "top 80%" },
-      });
-    }, containerRef);
-
-    return () => ctx.revert();
+    return () => {
+      observer.disconnect();
+    };
   }, []);
 
   return (

@@ -1,17 +1,15 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import dynamic from "next/dynamic";
-import { motion, Variants } from "framer-motion";
 import { Shield, Wrench, Clock } from "lucide-react";
 import BackgroundBlobs from "./background-blobs";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import StackedGallery from "./stacked-gallery";
 
-const AboutScene = dynamic(() => import("./about-scene"), {
-  ssr: false,
-  loading: () => (
-    <div className="h-full w-full bg-gradient-to-br from-emerald-950/20 to-teal-900/10 rounded-2xl opacity-20" />
-  ),
-});
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 const valueProps = [
   {
@@ -55,43 +53,31 @@ function CountUp({
   isDecimal?: boolean;
 }) {
   const [count, setCount] = useState(0);
-  const [hasStarted, setHasStarted] = useState(false);
   const ref = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !hasStarted) {
-          setHasStarted(true);
-        }
+
+    const statsObj = { value: 0 };
+    const tween = gsap.to(statsObj, {
+      value: target,
+      duration: 2,
+      ease: "power2.out",
+      scrollTrigger: {
+        trigger: el,
+        start: "top 90%",
+        toggleActions: "play none none none",
       },
-      { threshold: 0.5 }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, [hasStarted]);
+      onUpdate: () => {
+        setCount(statsObj.value);
+      },
+    });
 
-  useEffect(() => {
-    if (!hasStarted) return;
-    const duration = 2000;
-    const startTime = performance.now();
-    let raf: number;
-
-    const animate = (now: number) => {
-      const elapsed = now - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      setCount(eased * target);
-      if (progress < 1) {
-        raf = requestAnimationFrame(animate);
-      }
+    return () => {
+      tween.kill();
     };
-
-    raf = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(raf);
-  }, [hasStarted, target]);
+  }, [target]);
 
   const display = isDecimal ? count.toFixed(1) : Math.floor(count).toString();
 
@@ -103,38 +89,118 @@ function CountUp({
   );
 }
 
-const cardVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5, delay: i * 0.1 },
-  }),
-};
-
-const timelineItemVariants = {
-  hidden: { opacity: 0, x: -30 },
-  visible: (i: number) => ({
-    opacity: 1,
-    x: 0,
-    transition: { duration: 0.5, delay: i * 0.15 },
-  }),
-};
-
 export default function AboutSection() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const titleRef = useRef<HTMLDivElement>(null);
+  const visionRef = useRef<HTMLDivElement>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
+  const rightRef = useRef<HTMLDivElement>(null);
+  const statsContainerRef = useRef<HTMLDivElement>(null);
+  const timelineLineRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Setup elements initial states
+      gsap.set([titleRef.current, visionRef.current, rightRef.current, statsContainerRef.current], {
+        opacity: 0,
+        y: 40,
+      });
+
+      if (gridRef.current) {
+        gsap.set(gridRef.current.children, { opacity: 0, y: 30 });
+      }
+
+      // Title & description entrance
+      gsap.to(titleRef.current, {
+        opacity: 1,
+        y: 0,
+        duration: 0.6,
+        scrollTrigger: {
+          trigger: titleRef.current,
+          start: "top 85%",
+        },
+      });
+
+      // Vision & mission entrance
+      gsap.to(visionRef.current, {
+        opacity: 1,
+        y: 0,
+        duration: 0.6,
+        scrollTrigger: {
+          trigger: visionRef.current,
+          start: "top 85%",
+        },
+      });
+
+      // Value props grid entrance (staggered)
+      if (gridRef.current) {
+        gsap.to(gridRef.current.children, {
+          opacity: 1,
+          y: 0,
+          stagger: 0.12,
+          duration: 0.6,
+          scrollTrigger: {
+            trigger: gridRef.current,
+            start: "top 85%",
+          },
+        });
+      }
+
+      // Right panel (3D Scene and timeline) entrance
+      gsap.to(rightRef.current, {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        scrollTrigger: {
+          trigger: rightRef.current,
+          start: "top 85%",
+        },
+      });
+
+      // ScrollTrigger timeline line height drawing
+      if (timelineLineRef.current) {
+        gsap.fromTo(
+          timelineLineRef.current,
+          { scaleY: 0 },
+          {
+            scaleY: 1,
+            transformOrigin: "top center",
+            ease: "none",
+            scrollTrigger: {
+              trigger: timelineLineRef.current,
+              start: "top 75%",
+              end: "bottom 65%",
+              scrub: true,
+            },
+          }
+        );
+      }
+
+      // Stats entrance
+      gsap.to(statsContainerRef.current, {
+        opacity: 1,
+        y: 0,
+        duration: 0.6,
+        scrollTrigger: {
+          trigger: statsContainerRef.current,
+          start: "top 90%",
+        },
+      });
+    }, containerRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <div className="relative min-h-full lg:h-full w-full flex items-start lg:items-center overflow-y-auto lg:overflow-hidden no-scrollbar font-sans">
+    <div ref={containerRef} className="relative min-h-full lg:h-full w-full flex items-start lg:items-center overflow-y-auto lg:overflow-hidden no-scrollbar font-sans">
       <BackgroundBlobs sectionId="about" />
 
       <div className="relative z-10 mx-auto max-w-7xl px-6 py-24 lg:py-0 w-full flex flex-col justify-start lg:justify-center min-h-full h-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
           {/* Left Panel */}
           <div className="lg:col-span-7 flex flex-col gap-6">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, ease: "easeOut" }}
+            <div
+              ref={titleRef}
               className="flex flex-col gap-3"
             >
               <span className="text-xs font-semibold uppercase tracking-widest text-rubber-red-light font-mono">
@@ -150,17 +216,30 @@ export default function AboutSection() {
                 ketat, kami memproses getah karet alam menjadi resin berkualitas 
                 ekspor untuk mendukung rantai pasok industri global.
               </p>
-            </motion.div>
+            </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-2">
-              {valueProps.map((item, i) => (
-                <motion.div
+            {/* Visi & Misi card */}
+            <div
+              id="about-vision-mission"
+              ref={visionRef}
+              className="glass-panel p-4 rounded-md border-l-2 border-l-rubber-red-light"
+            >
+              <h3 className="text-xs font-bold text-foreground mb-1.5 uppercase tracking-wide font-mono text-rubber-red-light">
+                Visi & Misi
+              </h3>
+              <div className="space-y-1.5 text-xs text-muted leading-relaxed">
+                <p><strong>Visi:</strong> Menjadi produsen hilir karet alam terkemuka dengan reputasi global yang mengutamakan keberlanjutan and kepuasan pelanggan.</p>
+                <p><strong>Misi:</strong> Mengembangkan produk karet bersertifikasi, menerapkan teknologi kimia hijau (green chemistry), serta berkontribusi positif bagi komunitas perkebunan nasional.</p>
+              </div>
+            </div>
+
+            <div
+              ref={gridRef}
+              className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-2"
+            >
+              {valueProps.map((item) => (
+                <div
                   key={item.title}
-                  variants={cardVariants as unknown as Variants}
-                  custom={i}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true }}
                   className="glass-panel glass-panel-hover p-5 rounded-md flex flex-col items-start gap-3"
                 >
                   <item.icon className="h-6 w-6 text-rubber-red-light shrink-0" />
@@ -172,36 +251,31 @@ export default function AboutSection() {
                       {item.desc}
                     </p>
                   </div>
-                </motion.div>
+                </div>
               ))}
             </div>
           </div>
 
           {/* Right Panel */}
-          <div className="lg:col-span-5 flex flex-col gap-6 justify-center">
-            {/* 3D Scene of Polymer Chain (No outline or boxes, floats freely) */}
+          <div ref={rightRef} className="lg:col-span-5 flex flex-col gap-6 justify-center">
+            {/* Stacked Gallery Slideshow */}
             <div className="hidden lg:block h-[220px] md:h-[260px] w-full relative">
-              <AboutScene />
+              <StackedGallery />
             </div>
 
             {/* Milestones timeline card */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
+            <div
+              id="about-history"
               className="glass-panel p-5 rounded-md relative max-h-[200px] overflow-y-auto no-scrollbar"
             >
-              <div className="absolute left-[23px] top-6 bottom-6 w-0.5 bg-rubber-red/20" />
+              <div
+                ref={timelineLineRef}
+                className="absolute left-[23px] top-6 bottom-6 w-0.5 bg-rubber-red/20"
+              />
               <div className="flex flex-col gap-6">
-                {milestones.map((item, i) => (
-                  <motion.div
+                {milestones.map((item) => (
+                  <div
                     key={item.year}
-                    variants={timelineItemVariants as unknown as Variants}
-                    custom={i}
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true }}
                     className="relative pl-8 flex gap-4 items-start"
                   >
                     <div className="absolute left-[3px] top-1.5 flex items-center justify-center">
@@ -213,19 +287,17 @@ export default function AboutSection() {
                       </span>
                       <p className="text-xs text-muted mt-0.5 leading-relaxed">{item.desc}</p>
                     </div>
-                  </motion.div>
+                  </div>
                 ))}
               </div>
-            </motion.div>
+            </div>
           </div>
         </div>
 
         {/* Stats Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
+        <div
+          id="about-section3"
+          ref={statsContainerRef}
           className="mt-12 md:mt-16 grid gap-6 border-t border-border pt-8 grid-cols-3"
         >
           {stats.map((stat) => (
@@ -240,7 +312,7 @@ export default function AboutSection() {
               <span className="text-[10px] md:text-xs text-muted-dim uppercase tracking-wider mt-1 block">{stat.label}</span>
             </div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </div>
   );

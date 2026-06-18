@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { motion, AnimatePresence, Variants } from "framer-motion";
 import { Search, ShoppingCart, Info } from "lucide-react";
@@ -74,6 +74,22 @@ export default function ProductsSection() {
   const [search, setSearch] = useState("");
   const { addToCart } = useCart();
 
+  // Auto-switch product category filter based on hash
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const handleHash = () => {
+        if (window.location.hash === "#produk-resiprene") {
+          setFilter("Resin & Coating");
+        } else if (window.location.hash === "#produk-rubber") {
+          setFilter("Rubber Thread");
+        }
+      };
+      handleHash();
+      window.addEventListener("hashchange", handleHash);
+      return () => window.removeEventListener("hashchange", handleHash);
+    }
+  }, []);
+
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat("id-ID", {
       style: "currency",
@@ -90,7 +106,7 @@ export default function ProductsSection() {
   });
 
   return (
-    <div className="relative min-h-full lg:h-full w-full flex items-start lg:items-center overflow-y-auto lg:overflow-hidden no-scrollbar font-sans">
+    <div id="produk" className="relative min-h-full lg:h-full w-full flex items-start lg:items-center overflow-y-auto lg:overflow-hidden no-scrollbar font-sans">
       <BackgroundBlobs sectionId="produk" />
 
       <div className="relative z-10 mx-auto max-w-7xl px-6 py-24 lg:py-0 w-full flex flex-col justify-start lg:justify-center min-h-full h-auto">
@@ -98,11 +114,11 @@ export default function ProductsSection() {
           
           {/* Left Panel: Catalog details & 3D Canvas */}
           <div className="lg:col-span-4 flex flex-col gap-5">
-            <div>
+            <div id="produk-resiprene">
               <p className="text-xs font-semibold uppercase tracking-widest text-rubber-red-light font-mono mb-2">
                 E-Commerce Catalog
               </p>
-              <h2 className="text-3xl font-bold text-foreground leading-tight">
+              <h2 id="produk-rubber" className="text-3xl font-bold text-foreground leading-tight">
                 Produk Unggulan & Pemesanan
               </h2>
               <p className="text-sm text-muted mt-2 leading-relaxed">
