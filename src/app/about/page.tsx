@@ -126,7 +126,7 @@ export default function AboutPage() {
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-                className="text-xs sm:text-sm font-semibold uppercase tracking-widest text-rubber-red-light font-mono mb-2 inline-block"
+                className="text-sm sm:text-base md:text-lg font-extrabold uppercase tracking-[0.2em] text-rubber-red-light font-mono mb-2 inline-block drop-shadow-md"
               >
                 Tentang Kami
               </motion.span>
