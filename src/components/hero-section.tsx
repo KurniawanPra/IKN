@@ -5,7 +5,7 @@ import dynamic from "next/dynamic";
 import { ChevronDown } from "lucide-react";
 import { gsap } from "gsap";
 
-import HeaderSlideshow from "./header-slideshow";
+
 
 const HeroScene = dynamic(() => import("./hero-scene"), {
   ssr: false,
@@ -22,11 +22,7 @@ const stats = [
   { value: "11.2%", label: "Revenue Growth" },
 ];
 
-const heroImages = [
-  "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?q=80&w=2070&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1587293852726-70cdb56c2866?q=80&w=2072&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1496247749665-49cf5b1022e9?q=80&w=2073&auto=format&fit=crop",
-];
+
 
 export default function HeroSection() {
   const containerRef = useRef<HTMLDivElement>(null);

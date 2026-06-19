@@ -1,7 +1,7 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { Calendar, Newspaper, Image as ImageIcon, X } from "lucide-react";
 import BackgroundBlobs from "./background-blobs";
@@ -225,10 +225,9 @@ export default function MediaSection() {
                   >
                     {/* Image Header */}
                     <div className="h-40 w-full overflow-hidden relative">
-                      <Image 
+                      <img 
                         src={item.image} 
                         alt={item.title}
-                        fill
                         className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                       />
                       <span className="absolute top-2 left-2 backdrop-blur-sm text-rubber-red-light text-[9px] font-mono px-2.5 py-1 rounded-sm uppercase border border-border tracking-wider"
@@ -292,10 +291,9 @@ export default function MediaSection() {
               >
                 {/* Modal Image Header */}
                 <div className="relative h-60 sm:h-72 w-full overflow-hidden shrink-0">
-                  <Image
+                  <img
                     src={selectedItem.image}
                     alt={selectedItem.title}
-                    fill
                     className="w-full h-full object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />

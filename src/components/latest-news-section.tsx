@@ -1,7 +1,8 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { Calendar, Newspaper, Image as ImageIcon, ArrowRight, ShieldCheck, Cpu } from "lucide-react";
+import { Calendar, Newspaper, ArrowRight, ShieldCheck, Cpu } from "lucide-react";
 import Link from "next/link";
 import { gsap } from "gsap";
 
@@ -43,7 +44,7 @@ const latestNews = [
   },
 ];
 
-const categoryIcons: Record<string, any> = {
+const categoryIcons: Record<string, typeof Calendar> = {
   Event: Calendar,
   Berita: Newspaper,
   Prestasi: ShieldCheck,
@@ -179,6 +180,7 @@ export default function LatestNewsSection() {
   useEffect(() => {
     currentPositionRef.current = activeCardIndex;
     updateCardPositions(activeCardIndex, 0.65, "power2.out");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeCardIndex, isMobile]);
 
   // Drag / Swipe handlers

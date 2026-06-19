@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 import VideoPlayer from "@/components/ui/video-player";
 import { gsap } from "gsap";
-import { Play } from "lucide-react";
+
 
 export default function CompanyVideosSection() {
   const containerRef = useRef<HTMLDivElement>(null);

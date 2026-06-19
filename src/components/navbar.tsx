@@ -144,10 +144,11 @@ export default function Navbar() {
       return;
     }
 
-    if (href === "/") {
-      e.preventDefault();
+    e.preventDefault();
+
+    if (!href.includes("#")) {
       const currentRoute = pathname === "" ? "/" : pathname;
-      if (currentRoute === "/") {
+      if (currentRoute === href) {
         const container = document.querySelector(".snap-container");
         if (container) {
           container.scrollTo({ top: 0, behavior: "smooth" });
@@ -158,40 +159,33 @@ export default function Navbar() {
             ease: "power3.out",
           });
         }
-        window.history.pushState(null, "", "/");
+        window.history.pushState(null, "", href);
       } else {
-        router.push("/");
+        router.push(href);
       }
       return;
     }
 
-    if (href.includes("#")) {
-      e.preventDefault();
-      const [route, targetId] = href.split("#");
-      
-      const targetRoute = route === "" ? "/" : route;
-      const currentRoute = pathname === "" ? "/" : pathname;
+    const [route, targetId] = href.split("#");
+    const targetRoute = route === "" ? "/" : route;
+    const currentRoute = pathname === "" ? "/" : pathname;
 
-      if (currentRoute === targetRoute) {
-        const el = document.getElementById(targetId);
-        if (el) {
-          const container = document.querySelector(".snap-container");
-          if (container) {
-            el.scrollIntoView({ behavior: "smooth" });
-          } else {
-            gsap.to(window, {
-              duration: 1.2,
-              scrollTo: { y: el, offsetY: 80 },
-              ease: "power3.out",
-            });
-          }
-          window.history.pushState(null, "", href);
+    if (currentRoute === targetRoute) {
+      const el = document.getElementById(targetId);
+      if (el) {
+        const container = document.querySelector(".snap-container");
+        if (container) {
+          el.scrollIntoView({ behavior: "smooth" });
+        } else {
+          gsap.to(window, {
+            duration: 1.2,
+            scrollTo: { y: el, offsetY: 80 },
+            ease: "power3.out",
+          });
         }
-      } else {
-        router.push(href);
+        window.history.pushState(null, "", href);
       }
     } else {
-      e.preventDefault();
       router.push(href);
     }
   };

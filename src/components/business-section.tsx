@@ -1,11 +1,11 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+
 import dynamic from "next/dynamic";
 import { motion, Variants } from "framer-motion";
 import { TreePine, Droplets, FlaskConical, Thermometer, Package, Ship } from "lucide-react";
 import BackgroundBlobs from "./background-blobs";
-import StackedGallery from "./stacked-gallery";
+
 
 const BusinessScene = dynamic(() => import("./business-scene"), {
   ssr: false,

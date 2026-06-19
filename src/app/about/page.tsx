@@ -1,25 +1,18 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
-import dynamic from "next/dynamic";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import ContactSection from "@/components/contact-section";
 import BackgroundBlobs from "@/components/background-blobs";
 import { motion } from "framer-motion";
-import { Clock, Target, Compass, ArrowRight, Shield } from "lucide-react";
+import { Clock } from "lucide-react";
 
 import ScrollIndicator from "@/components/scroll-indicator";
 import { gsap } from "gsap";
 import HeaderSlideshow from "@/components/header-slideshow";
 import VisionMissionSection from "@/components/vision-mission-section";
 
-const AboutScene = dynamic(() => import("@/components/about-scene"), {
-  ssr: false,
-  loading: () => (
-    <div className="h-full w-full rounded-2xl opacity-20" style={{ background: 'linear-gradient(to bottom right, var(--bg-secondary), var(--bg-primary))' }} />
-  ),
-});
 
 const milestones = [
   {
@@ -124,51 +117,36 @@ export default function AboutPage() {
             "/images/getah.webp"
           ]} overlayOpacity={0.8} />
           <BackgroundBlobs sectionId="about" transparentBg={true} />
-          <div className="relative z-10 max-w-5xl mx-auto px-6 py-20 lg:py-20 w-full">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-              
-              {/* Left Panel: Content */}
-              <div className="lg:col-span-7 flex flex-col gap-4 text-left">
-                <motion.span
-                  initial={{ opacity: 0, y: 15 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5 }}
-                  className="text-xs font-semibold uppercase tracking-widest text-rubber-red-light font-mono mb-1 inline-block"
-                >
-                  Tentang Kami
-                </motion.span>
-                <motion.h1
-                  initial={{ opacity: 0, y: 15 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.1 }}
-                  className="text-4xl font-bold text-white md:text-5xl leading-[1.15] tracking-tight"
-                >
-                  Warisan Keunggulan Industri Karet Alam
-                </motion.h1>
-                <motion.p
-                  initial={{ opacity: 0, y: 15 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.2 }}
-                  className="text-sm md:text-base leading-relaxed text-white/80 max-w-xl"
-                >
-                  PT. Industri Karet Nusantara (IKN), anak usaha PT Perkebunan Nusantara III (Persero),
-                  telah menjadi pelopor hilirisasi karet sejak didirikan. Kami memproses getah karet
-                  menjadi resin berkualitas ekspor untuk rantai pasok industri global.
-                </motion.p>
-              </div>
-
-              {/* Right Panel: 3D Canvas Scene */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.8, delay: 0.3 }}
-                className="hidden lg:block lg:col-span-5 h-[320px] md:h-[400px] relative"
+          <div className="relative z-10 max-w-4xl mx-auto px-6 py-20 lg:py-25 w-full">
+            <div className="flex flex-col gap-4 text-center items-center justify-center p-8 sm:p-12 md:p-16 rounded-3xl backdrop-blur-xl bg-black/40 border border-white/10 shadow-2xl relative overflow-hidden">
+              {/* Subtle inner gradient for glass effect */}
+              <div className="absolute inset-0 bg-gradient-to-b from-white/10 to-transparent pointer-events-none" />
+              <motion.span
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="text-xs sm:text-sm font-semibold uppercase tracking-widest text-rubber-red-light font-mono mb-2 inline-block"
               >
-                <AboutScene />
-                {/* Glow behind canvas */}
-                <div className="absolute inset-0 bg-gradient-to-tr from-rubber-red/10 to-transparent blur-3xl -z-10 rounded-full" />
-              </motion.div>
-
+                Tentang Kami
+              </motion.span>
+              <motion.h1
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                className="text-4xl font-bold text-white md:text-5xl lg:text-6xl leading-[1.15] tracking-tight"
+              >
+                Warisan Keunggulan Industri Karet Alam
+              </motion.h1>
+              <motion.p
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                className="text-sm md:text-base lg:text-lg leading-relaxed text-white/90 max-w-2xl mt-2"
+              >
+                PT. Industri Karet Nusantara (IKN), anak usaha PT Perkebunan Nusantara III (Persero),
+                telah menjadi pelopor hilirisasi karet sejak didirikan. Kami memproses getah karet
+                menjadi resin berkualitas ekspor untuk rantai pasok industri global.
+              </motion.p>
             </div>
           </div>
         </section>
