@@ -71,7 +71,7 @@ export default function ResipreneSection() {
     <div className="relative min-h-full w-full flex items-start lg:items-center overflow-y-auto lg:overflow-y-auto no-scrollbar font-sans">
       <BackgroundBlobs sectionId="resiprene" />
 
-      <div className="relative z-10 mx-auto max-w-7xl px-6 py-24 lg:py-20 w-full min-h-full">
+      <div className="relative z-10 mx-auto max-w-7xl px-6 py-10 lg:py-12 w-full min-h-full flex flex-col justify-center">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 15 }}

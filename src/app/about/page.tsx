@@ -199,7 +199,7 @@ export default function AboutPage() {
         </section>
 
         {/* Section 4: Footer */}
-        <section id="footer" className="snap-section flex flex-col justify-center border-t border-border/40">
+        <section id="footer" className="snap-section relative h-[100dvh] flex flex-col justify-center border-t border-border/40">
           <Footer />
         </section>
       </main>

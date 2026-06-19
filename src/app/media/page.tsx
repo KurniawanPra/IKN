@@ -75,8 +75,8 @@ export default function MediaPage() {
         </section>
 
         {/* Section 2: Brochure Downloads */}
-        <section id="media-downloads" className="snap-section relative h-[100dvh] overflow-y-auto lg:overflow-hidden no-scrollbar border-t border-border/40 bg-elevated/10">
-          <div className="max-w-5xl mx-auto px-6 py-20 lg:py-24 flex flex-col justify-center min-h-full w-full">
+        <section id="media-downloads" className="snap-section relative h-[100dvh] flex items-center overflow-y-auto lg:overflow-hidden no-scrollbar border-t border-border/40 bg-elevated/10">
+          <div className="max-w-5xl mx-auto px-6 py-20 lg:py-24 w-full">
             <div className="text-center mb-12">
               <div className="flex items-center justify-center gap-2 mb-2 text-rubber-red-light">
                 <Download className="w-4 h-4" />
@@ -124,7 +124,7 @@ export default function MediaPage() {
         </section>
 
         {/* Section 3: Footer */}
-        <section id="footer" className="snap-section flex flex-col justify-center border-t border-border/40">
+        <section id="footer" className="snap-section relative h-[100dvh] flex flex-col justify-center border-t border-border/40">
           <Footer />
         </section>
       </main>

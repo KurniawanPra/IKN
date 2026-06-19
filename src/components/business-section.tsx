@@ -67,7 +67,7 @@ export default function BusinessSection() {
     <div className="relative min-h-full lg:h-full w-full flex items-start lg:items-center overflow-y-auto lg:overflow-y-auto no-scrollbar font-sans">
       <BackgroundBlobs sectionId="business" />
 
-      <div className="relative z-10 mx-auto max-w-7xl px-6 py-24 lg:py-20 w-full flex flex-col justify-start lg:justify-center min-h-full h-auto">
+      <div className="relative z-10 mx-auto max-w-7xl px-6 py-10 lg:py-12 w-full flex flex-col justify-center min-h-full">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           
           {/* Left Panel: Content & 3D Scene */}

@@ -32,7 +32,7 @@ export default function BusinessPage() {
 
       <main className="snap-container">
         {/* Hero Header */}
-        <section id="business-hero" className="snap-section relative flex flex-col items-center justify-center overflow-y-auto lg:overflow-hidden no-scrollbar">
+        <section id="business-hero" className="snap-section relative h-[100dvh] flex flex-col items-center justify-center overflow-y-auto lg:overflow-hidden no-scrollbar">
           <BackgroundBlobs sectionId="business" />
           <div className="relative z-10 max-w-3xl mx-auto text-center px-6">
             <motion.span
@@ -85,7 +85,7 @@ export default function BusinessPage() {
 
         {/* CTA Section */}
         <section id="business-cta" className="snap-section relative h-[100dvh] overflow-y-auto lg:overflow-hidden no-scrollbar border-t border-border/40">
-          <div className="max-w-4xl mx-auto px-6 w-full py-16 lg:py-24 flex flex-col justify-center min-h-full">
+          <div className="max-w-4xl mx-auto px-6 w-full py-8 lg:py-12 flex flex-col justify-center min-h-full">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -128,7 +128,7 @@ export default function BusinessPage() {
         </section>
 
         {/* Section 5: Footer */}
-        <section id="footer" className="snap-section flex flex-col justify-center border-t border-border/40">
+        <section id="footer" className="snap-section relative h-[100dvh] flex flex-col justify-center border-t border-border/40">
           <Footer />
         </section>
       </main>
