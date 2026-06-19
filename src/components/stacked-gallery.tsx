@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { gsap } from "gsap";
 
@@ -158,6 +159,7 @@ export default function StackedGallery() {
       handleNext();
     }, 4500);
     return () => clearInterval(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentIndex]);
 
   return (
@@ -173,9 +175,10 @@ export default function StackedGallery() {
             onClick={handleNext}
           >
             <div className="relative w-full h-full">
-              <img
+              <Image
                 src={img}
                 alt={titles[index]}
+                fill
                 className="w-full h-full object-cover pointer-events-none"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent pointer-events-none" />

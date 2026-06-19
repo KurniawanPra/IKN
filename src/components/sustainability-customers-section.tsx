@@ -4,7 +4,6 @@ import { useState } from "react";
 import { motion, Variants } from "framer-motion";
 import {
   BookOpen,
-  Ship,
   Globe,
   Anchor,
   Factory,
@@ -12,7 +11,6 @@ import {
   Car,
   TreePine,
   Building2,
-  ChevronRight,
   MapPin,
   ExternalLink,
 } from "lucide-react";

@@ -8,7 +8,6 @@ import {
   FileCheck,
   Leaf,
   Factory,
-  Globe,
   ChevronRight,
   CheckCircle2,
   ExternalLink,

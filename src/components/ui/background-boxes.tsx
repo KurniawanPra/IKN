@@ -29,14 +29,6 @@ const GRID_CONFIG = {
   desktop: { rows: 40, cols: 28, cellW: "w-16", cellH: "h-8" },
 };
 
-// Element tags that should block the background glow
-const BLOCKED_TAGS = new Set([
-  "CANVAS", "VIDEO", "IMG", "SVG", "IFRAME",
-  "A", "BUTTON", "INPUT", "TEXTAREA", "SELECT",
-  "H1", "H2", "H3", "H4", "H5", "H6", "P", "SPAN", "LABEL",
-  "NAV", "HEADER", "FOOTER", "SECTION",
-]);
-
 export const BoxesCore = ({ className, isDark = true }: { className?: string; isDark?: boolean }) => {
   const bp = useBreakpoint();
   const config = GRID_CONFIG[bp];

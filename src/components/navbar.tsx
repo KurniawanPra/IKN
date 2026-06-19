@@ -266,9 +266,6 @@ export default function Navbar() {
     // Track cursor X within the dropdown for precise highlight
     const el = dropdownRefs.current[index];
     if (!el) return;
-    const rect = el.getBoundingClientRect();
-    const relX = e.clientX - rect.left;
-    const relY = e.clientY - rect.top;
 
     // Find which submenu item the cursor is over
     const items = el.querySelectorAll<HTMLElement>("[data-submenu-item]");

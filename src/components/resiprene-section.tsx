@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion, Variants } from "framer-motion";
+import { motion } from "framer-motion";
 import { FlaskConical, Droplets, Shield, Zap, Palette, ChevronRight, ExternalLink } from "lucide-react";
 import BackgroundBlobs from "./background-blobs";
 
