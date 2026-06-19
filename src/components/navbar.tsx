@@ -461,15 +461,7 @@ export default function Navbar() {
                       <a
                         href={item.href}
                         onClick={(e) => {
-                          if (hasSubmenu) {
-                            e.preventDefault();
-                            setMobileSubmenuOpen((prev) => ({
-                              ...prev,
-                              [item.label]: !prev[item.label],
-                            }));
-                          } else {
-                            handleNavClick(e, item.href);
-                          }
+                          handleNavClick(e, item.href);
                         }}
                         className="text-foreground text-xl font-medium hover:text-accent-hover transition-colors duration-300"
                       >

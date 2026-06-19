@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import { ChevronDown } from "lucide-react";
 import { gsap } from "gsap";
@@ -34,6 +34,13 @@ export default function HeroSection() {
   const statsRef = useRef<HTMLDivElement>(null);
   const sceneRef = useRef<HTMLDivElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [showScene, setShowScene] = useState(false);
+
+  // Delay 3D scene loading to avoid blocking FCP/LCP
+  useEffect(() => {
+    const timer = setTimeout(() => setShowScene(true), 2000);
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -167,14 +174,16 @@ export default function HeroSection() {
         </div>
 
         {/* 3D Scene Area */}
-        <div
-          ref={sceneRef}
-          className="hidden lg:block w-full h-[250px] sm:h-[350px] lg:h-[450px] lg:w-1/2 relative"
-          style={{ transform: "scale(0.95)" }}
-        >
-          <div className="h-full w-full relative z-10">
-            <HeroScene />
-          </div>
+          <div className="hidden lg:block w-full h-[250px] sm:h-[350px] lg:h-[450px] lg:w-1/2 relative"
+            style={{ transform: "scale(0.95)" }}
+          >
+            <div ref={sceneRef} className="h-full w-full relative z-10">
+              {showScene ? (
+                <HeroScene />
+              ) : (
+                <div className="h-full w-full rounded-2xl opacity-20" style={{ background: 'linear-gradient(to bottom right, var(--bg-secondary), var(--bg-primary))' }} />
+              )}
+            </div>
           {/* Subtle glow behind canvas */}
           <div className="absolute inset-0 bg-gradient-to-tr from-rubber-red/10 to-transparent blur-3xl -z-10 rounded-full" />
         </div>

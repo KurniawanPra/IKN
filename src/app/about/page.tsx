@@ -118,15 +118,15 @@ export default function AboutPage() {
           ]} overlayOpacity={0.8} />
           <BackgroundBlobs sectionId="about" transparentBg={true} />
           <div className="relative z-10 max-w-4xl mx-auto px-6 py-20 lg:py-25 w-full">
-            <div className="flex flex-col gap-4 text-center items-center justify-center p-8 sm:p-12 md:p-16 rounded-[2rem] backdrop-blur-2xl bg-white/5 border border-white/10 border-t-white/30 border-l-white/20 shadow-[0_32px_64px_rgba(0,0,0,0.6)] relative overflow-hidden ring-1 ring-white/10">
+            <div className="flex flex-col gap-4 text-center items-center justify-center p-8 sm:p-12 md:p-16 rounded-[2rem] backdrop-blur-md md:backdrop-blur-2xl bg-black/40 md:bg-white/5 border border-white/10 border-t-white/30 border-l-white/20 shadow-[0_32px_64px_rgba(0,0,0,0.6)] relative overflow-hidden ring-1 ring-white/10 isolate transform-gpu">
               {/* Liquid glass inner reflections */}
-              <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-white/5 to-transparent pointer-events-none" />
-              <div className="absolute -inset-x-20 -top-20 h-40 bg-white/20 blur-3xl rounded-full pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-white/5 to-transparent pointer-events-none -z-10" />
+              <div className="absolute -inset-x-20 -top-20 h-40 bg-white/20 blur-3xl rounded-full pointer-events-none -z-10" />
               <motion.span
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-                className="text-sm sm:text-base md:text-lg font-extrabold uppercase tracking-[0.2em] text-rubber-red-light font-mono mb-2 inline-block drop-shadow-md"
+                className="relative z-10 text-sm sm:text-base md:text-lg font-extrabold uppercase tracking-[0.2em] text-rubber-red-light font-mono mb-2 inline-block drop-shadow-md"
               >
                 Tentang Kami
               </motion.span>
@@ -134,7 +134,7 @@ export default function AboutPage() {
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.1 }}
-                className="text-4xl font-bold text-white md:text-5xl lg:text-6xl leading-[1.15] tracking-tight"
+                className="relative z-10 text-4xl font-bold text-white md:text-5xl lg:text-6xl leading-[1.15] tracking-tight"
               >
                 Warisan Keunggulan Industri Karet Alam
               </motion.h1>
@@ -142,7 +142,7 @@ export default function AboutPage() {
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
-                className="text-sm md:text-base lg:text-lg leading-relaxed text-white/90 max-w-2xl mt-2"
+                className="relative z-10 text-sm md:text-base lg:text-lg leading-relaxed text-white/90 max-w-2xl mt-2"
               >
                 PT. Industri Karet Nusantara (IKN), anak usaha PT Perkebunan Nusantara III (Persero),
                 telah menjadi pelopor hilirisasi karet sejak didirikan. Kami memproses getah karet

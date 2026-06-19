@@ -56,11 +56,7 @@
     backface-visibility: hidden;
 }
 
-/* 只保留opacity的过渡效果，移除颜色相关的过渡 */
-* {
-  transition-property: opacity;
-  transition-duration: 100ms;
-}
+/* Transition only on elements that need it — removed global * selector to avoid non-composited animation penalties */
 
 /* 自定义滚动条 */
 ::-webkit-scrollbar {

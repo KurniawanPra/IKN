@@ -1,15 +1,17 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import Navbar from "@/components/navbar";
 import HeroSection from "@/components/hero-section";
-import LatestNewsSection from "@/components/latest-news-section";
-import MapSection from "@/components/map-section";
-import Footer from "@/components/footer";
 import ScrollIndicator from "@/components/scroll-indicator";
 
 import { Boxes } from "@/components/ui/background-boxes";
-import CompanyVideosSection from "@/components/company-videos-section";
-import CompanyProfileSection from "@/components/company-profile-section";
+
+const CompanyProfileSection = dynamic(() => import("@/components/company-profile-section"), { ssr: false });
+const CompanyVideosSection = dynamic(() => import("@/components/company-videos-section"), { ssr: false });
+const LatestNewsSection = dynamic(() => import("@/components/latest-news-section"), { ssr: false });
+const MapSection = dynamic(() => import("@/components/map-section"), { ssr: false });
+const Footer = dynamic(() => import("@/components/footer"), { ssr: false });
 
 export default function HomePage() {
   return (

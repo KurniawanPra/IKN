@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { MapPin, Phone, Mail, Globe, ExternalLink } from "lucide-react";
 import { gsap } from "gsap";
 
@@ -32,6 +32,7 @@ export default function MapSection() {
   const leftRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<HTMLDivElement>(null);
+  const [showMap, setShowMap] = useState(false);
 
   useEffect(() => {
     const left = leftRef.current;
@@ -91,6 +92,23 @@ export default function MapSection() {
     };
   }, []);
 
+  // Lazy load the Google Maps iframe only when visible
+  useEffect(() => {
+    const el = mapRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShowMap(true);
+          io.disconnect();
+        }
+      },
+      { threshold: 0.05 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
   return (
     <div
       ref={containerRef}
@@ -147,13 +165,19 @@ export default function MapSection() {
               className="w-full rounded-lg overflow-hidden border border-border shadow-xl relative"
               style={{ height: "420px", background: "var(--bg-elevated)" }}
             >
-              <iframe
-                title="Peta Lokasi PT. Industri Karet Nusantara"
-                src="https://maps.google.com/maps?q=PT%20Industri%20Karet%20Nusantara,%20Tanjung%20Morawa&t=&z=14&ie=UTF8&iwloc=&output=embed"
-                className="w-full h-full border-0 dark:grayscale dark:invert dark:opacity-70 dark:contrast-125 dark:brightness-90 transition-opacity duration-300"
-                allowFullScreen={false}
-                loading="lazy"
-              />
+              {showMap ? (
+                <iframe
+                  title="Peta Lokasi PT. Industri Karet Nusantara"
+                  src="https://maps.google.com/maps?q=PT%20Industri%20Karet%20Nusantara,%20Tanjung%20Morawa&t=&z=14&ie=UTF8&iwloc=&output=embed"
+                  className="w-full h-full border-0 dark:grayscale dark:invert dark:opacity-70 dark:contrast-125 dark:brightness-90 transition-opacity duration-300"
+                  allowFullScreen={false}
+                  loading="lazy"
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center text-muted text-sm">
+                  <MapPin className="w-8 h-8 opacity-30 animate-pulse" />
+                </div>
+              )}
               {/* Overlay label */}
               <div
                 className="absolute bottom-3 left-3 glass-panel px-3 py-1.5 rounded-sm flex items-center gap-2"

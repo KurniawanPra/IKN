@@ -6,12 +6,12 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { gsap } from "gsap";
 
 const images = [
-  "/images/exhibition.png",
-  "/images/ikn_store.png",
-  "/images/shipping.png",
-  "/images/plantation.png",
-  "/images/rnd_lab.png",
-  "/images/reactor.png",
+  "/images/exhibition.webp",
+  "/images/ikn_store.webp",
+  "/images/shipping.webp",
+  "/images/plantation.webp",
+  "/images/rnd_lab.webp",
+  "/images/reactor.webp",
 ];
 
 const titles = [

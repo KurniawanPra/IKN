@@ -4,6 +4,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Calendar, Newspaper, ArrowRight, ShieldCheck, Cpu } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { gsap } from "gsap";
 
 const latestNews = [
@@ -12,35 +13,35 @@ const latestNews = [
     title: "Chemical Indonesia 2024",
     desc: "Keikutsertaan Nusantara Rubber Industry di pameran B2B industri kimia terbesar di JIExpo Kemayoran.",
     date: "Nov 2024",
-    image: "/images/exhibition.png",
+    image: "/images/exhibition.webp",
   },
   {
     category: "Berita",
     title: "Peresmian IKN Store",
     desc: "Peresmian IKN Store sebagai portal penjualan langsung produk hilir karet alam untuk pasar domestik.",
     date: "Feb 2026",
-    image: "/images/ikn_store.png",
+    image: "/images/ikn_store.webp",
   },
   {
     category: "Berita",
     title: "Ekspor Resiprene 35",
     desc: "Nusantara Rubber Industry sukses menembus pasar Uni Eropa dengan ekspor resin ke Jerman.",
     date: "Agt 2024",
-    image: "/images/shipping.png",
+    image: "/images/shipping.webp",
   },
   {
     category: "Prestasi",
     title: "Sertifikasi ISO 9001:2015",
     desc: "Nusantara Rubber Industry berhasil mengantongi sertifikasi ISO 9001:2015 untuk standarisasi mutu produksi hilir karet.",
     date: "Des 2025",
-    image: "/images/exhibition.png",
+    image: "/images/exhibition.webp",
   },
   {
     category: "Inovasi",
     title: "Riset Karet Pratekan",
     desc: "Kolaborasi riset dengan Balai Penelitian Teknologi Karet untuk memproduksi bantalan elastomer jembatan berkualitas tinggi.",
     date: "Jul 2025",
-    image: "/images/shipping.png",
+    image: "/images/shipping.webp",
   },
 ];
 
@@ -345,13 +346,15 @@ export default function LatestNewsSection() {
 
                   {/* Image */}
                   <div className="h-[130px] w-full overflow-hidden relative shrink-0">
-                    <img
+                    <Image
                       src={item.image}
                       alt={item.title}
+                      width={280}
+                      height={130}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                      draggable="false"
+                      draggable={false}
                       loading="lazy"
-                      decoding="async"
+                      sizes="280px"
                     />
                     <span
                       className="absolute top-2 left-2 backdrop-blur-md text-rubber-red-light text-[8px] font-mono px-2 py-0.5 rounded border border-rubber-red-light/30 uppercase tracking-widest font-bold bg-background/40"
