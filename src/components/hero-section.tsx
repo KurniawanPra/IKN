@@ -89,7 +89,7 @@ export default function HeroSection() {
   }, []);
 
   return (
-    <div ref={containerRef} className="relative min-h-full w-full flex items-center justify-center overflow-y-auto no-scrollbar pt-32 lg:pt-24 pb-12 lg:pb-0">
+    <div ref={containerRef} className="relative min-h-[100dvh] w-full flex items-center justify-center overflow-y-auto no-scrollbar pt-32 lg:pt-24 pb-12 lg:pb-0">
       <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col-reverse lg:flex-row items-center justify-center gap-8 lg:gap-12 px-6 h-auto mt-4 lg:mt-0">
         {/* Text Area */}
         <div className="flex flex-col gap-6 lg:w-1/2 justify-center">
