@@ -23,13 +23,13 @@ export default function BusinessPage() {
         sections={[
           { id: "business-hero", label: "Business" },
           { id: "business-process", label: "Process" },
-          { id: "business-products", label: "Products" },
           { id: "business-resiprene", label: "Resiprene" },
           { id: "business-rubber-articles", label: "Rubber Articles" },
+          { id: "business-products", label: "Products" },
           { id: "business-cta", label: "Quotation" },
         ]}
       />
-      
+
       <main className="snap-container">
         {/* Hero Header */}
         <section id="business-hero" className="snap-section relative flex flex-col items-center justify-center overflow-y-auto lg:overflow-hidden no-scrollbar">
@@ -64,27 +64,27 @@ export default function BusinessPage() {
         </section>
 
         {/* Section 1: Business Process */}
-        <section id="business-process" className="snap-section relative overflow-y-auto lg:overflow-hidden no-scrollbar border-t border-border/40">
+        <section id="business-process" className="snap-section relative h-[100dvh] flex flex-col justify-center overflow-y-auto lg:overflow-hidden no-scrollbar border-t border-border/40">
           <BusinessSection />
         </section>
-        
+
         {/* Section 2: Resiprene 35 Detail */}
-        <section id="business-resiprene" className="snap-section relative overflow-y-auto lg:overflow-hidden no-scrollbar border-t border-border/40">
+        <section id="business-resiprene" className="snap-section relative h-[100dvh] flex flex-col justify-center overflow-y-auto lg:overflow-hidden no-scrollbar border-t border-border/40">
           <ResipreneSection />
         </section>
 
         {/* Section 3: Rubber Articles Detail */}
-        <section id="business-rubber-articles" className="snap-section relative overflow-y-auto lg:overflow-hidden no-scrollbar border-t border-border/40 bg-elevated/10">
+        <section id="business-rubber-articles" className="snap-section relative h-[100dvh] flex flex-col justify-center overflow-y-auto lg:overflow-hidden no-scrollbar border-t border-border/40 bg-elevated/10">
           <RubberArticlesSection />
         </section>
 
         {/* Section 4: Products Catalog */}
-        <section id="business-products" className="snap-section relative overflow-y-auto lg:overflow-hidden no-scrollbar border-t border-border/40 bg-elevated/10">
+        <section id="business-products" className="snap-section relative h-[100dvh] flex flex-col justify-center overflow-y-auto lg:overflow-hidden no-scrollbar border-t border-border/40 bg-elevated/10">
           <ProductsSection />
         </section>
 
         {/* CTA Section */}
-        <section id="business-cta" className="snap-section relative overflow-y-auto no-scrollbar border-t border-border/40">
+        <section id="business-cta" className="snap-section relative h-[100dvh] overflow-y-auto lg:overflow-hidden no-scrollbar border-t border-border/40">
           <div className="max-w-4xl mx-auto px-6 w-full py-16 lg:py-24 flex flex-col justify-center min-h-full">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -125,6 +125,10 @@ export default function BusinessPage() {
               </div>
             </motion.div>
           </div>
+        </section>
+
+        {/* Section 5: Footer */}
+        <section id="footer" className="snap-section flex flex-col justify-center border-t border-border/40">
           <Footer />
         </section>
       </main>

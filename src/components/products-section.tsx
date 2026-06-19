@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import { motion, AnimatePresence, Variants } from "framer-motion";
 import { Search, ShoppingCart, Info } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { useCart, Product } from "./providers/cart-provider";
 import BackgroundBlobs from "./background-blobs";
 
@@ -27,6 +28,7 @@ const productsList: Product[] = [
     badge: "Best Seller",
     desc: "Cyclicised natural rubber resin dengan kelarutan tinggi dalam pelarut odorless. Ideal untuk protective coatings dan marine paints.",
     tags: ["Odorless Solvent", "Marine Paint", "Protective Coating"],
+    image: "/images/products/resiprene-35.png",
   },
   {
     slug: "rubin",
@@ -37,6 +39,7 @@ const productsList: Product[] = [
     badge: null,
     desc: "Natural rubber resin premium untuk aplikasi coating dan adhesive industri. Kualitas ekspor ke pasar Eropa.",
     tags: ["Rubber Resin", "Industrial", "Export Quality"],
+    image: "/images/products/rubin.png",
   },
   {
     slug: "cyclized-rubber",
@@ -47,6 +50,7 @@ const productsList: Product[] = [
     badge: null,
     desc: "Bahan baku resin karet alam tersiklisasi dengan kemurnian tinggi untuk berbagai aplikasi industri.",
     tags: ["Raw Material", "High Purity", "Industrial"],
+    image: "/images/products/cyclized-rubber.png",
   },
   {
     slug: "rubber-thread",
@@ -57,6 +61,7 @@ const productsList: Product[] = [
     badge: null,
     desc: "Benang karet berkualitas tinggi untuk industri tekstil dan garmen dengan elastisitas superior.",
     tags: ["Textile", "Elastic", "Garment"],
+    image: "/images/products/rubber-thread.png",
   },
 ];
 
@@ -73,6 +78,18 @@ export default function ProductsSection() {
   const [filter, setFilter] = useState("Semua");
   const [search, setSearch] = useState("");
   const { addToCart } = useCart();
+
+  const handleBuy = (product: Product) => {
+    if (typeof window !== "undefined") {
+      const loggedIn = localStorage.getItem("ikn_logged_in");
+      if (loggedIn === "true") {
+        addToCart(product);
+        window.location.href = "/dashboard";
+      } else {
+        window.location.href = "/login";
+      }
+    }
+  };
 
   // Auto-switch product category filter based on hash
   useEffect(() => {
@@ -176,15 +193,28 @@ export default function ProductsSection() {
                     exit={{ opacity: 0, scale: 0.95 }}
                     viewport={{ once: true }}
                     layout
-                    className="glass-panel glass-panel-hover p-5 rounded-md flex flex-col justify-between relative overflow-hidden"
+                    className="glass-panel glass-panel-hover p-5 rounded-md flex flex-col justify-between relative overflow-hidden group"
                   >
                     <div>
-                      {/* Badge if exists */}
-                      {product.badge && (
-                        <span className="absolute top-2 right-2 bg-accent text-white text-[9px] font-mono px-2 py-0.5 rounded-sm uppercase tracking-wider">
-                          {product.badge}
-                        </span>
-                      )}
+                      {/* Product Preview Image */}
+                      <div className="relative w-full aspect-[16/10] rounded-sm overflow-hidden mb-4 bg-muted/10 border border-border/40">
+                        {product.image ? (
+                          <Image
+                            src={product.image}
+                            alt={product.name}
+                            fill
+                            className="object-cover transition-transform duration-500 group-hover:scale-105"
+                            sizes="(max-w-7xl) 33vw, 100vw"
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center text-xs text-muted">No Image</div>
+                        )}
+                        {product.badge && (
+                          <span className="absolute top-2 right-2 bg-accent text-white text-[9px] font-mono px-2 py-0.5 rounded-sm uppercase tracking-wider z-10">
+                            {product.badge}
+                          </span>
+                        )}
+                      </div>
 
                       <p className="text-[10px] font-mono uppercase text-rubber-red-light">
                         {product.category}
@@ -221,14 +251,14 @@ export default function ProductsSection() {
                       
                       <div className="flex items-center gap-2">
                         <Link
-                          href={`/produk/${product.slug}`}
+                           href={`/produk/${product.slug}`}
                           className="p-2 bg-elevated hover:bg-accent/10 text-muted hover:text-foreground rounded border border-border transition"
                           title="Detail Produk"
                         >
                           <Info size={14} />
                         </Link>
                         <button
-                          onClick={() => addToCart(product)}
+                          onClick={() => handleBuy(product)}
                           className="px-3 py-2 bg-accent hover:bg-accent-hover text-white rounded text-xs font-semibold uppercase tracking-wider flex items-center gap-1.5 transition shadow-md"
                           style={{ boxShadow: '0 4px 12px var(--accent-glow)' }}
                         >

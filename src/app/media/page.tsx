@@ -26,14 +26,13 @@ export default function MediaPage() {
   return (
     <div className="relative">
       <Navbar />
-      
+
       <ScrollIndicator
         position="bottom-right"
         sections={[
           { id: "media-hero", label: "Media" },
-          { id: "media-news", label: "Latest News" },
-          { id: "media-gallery", label: "Gallery" },
-          { id: "media-documents", label: "Documents" },
+          { id: "media-gallery", label: "Gallery & News" },
+          { id: "media-downloads", label: "Downloads" },
         ]}
       />
 
@@ -71,12 +70,12 @@ export default function MediaPage() {
         </section>
 
         {/* Section 1: Interactive Media & Gallery */}
-        <section id="media-gallery" className="snap-section relative overflow-y-auto lg:overflow-hidden no-scrollbar border-t border-border/40">
+        <section id="media-gallery" className="snap-section relative h-[100dvh] flex flex-col justify-center overflow-y-auto lg:overflow-hidden no-scrollbar border-t border-border/40">
           <MediaSection />
         </section>
 
         {/* Section 2: Brochure Downloads */}
-        <section id="media-downloads" className="snap-section relative overflow-y-auto no-scrollbar border-t border-border/40 bg-elevated/10">
+        <section id="media-downloads" className="snap-section relative h-[100dvh] overflow-y-auto lg:overflow-hidden no-scrollbar border-t border-border/40 bg-elevated/10">
           <div className="max-w-5xl mx-auto px-6 py-20 lg:py-24 flex flex-col justify-center min-h-full w-full">
             <div className="text-center mb-12">
               <div className="flex items-center justify-center gap-2 mb-2 text-rubber-red-light">
@@ -122,6 +121,10 @@ export default function MediaPage() {
               ))}
             </div>
           </div>
+        </section>
+
+        {/* Section 3: Footer */}
+        <section id="footer" className="snap-section flex flex-col justify-center border-t border-border/40">
           <Footer />
         </section>
       </main>

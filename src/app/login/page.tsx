@@ -25,8 +25,12 @@ export default function LoginPage() {
     setIsLoading(true);
     setTimeout(() => {
       setIsLoading(false);
+      localStorage.setItem("ikn_logged_in", "true");
       setShowToast(true);
-      setTimeout(() => setShowToast(false), 3000);
+      setTimeout(() => {
+        setShowToast(false);
+        window.location.href = "/dashboard";
+      }, 1000);
     }, 1500);
   };
 

@@ -11,6 +11,7 @@ export interface Product {
   badge?: string | null;
   desc: string;
   tags: string[];
+  image?: string;
 }
 
 export interface CartItem {

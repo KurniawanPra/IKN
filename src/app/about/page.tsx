@@ -95,14 +95,13 @@ export default function AboutPage() {
   return (
     <div className="relative">
       <Navbar />
-      
+
       <ScrollIndicator
         position="bottom-right"
         sections={[
           { id: "about-hero", label: "About" },
           { id: "about-history", label: "History" },
           { id: "about-vision-mission", label: "Visi & Misi" },
-          { id: "about-video", label: "Video" },
           { id: "about-contact", label: "Contact Us" },
         ]}
       />
@@ -195,8 +194,12 @@ export default function AboutPage() {
         </section>
 
         {/* Section 3: Contact Us */}
-        <section id="about-contact" className="snap-section relative overflow-y-auto no-scrollbar border-t border-border/40">
+        <section id="about-contact" className="snap-section relative h-[100dvh] overflow-y-auto lg:overflow-hidden no-scrollbar border-t border-border/40">
           <ContactSection />
+        </section>
+
+        {/* Section 4: Footer */}
+        <section id="footer" className="snap-section flex flex-col justify-center border-t border-border/40">
           <Footer />
         </section>
       </main>

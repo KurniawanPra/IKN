@@ -31,7 +31,7 @@ export default function SustainabilityPage() {
   return (
     <div className="relative">
       <Navbar />
-      
+
       <ScrollIndicator
         position="bottom-right"
         sections={[
@@ -47,7 +47,7 @@ export default function SustainabilityPage() {
 
       <main className="snap-container">
         {/* Hero Header */}
-        <section id="sustainability-hero" className="snap-section relative flex flex-col items-center justify-center overflow-y-auto lg:overflow-hidden no-scrollbar">
+        <section id="sustainability-hero" className="snap-section relative h-[100dvh] flex flex-col items-center justify-center overflow-y-auto lg:overflow-hidden no-scrollbar">
           <BackgroundBlobs sectionId="sustainability" />
           <div className="relative z-10 max-w-3xl mx-auto text-center px-6">
             <motion.span
@@ -79,12 +79,12 @@ export default function SustainabilityPage() {
         </section>
 
         {/* Section 1: Main Commitments */}
-        <section id="sustainability-main" className="snap-section relative overflow-y-auto lg:overflow-hidden no-scrollbar border-t border-border/40">
+        <section id="sustainability-main" className="snap-section relative h-[100dvh] flex flex-col justify-center overflow-y-auto lg:overflow-hidden no-scrollbar border-t border-border/40">
           <SustainabilitySection />
         </section>
 
         {/* Section 2: Certificates */}
-        <section id="sustainability-certificate" className="snap-section relative flex items-center overflow-y-auto lg:overflow-hidden no-scrollbar border-t border-border/40 bg-elevated/10">
+        <section id="sustainability-certificate" className="snap-section relative h-[100dvh] flex items-center overflow-y-auto lg:overflow-hidden no-scrollbar border-t border-border/40 bg-elevated/10">
           <div className="max-w-6xl mx-auto px-6 py-20 lg:py-20 w-full">
             <div className="text-center mb-12">
               <div className="flex items-center justify-center gap-2 mb-2 text-emerald-400">
@@ -114,12 +114,12 @@ export default function SustainabilityPage() {
         </section>
 
         {/* Section 3: Certificate Details (Tabbed) */}
-        <section id="sustainability-cert-detail" className="snap-section relative overflow-y-auto lg:overflow-hidden no-scrollbar border-t border-border/40">
+        <section id="sustainability-cert-detail" className="snap-section relative h-[100dvh] flex items-center overflow-y-auto lg:overflow-hidden no-scrollbar border-t border-border/40">
           <SustainabilityCertificateSection />
         </section>
 
         {/* Section 4: Our Customers */}
-        <section id="sustainability-customers" className="snap-section relative flex items-center overflow-y-auto lg:overflow-hidden no-scrollbar border-t border-border/40">
+        <section id="sustainability-customers" className="snap-section relative h-[100dvh] flex items-center overflow-y-auto lg:overflow-hidden no-scrollbar border-t border-border/40">
           <div className="max-w-5xl mx-auto px-6 py-20 lg:py-20 w-full">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 mb-12">
               <div>
@@ -128,9 +128,9 @@ export default function SustainabilityPage() {
                   <span className="text-xs font-mono uppercase tracking-wider font-semibold">Jejaring Mitra</span>
                 </div>
                 <h2 className="text-2xl font-bold text-foreground sm:text-3xl">Segmen Industri Pelanggan Kami</h2>
-              <p className="text-xs text-muted max-w-sm leading-relaxed mt-2">
-                Mendukung berbagai sektor manufaktur B2B di Asia, Eropa, dan Australia melalui pengapalan kargo terpercaya.
-              </p>
+                <p className="text-xs text-muted max-w-sm leading-relaxed mt-2">
+                  Mendukung berbagai sektor manufaktur B2B di Asia, Eropa, dan Australia melalui pengapalan kargo terpercaya.
+                </p>
               </div>
             </div>
 
@@ -155,12 +155,12 @@ export default function SustainabilityPage() {
         </section>
 
         {/* Section 6: Customer Details (Tabbed) */}
-        <section id="sustainability-cust-detail" className="snap-section relative overflow-y-auto lg:overflow-hidden no-scrollbar border-t border-border/40 bg-elevated/10">
+        <section id="sustainability-cust-detail" className="snap-section relative h-[100dvh] flex items-center overflow-y-auto lg:overflow-hidden no-scrollbar border-t border-border/40 bg-elevated/10">
           <SustainabilityCustomersSection />
         </section>
 
         {/* CTA Governance Links */}
-        <section id="sustainability-cta" className="snap-section relative overflow-y-auto no-scrollbar border-t border-border/40 bg-elevated/25">
+        <section id="sustainability-cta" className="snap-section relative h-[100dvh] flex flex-col justify-center overflow-y-auto lg:overflow-hidden no-scrollbar border-t border-border/40 bg-elevated/25">
           <div className="max-w-5xl mx-auto px-6 py-20 lg:py-24 flex flex-col justify-center min-h-full">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {/* Whistle blowing CTA */}
@@ -211,6 +211,10 @@ export default function SustainabilityPage() {
               </motion.div>
             </div>
           </div>
+        </section>
+
+        {/* Section 8: Footer */}
+        <section id="footer" className="snap-section flex flex-col justify-center border-t border-border/40">
           <Footer />
         </section>
       </main>

@@ -42,10 +42,10 @@ export default function CompanyVideosSection() {
   return (
     <div
       ref={containerRef}
-      className="relative min-h-full lg:h-full w-full flex items-start lg:items-center overflow-y-auto lg:overflow-hidden no-scrollbar font-sans"
+      className="relative min-h-full lg:h-full w-full flex items-center overflow-y-auto lg:overflow-hidden no-scrollbar font-sans"
     >
 
-      <div className="relative z-10 mx-auto max-w-7xl px-6 py-28 -mb-6 lg:py-30 w-full flex flex-col justify-start lg:justify-center min-h-full h-auto gap-8 sm:gap-10">
+      <div className="relative z-10 mx-auto max-w-7xl px-6 py-20 lg:py-30 w-full flex flex-col justify-center min-h-full h-auto gap-8 sm:gap-10">
         
         {/* Header */}
         <div ref={headerRef} className="flex flex-col gap-2">

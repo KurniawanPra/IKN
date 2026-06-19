@@ -39,14 +39,16 @@ export default function HomePage() {
         <section id="company-profile" className="snap-section">
           <CompanyProfileSection />
         </section>
-        <section id="company-videos" className="snap-section">
+        <section id="company-videos" className="snap-section flex flex-col justify-center">
           <CompanyVideosSection />
         </section>
-        <section id="latest-news" className="snap-section">
+        <section id="latest-news" className="snap-section flex flex-col justify-center">
           <LatestNewsSection />
         </section>
-        <section id="map" className="snap-section overflow-y-auto no-scrollbar">
+        <section id="map" className="snap-section flex flex-col justify-center">
           <MapSection />
+        </section>
+        <section id="footer" className="snap-section flex flex-col justify-center">
           <Footer />
         </section>
       </main>

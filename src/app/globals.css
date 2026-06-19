@@ -114,6 +114,7 @@
     --badge-border: rgba(155, 44, 44, 0.15);
     --card-alt-bg: rgba(0, 0, 0, 0.015);
     --blob-opacity: 0.4;
+    --footer-bg: #eaedf1;
 
     /* Original color tokens kept for backward compat */
     --navy: 220 60% 10%;
@@ -158,6 +159,7 @@
     --badge-border: rgba(139, 26, 26, 0.4);
     --card-alt-bg: rgba(255, 255, 255, 0.01);
     --blob-opacity: 1;
+    --footer-bg: #030811;
   }
 
   * {

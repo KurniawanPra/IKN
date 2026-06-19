@@ -16,7 +16,7 @@ const perusahaanLinks = [
 
 export default function Footer() {
   return (
-    <footer style={{ backgroundColor: 'var(--bg-primary)' }} className="min-h-screen flex flex-col justify-center transition-colors duration-300">
+    <footer style={{ backgroundColor: 'var(--footer-bg)' }} className="min-h-screen flex flex-col justify-center transition-colors duration-300">
       <div className="w-full max-w-7xl mx-auto px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           <div>
