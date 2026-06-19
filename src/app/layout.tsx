@@ -1,5 +1,5 @@
 import './globals.css'
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import localFont from 'next/font/local'
 import { CartProvider } from '@/components/providers/cart-provider'
 import { ThemeProvider } from '@/components/providers/theme-provider'
@@ -21,6 +21,28 @@ const geistMono = localFont({
 export const metadata: Metadata = {
   title: 'PT. Industri Karet Nusantara',
   description: 'PT. Industri Karet Nusantara (IKN), anak usaha PT Perkebunan Nusantara III (Persero). Produsen Resiprene 35, cyclicised natural rubber resin berkualitas tinggi untuk coating industri global.',
+  openGraph: {
+    title: 'PT. Industri Karet Nusantara',
+    description: 'Produsen Resiprene 35 dan industri hilir karet alam berkualitas tinggi.',
+    siteName: 'PT. Industri Karet Nusantara',
+    locale: 'id_ID',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'PT. Industri Karet Nusantara',
+    description: 'Produsen Resiprene 35 dan industri hilir karet alam berkualitas tinggi.',
+  },
+}
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+    { media: '(prefers-color-scheme: dark)', color: '#09090b' },
+  ],
 }
 
 export default function RootLayout({

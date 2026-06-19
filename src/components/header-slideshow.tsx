@@ -47,6 +47,9 @@ export default function HeaderSlideshow({
               src={images[currentIndex]}
               alt={`Slide ${currentIndex + 1}`}
               className="w-full h-full object-cover"
+              fetchPriority={currentIndex === 0 ? "high" : "auto"}
+              decoding="async"
+              loading={currentIndex === 0 ? "eager" : "lazy"}
             />
           </motion.div>
         </AnimatePresence>

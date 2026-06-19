@@ -350,6 +350,8 @@ export default function LatestNewsSection() {
                       alt={item.title}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                       draggable="false"
+                      loading="lazy"
+                      decoding="async"
                     />
                     <span
                       className="absolute top-2 left-2 backdrop-blur-md text-rubber-red-light text-[8px] font-mono px-2 py-0.5 rounded border border-rubber-red-light/30 uppercase tracking-widest font-bold bg-background/40"

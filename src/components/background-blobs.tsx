@@ -69,17 +69,17 @@ export default function BackgroundBlobs({ sectionId, transparentBg = false }: Ba
     >
       {/* Glow orb 1 */}
       <div
-        className={`absolute -top-10 -left-10 w-[300px] h-[300px] sm:w-[450px] sm:h-[450px] rounded-full bg-gradient-to-br ${blobColors[0]} blur-[80px] sm:blur-[120px] animate-float-slow`}
+        className={`absolute -top-10 -left-10 w-[300px] h-[300px] sm:w-[450px] sm:h-[450px] rounded-full bg-gradient-to-br ${blobColors[0]} blur-[120px] sm:blur-[180px] animate-float-slow`}
         style={{ opacity: 'var(--blob-opacity)' }}
       />
       {/* Glow orb 2 */}
       <div
-        className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] sm:w-[500px] sm:h-[500px] rounded-full bg-gradient-to-br ${blobColors[1]} blur-[100px] sm:blur-[150px] animate-float-reverse`}
+        className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] sm:w-[500px] sm:h-[500px] rounded-full bg-gradient-to-br ${blobColors[1]} blur-[150px] sm:blur-[200px] animate-float-reverse`}
         style={{ opacity: 'var(--blob-opacity)' }}
       />
       {/* Glow orb 3 */}
       <div
-        className={`absolute -bottom-20 -right-20 w-[300px] h-[300px] sm:w-[450px] sm:h-[450px] rounded-full bg-gradient-to-br ${blobColors[2]} blur-[80px] sm:blur-[120px] animate-float-medium`}
+        className={`absolute -bottom-20 -right-20 w-[300px] h-[300px] sm:w-[450px] sm:h-[450px] rounded-full bg-gradient-to-br ${blobColors[2]} blur-[120px] sm:blur-[180px] animate-float-medium`}
         style={{ opacity: 'var(--blob-opacity)' }}
       />
       

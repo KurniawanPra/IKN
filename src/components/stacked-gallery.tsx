@@ -179,6 +179,8 @@ export default function StackedGallery() {
                 src={img}
                 alt={titles[index]}
                 className="w-full h-full object-cover pointer-events-none"
+                loading="lazy"
+                decoding="async"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent pointer-events-none" />
               <div className="absolute bottom-3 left-4 right-4 text-left pointer-events-none">

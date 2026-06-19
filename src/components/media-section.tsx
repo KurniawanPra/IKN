@@ -229,6 +229,8 @@ export default function MediaSection() {
                         src={item.image} 
                         alt={item.title}
                         className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                        loading="lazy"
+                        decoding="async"
                       />
                       <span className="absolute top-2 left-2 backdrop-blur-sm text-rubber-red-light text-[9px] font-mono px-2.5 py-1 rounded-sm uppercase border border-border tracking-wider"
                         style={{ background: 'var(--overlay-bg)' }}
@@ -295,6 +297,8 @@ export default function MediaSection() {
                     src={selectedItem.image}
                     alt={selectedItem.title}
                     className="w-full h-full object-cover"
+                    loading="lazy"
+                    decoding="async"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
                   

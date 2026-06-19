@@ -54,6 +54,8 @@ export default function InteractiveSlideshow({ items, interval = 5000 }: Interac
               src={currentItem.src}
               alt={currentItem.alt || "Slide"}
               className="w-full h-full object-cover"
+              loading="lazy"
+              decoding="async"
             />
           ) : (
             <video
