@@ -118,9 +118,10 @@ export default function AboutPage() {
           ]} overlayOpacity={0.8} />
           <BackgroundBlobs sectionId="about" transparentBg={true} />
           <div className="relative z-10 max-w-4xl mx-auto px-6 py-20 lg:py-25 w-full">
-            <div className="flex flex-col gap-4 text-center items-center justify-center p-8 sm:p-12 md:p-16 rounded-3xl backdrop-blur-xl bg-black/40 border border-white/10 shadow-2xl relative overflow-hidden">
-              {/* Subtle inner gradient for glass effect */}
-              <div className="absolute inset-0 bg-gradient-to-b from-white/10 to-transparent pointer-events-none" />
+            <div className="flex flex-col gap-4 text-center items-center justify-center p-8 sm:p-12 md:p-16 rounded-[2rem] backdrop-blur-2xl bg-white/5 border border-white/10 border-t-white/30 border-l-white/20 shadow-[0_32px_64px_rgba(0,0,0,0.6)] relative overflow-hidden ring-1 ring-white/10">
+              {/* Liquid glass inner reflections */}
+              <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-white/5 to-transparent pointer-events-none" />
+              <div className="absolute -inset-x-20 -top-20 h-40 bg-white/20 blur-3xl rounded-full pointer-events-none" />
               <motion.span
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
