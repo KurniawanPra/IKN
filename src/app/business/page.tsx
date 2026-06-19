@@ -79,9 +79,9 @@ export default function BusinessPage() {
         </section>
 
         {/* Section 4: Products Catalog */}
-        <section id="business-products" className="snap-section relative h-[100dvh] flex flex-col justify-center overflow-y-auto lg:overflow-hidden no-scrollbar border-t border-border/40 bg-elevated/10">
+        {/* <section id="business-products" className="snap-section relative h-[100dvh] flex flex-col justify-center overflow-y-auto lg:overflow-hidden no-scrollbar border-t border-border/40 bg-elevated/10">
           <ProductsSection />
-        </section>
+        </section> */}
 
         {/* CTA Section */}
         <section id="business-cta" className="snap-section relative h-[100dvh] overflow-y-auto lg:overflow-hidden no-scrollbar border-t border-border/40">

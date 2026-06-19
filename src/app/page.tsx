@@ -6,6 +6,7 @@ import HeroSection from "@/components/hero-section";
 import ScrollIndicator from "@/components/scroll-indicator";
 
 import { Boxes } from "@/components/ui/background-boxes";
+import ProductsSection from "@/components/products-section";
 
 const CompanyProfileSection = dynamic(() => import("@/components/company-profile-section"), { ssr: false });
 const CompanyVideosSection = dynamic(() => import("@/components/company-videos-section"), { ssr: false });
@@ -29,6 +30,7 @@ export default function HomePage() {
           { id: "hero", label: "Home" },
           { id: "company-videos", label: "Video" },
           { id: "latest-news", label: "Latest News" },
+          { id: "business-products", label: "Produk" },
           { id: "map", label: "Lokasi" },
         ]}
       />
@@ -44,6 +46,9 @@ export default function HomePage() {
         </section>
         <section id="latest-news" className="snap-section flex flex-col justify-center">
           <LatestNewsSection />
+        </section>
+        <section id="business-products" className="snap-section relative h-[100dvh] flex flex-col justify-center overflow-y-auto lg:overflow-hidden no-scrollbar border-t border-border/40 bg-elevated/10">
+          <ProductsSection />
         </section>
         <section id="map" className="snap-section flex flex-col justify-center">
           <MapSection />

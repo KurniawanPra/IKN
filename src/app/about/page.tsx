@@ -117,10 +117,7 @@ export default function AboutPage() {
           ]} overlayOpacity={0.8} />
           <BackgroundBlobs sectionId="about" transparentBg={true} />
           <div className="relative z-10 max-w-4xl mx-auto px-6 py-20 lg:py-25 w-full">
-            <div className="flex flex-col gap-4 text-center items-center justify-center p-8 sm:p-12 md:p-16 rounded-[2rem] backdrop-blur-md md:backdrop-blur-2xl bg-black/40 md:bg-white/5 border border-white/10 border-t-white/30 border-l-white/20 shadow-[0_32px_64px_rgba(0,0,0,0.6)] relative overflow-hidden ring-1 ring-white/10 isolate transform-gpu">
-              {/* Liquid glass inner reflections */}
-              <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-white/5 to-transparent pointer-events-none -z-10" />
-              <div className="absolute -inset-x-20 -top-20 h-40 bg-white/20 blur-3xl rounded-full pointer-events-none -z-10" />
+            <div className="flex flex-col gap-4 text-center items-center justify-center p-8 sm:p-12 md:p-16 rounded-[2rem] backdrop-blur-md md:backdrop-blur-2xl bg-transparent border border-white/10 border-t-white/30 border-l-white/20 shadow-[0_32px_64px_rgba(0,0,0,0.6)] relative overflow-hidden ring-1 ring-white/10 isolate transform-gpu">
               <motion.span
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -189,7 +186,7 @@ export default function AboutPage() {
         </section>
 
         {/* Section 2: Vision & Mission */}
-        <section id="about-vision-mission" className="snap-section relative flex items-center overflow-y-auto lg:overflow-hidden no-scrollbar border-t border-border/40 bg-elevated/5">
+        <section id="about-vision-mission" className="snap-section relative flex flex-col overflow-y-auto no-scrollbar border-t border-border/40 bg-elevated/5">
           <VisionMissionSection />
         </section>
 
