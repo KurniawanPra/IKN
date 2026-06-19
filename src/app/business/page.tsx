@@ -4,7 +4,6 @@ import React from "react";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import BusinessSection from "@/components/business-section";
-import ProductsSection from "@/components/products-section";
 import ResipreneSection from "@/components/resiprene-section";
 import RubberArticlesSection from "@/components/rubber-articles-section";
 import BackgroundBlobs from "@/components/background-blobs";
