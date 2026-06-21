@@ -41,7 +41,7 @@ export default function SceneEffects({
   vignette = true,
 }: SceneEffectsProps) {
   return (
-    <EffectComposer multisampling={4} enableNormalPass={false}>
+    <EffectComposer multisampling={0} enableNormalPass={false}>
       <Bloom
         intensity={intensity}
         luminanceThreshold={threshold}

@@ -1,10 +1,11 @@
 "use client";
 
-import { useRef, useMemo } from "react";
+import { useRef, useMemo, useEffect } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Environment, Float, Sparkles, Trail } from "@react-three/drei";
 import * as THREE from "three";
 import SceneEffects, { usePrefersReducedMotion } from "./three/scene-effects";
+import { useTheme } from "@/components/providers/theme-provider";
 
 /* -------------------------------------------------------------------------- */
 /*  Brand-accurate 3D RUBIN logo with a glowing, energetic treatment          */
@@ -46,24 +47,7 @@ function CentralShape({ reduced }: { reduced: boolean }) {
     return new THREE.ExtrudeGeometry(shape, extrudeSettings);
   }, [extrudeSettings]);
 
-  const rectGeometry = useMemo(() => {
-    const shape = new THREE.Shape();
-    shape.moveTo(-1.6, -1.1);
-    shape.lineTo(1.6, -1.1);
-    shape.lineTo(1.6, -1.7);
-    shape.lineTo(-1.6, -1.7);
-    shape.closePath();
 
-    const hole = new THREE.Path();
-    hole.moveTo(-1.5, -1.18);
-    hole.lineTo(1.5, -1.18);
-    hole.lineTo(1.5, -1.62);
-    hole.lineTo(-1.5, -1.62);
-    hole.closePath();
-    shape.holes.push(hole);
-
-    return new THREE.ExtrudeGeometry(shape, extrudeSettings);
-  }, [extrudeSettings]);
 
   const textTexture = useMemo(() => {
     if (typeof window === "undefined") return null;
@@ -135,18 +119,7 @@ function CentralShape({ reduced }: { reduced: boolean }) {
           />
         </mesh>
 
-        <mesh geometry={rectGeometry} position={[0, 0, -0.09]}>
-          <meshPhysicalMaterial
-            color="#0a66cc"
-            roughness={0.12}
-            metalness={0.85}
-            clearcoat={1}
-            clearcoatRoughness={0.1}
-            envMapIntensity={1.8}
-            emissive="#0a4fff"
-            emissiveIntensity={0.4}
-          />
-        </mesh>
+
 
         {textTexture && (
           <mesh position={[0, -1.4, 0.05]}>
@@ -373,7 +346,7 @@ function Scene({ reduced }: { reduced: boolean }) {
   });
 
   return (
-    <group ref={groupRef} scale={1.42}>
+    <group ref={groupRef} scale={1.12}>
       <EnergyCore reduced={reduced} />
       <EnergyShell reduced={reduced} />
 
@@ -393,20 +366,31 @@ function Scene({ reduced }: { reduced: boolean }) {
   );
 }
 
+function CanvasSettings() {
+  const { gl } = useThree();
+  useEffect(() => {
+    gl.setClearColor(0x000000, 0);
+  }, [gl]);
+  return null;
+}
+
 export default function HeroScene() {
   const reduced = usePrefersReducedMotion();
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
 
   return (
     <Canvas
       camera={{ position: [0, 0, 9.6], fov: 45 }}
       dpr={[1, 2]}
-      gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
-      style={{ width: "100%", height: "100%" }}
+      gl={{ antialias: true, alpha: true, powerPreference: "high-performance", premultipliedAlpha: false }}
+      style={{ width: "100%", height: "100%", background: "transparent" }}
     >
-      <ambientLight intensity={0.5} color="#101525" />
-      <directionalLight position={[5, 8, 5]} intensity={0.85} color="#ffffff" />
-      <pointLight position={[-6, -4, 4]} intensity={1.6} color="#bd00ff" distance={15} decay={2} />
-      <pointLight position={[6, 4, 4]} intensity={1.6} color="#00f0ff" distance={15} decay={2} />
+      <CanvasSettings />
+      <ambientLight intensity={isDark ? 0.5 : 0.8} color={isDark ? "#101525" : "#ffffff"} />
+      <directionalLight position={[5, 8, 5]} intensity={isDark ? 0.85 : 1.4} color="#ffffff" />
+      <pointLight position={[-6, -4, 4]} intensity={isDark ? 1.6 : 2.8} color="#bd00ff" distance={15} decay={2} />
+      <pointLight position={[6, 4, 4]} intensity={isDark ? 1.6 : 2.8} color="#00f0ff" distance={15} decay={2} />
 
       <Scene reduced={reduced} />
 

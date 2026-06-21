@@ -10,7 +10,7 @@ import { gsap } from "gsap";
 const HeroScene = dynamic(() => import("./hero-scene"), {
   ssr: false,
   loading: () => (
-    <div className="h-full w-full rounded-2xl opacity-20" style={{ background: 'linear-gradient(to bottom right, var(--bg-secondary), var(--bg-primary))' }} />
+    <div className="h-full w-full bg-transparent" />
   ),
 });
 
@@ -174,18 +174,17 @@ export default function HeroSection() {
         </div>
 
         {/* 3D Scene Area */}
-          <div className="hidden lg:block w-full h-[250px] sm:h-[350px] lg:h-[450px] lg:w-1/2 relative"
-            style={{ transform: "scale(0.95)" }}
-          >
+          <div className="hidden lg:block w-full h-[300px] sm:h-[450px] lg:h-[550px] lg:w-1/2 relative">
             <div ref={sceneRef} className="h-full w-full relative z-10">
               {showScene ? (
                 <HeroScene />
               ) : (
-                <div className="h-full w-full rounded-2xl opacity-20" style={{ background: 'linear-gradient(to bottom right, var(--bg-secondary), var(--bg-primary))' }} />
+                <div className="h-full w-full bg-transparent" />
               )}
             </div>
           {/* Subtle glow behind canvas */}
-          <div className="absolute inset-0 bg-gradient-to-tr from-rubber-red/10 to-transparent blur-3xl -z-10 rounded-full" />
+          <div className="absolute inset-0 bg-gradient-to-tr from-rubber-red/12 to-transparent blur-3xl -z-10 rounded-full hidden dark:block" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(15,23,42,0.18),transparent_70%)] blur-3xl -z-10 rounded-full dark:hidden" />
         </div>
       </div>
 

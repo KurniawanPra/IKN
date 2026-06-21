@@ -89,6 +89,9 @@
     --text-secondary: #666666;
     --vh: 1vh;
     --app-height: 100%;
+    --cursor-border: rgba(0, 0, 0, 0.25);
+    --cursor-border-hover: rgba(0, 0, 0, 0.55);
+    --cursor-inner: rgba(0, 0, 0, 0.7);
 
     --bg-primary: #f5f7fa;
     --bg-secondary: #ffffff;
@@ -134,6 +137,9 @@
     --foreground: #ffffff;
     --text-primary: #ffffff;
     --text-secondary: #888888;
+    --cursor-border: rgba(255, 255, 255, 0.25);
+    --cursor-border-hover: rgba(255, 255, 255, 0.55);
+    --cursor-inner: rgba(255, 255, 255, 0.8);
 
     --bg-primary: #060e1a;
     --bg-secondary: #0a1628;

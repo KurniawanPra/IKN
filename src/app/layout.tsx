@@ -5,6 +5,7 @@ import { CartProvider } from '@/components/providers/cart-provider'
 import { ThemeProvider } from '@/components/providers/theme-provider'
 import CartDrawer from '@/components/cart-drawer'
 import CheckoutModal from '@/components/checkout-modal'
+import LiquidGlassCursor from '@/components/liquid-glass-cursor'
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -81,6 +82,7 @@ export default function RootLayout({
             {children}
             <CartDrawer />
             <CheckoutModal />
+            <LiquidGlassCursor />
           </CartProvider>
         </ThemeProvider>
       </body>
