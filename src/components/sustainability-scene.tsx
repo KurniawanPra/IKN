@@ -2,8 +2,9 @@
 
 import { useRef } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { Environment } from "@react-three/drei";
+import { Environment, Sparkles } from "@react-three/drei";
 import * as THREE from "three";
+import SceneEffects from "./three/scene-effects";
 
 function EmeraldLeafKnot() {
   const ref = useRef<THREE.Mesh>(null!);
@@ -11,7 +12,6 @@ function EmeraldLeafKnot() {
 
   useFrame(({ clock }) => {
     const t = clock.getElapsedTime();
-    // Smooth transition inertia
     ref.current.rotation.x = THREE.MathUtils.lerp(
       ref.current.rotation.x,
       t * 0.12 + pointer.y * 0.4,
@@ -27,9 +27,9 @@ function EmeraldLeafKnot() {
 
   return (
     <mesh ref={ref}>
-      <torusKnotGeometry args={[0.9, 0.23, 100, 16, 2, 3]} />
+      <torusKnotGeometry args={[0.9, 0.23, 140, 20, 2, 3]} />
       <meshPhysicalMaterial
-        color="#10b981" // emerald green
+        color="#10b981"
         roughness={0.1}
         transmission={0.85}
         thickness={1.8}
@@ -37,6 +37,8 @@ function EmeraldLeafKnot() {
         opacity={0.9}
         clearcoat={1.0}
         clearcoatRoughness={0.1}
+        emissive="#10ffb0"
+        emissiveIntensity={0.4}
       />
     </mesh>
   );
@@ -45,7 +47,8 @@ function EmeraldLeafKnot() {
 export default function SustainabilityScene() {
   return (
     <Canvas
-      camera={{ position: [0, 0, 4.2], fov: 45 }} // Moved camera back (from 3.2 to 4.2) to prevent clipping
+      camera={{ position: [0, 0, 4.2], fov: 45 }}
+      dpr={[1, 2]}
       gl={{ antialias: true, alpha: true }}
       style={{ width: "100%", height: "100%" }}
     >
@@ -53,7 +56,9 @@ export default function SustainabilityScene() {
       <directionalLight position={[5, 8, 5]} intensity={1.5} />
       <directionalLight position={[-5, -5, -5]} intensity={0.3} color="#059669" />
       <EmeraldLeafKnot />
+      <Sparkles count={36} scale={[5, 5, 5]} size={2} speed={0.25} color="#7dffd0" opacity={0.6} />
       <Environment preset="city" />
+      <SceneEffects intensity={0.7} threshold={0.28} />
     </Canvas>
   );
 }

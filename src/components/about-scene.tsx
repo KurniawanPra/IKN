@@ -2,8 +2,9 @@
 
 import { useRef } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { Environment } from "@react-three/drei";
+import { Environment, Sparkles } from "@react-three/drei";
 import * as THREE from "three";
+import SceneEffects from "./three/scene-effects";
 
 function PolymerChain() {
   const groupRef = useRef<THREE.Group>(null!);
@@ -29,7 +30,6 @@ function PolymerChain() {
 
   useFrame(({ clock }) => {
     const t = clock.getElapsedTime();
-    // Extra smooth inertia lag (lerp value 0.02)
     groupRef.current.rotation.y = THREE.MathUtils.lerp(
       groupRef.current.rotation.y,
       t * 0.12 + pointer.x * 0.3,
@@ -53,6 +53,8 @@ function PolymerChain() {
             color="#8b1a1a"
             roughness={0.15}
             metalness={0.75}
+            emissive="#ff2b2b"
+            emissiveIntensity={0.25}
           />
         </mesh>
       ))}
@@ -68,6 +70,8 @@ function PolymerChain() {
             thickness={0.5}
             transparent
             opacity={0.8}
+            emissive="#bfe9ff"
+            emissiveIntensity={0.2}
           />
         </mesh>
       ))}
@@ -86,11 +90,7 @@ function PolymerChain() {
         return (
           <mesh key={`bond-${idx}`} position={position} quaternion={orientation}>
             <cylinderGeometry args={[0.08, 0.08, distance, 16]} />
-            <meshStandardMaterial
-              color="#c0c0c0"
-              roughness={0.2}
-              metalness={0.8}
-            />
+            <meshStandardMaterial color="#c0c0c0" roughness={0.2} metalness={0.85} />
           </mesh>
         );
       })}
@@ -101,7 +101,8 @@ function PolymerChain() {
 export default function AboutScene() {
   return (
     <Canvas
-      camera={{ position: [0, 0, 5.5], fov: 45 }} // Moved camera further back (from 4.5 to 5.5) to prevent cutoffs
+      camera={{ position: [0, 0, 5.5], fov: 45 }}
+      dpr={[1, 2]}
       gl={{ antialias: true, alpha: true }}
       style={{ width: "100%", height: "100%" }}
     >
@@ -109,7 +110,9 @@ export default function AboutScene() {
       <directionalLight position={[5, 8, 5]} intensity={1.5} />
       <directionalLight position={[-5, -5, -5]} intensity={0.4} color="#8b1a1a" />
       <PolymerChain />
+      <Sparkles count={36} scale={[8, 5, 6]} size={2} speed={0.25} color="#ffb3b3" opacity={0.5} />
       <Environment preset="city" />
+      <SceneEffects intensity={0.6} threshold={0.3} />
     </Canvas>
   );
 }

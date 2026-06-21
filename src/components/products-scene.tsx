@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Environment, OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
+import SceneEffects from "./three/scene-effects";
 
 // Wrapper to handle scale-in entrance transitions
 interface ModelWrapperProps {
@@ -301,6 +302,7 @@ export default function ProductsScene({ activeProductSlug }: ProductsSceneProps)
   return (
     <Canvas
       camera={{ position: [0, 0, 3.2], fov: 45 }}
+      dpr={[1, 2]}
       gl={{ antialias: true, alpha: true }}
       style={{ width: "100%", height: "100%" }}
     >
@@ -322,6 +324,7 @@ export default function ProductsScene({ activeProductSlug }: ProductsSceneProps)
         minPolarAngle={Math.PI / 2 - 0.3}
       />
       <Environment preset="city" />
+      <SceneEffects intensity={0.4} threshold={0.4} vignette={false} />
     </Canvas>
   );
 }
