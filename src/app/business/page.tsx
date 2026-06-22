@@ -31,9 +31,9 @@ export default function BusinessPage() {
 
       <main className="snap-container">
         {/* Hero Header */}
-        <section id="business-hero" className="snap-section relative h-[100dvh] flex flex-col items-center justify-center overflow-y-auto no-scrollbar">
+        <section id="business-hero" className="snap-section relative min-h-[100dvh] h-auto flex flex-col items-center justify-center overflow-visible">
           <BackgroundBlobs sectionId="business" />
-          <div className="relative z-10 max-w-3xl mx-auto text-center px-6">
+          <div className="relative z-10 max-w-3xl mx-auto text-center px-6 pt-24 pb-12 lg:pt-28 lg:pb-16">
             <motion.span
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
@@ -63,17 +63,20 @@ export default function BusinessPage() {
         </section>
 
         {/* Section 1: Business Process */}
-        <section id="business-process" className="snap-section relative h-[100dvh] flex flex-col justify-center overflow-y-auto no-scrollbar border-t border-border/40">
+        <section id="business-process" className="snap-section relative min-h-[100dvh] h-auto flex flex-col justify-center border-t border-border/40 overflow-visible">
+          <BackgroundBlobs sectionId="business" />
           <BusinessSection />
         </section>
 
         {/* Section 2: Resiprene 35 Detail */}
-        <section id="business-resiprene" className="snap-section relative h-[100dvh] flex flex-col justify-center overflow-y-auto no-scrollbar border-t border-border/40">
+        <section id="business-resiprene" className="snap-section relative min-h-[100dvh] h-auto flex flex-col justify-center border-t border-border/40 overflow-visible">
+          <BackgroundBlobs sectionId="resiprene" />
           <ResipreneSection />
         </section>
 
         {/* Section 3: Rubber Articles Detail */}
-        <section id="business-rubber-articles" className="snap-section relative h-[100dvh] flex flex-col justify-center overflow-y-auto no-scrollbar border-t border-border/40 bg-elevated/10">
+        <section id="business-rubber-articles" className="snap-section relative min-h-[100dvh] h-auto flex flex-col justify-center border-t border-border/40 bg-elevated/10 overflow-visible">
+          <BackgroundBlobs sectionId="rubber-articles" />
           <RubberArticlesSection />
         </section>
 
@@ -83,7 +86,7 @@ export default function BusinessPage() {
         </section> */}
 
         {/* CTA Section */}
-        <section id="business-cta" className="snap-section relative h-[100dvh] overflow-y-auto no-scrollbar border-t border-border/40">
+        <section id="business-cta" className="snap-section relative min-h-[100dvh] h-auto flex flex-col justify-center border-t border-border/40 overflow-visible">
           <div className="max-w-4xl mx-auto px-6 w-full py-8 lg:py-12 flex flex-col justify-center min-h-full">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -127,7 +130,7 @@ export default function BusinessPage() {
         </section>
 
         {/* Section 5: Footer */}
-        <section id="footer" className="snap-section relative h-[100dvh] flex flex-col justify-center border-t border-border/40">
+        <section id="footer" className="snap-section relative min-h-[100dvh] h-auto flex flex-col justify-center border-t border-border/40 overflow-visible">
           <Footer />
         </section>
       </main>

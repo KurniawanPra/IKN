@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence, Variants } from "framer-motion";
-import { Search, ShoppingCart, Info, X, CheckCircle2 } from "lucide-react";
+import { Search, ShoppingCart, Info, X, CheckCircle2, ArrowRight, Store } from "lucide-react";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import { useCart, Product } from "./providers/cart-provider";
@@ -77,7 +77,7 @@ const cardVariants = {
   }),
 };
 
-export default function ProductsSection() {
+export default function ProductsSection({ previewMode = false }: { previewMode?: boolean }) {
   const [filter, setFilter] = useState("Semua");
   const [search, setSearch] = useState("");
   const { addToCart } = useCart();
@@ -85,7 +85,41 @@ export default function ProductsSection() {
   const [detailProduct, setDetailProduct] = useState<Product | null>(null);
   const [buySuccessProduct, setBuySuccessProduct] = useState<Product | null>(null);
 
-  const handleBuy = (product: Product) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [showScene, setShowScene] = useState(false);
+
+  // Render/unrender the heavy 3D Canvas dynamically based on viewport visibility
+  useEffect(() => {
+    const target = containerRef.current;
+    if (!target) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setShowScene(entry.isIntersecting);
+      },
+      { threshold: 0.05 }
+    );
+
+    observer.observe(target);
+    return () => {
+      observer.unobserve(target);
+    };
+  }, []);
+
+  // Redirect ke halaman e-commerce (preview mode)
+  const handleGoToStore = () => {
+    if (typeof window !== "undefined") {
+      const loggedIn = localStorage.getItem("ikn_logged_in");
+      if (loggedIn === "true") {
+        window.location.href = "/ecommerce";
+      } else {
+        window.location.href = "/login?redirect=/ecommerce";
+      }
+    }
+  };
+
+  // Tambah produk ke keranjang (ecommerce mode)
+  const handleAddToCart = (product: Product) => {
     if (typeof window !== "undefined") {
       const loggedIn = localStorage.getItem("ikn_logged_in");
       if (loggedIn === "true") {
@@ -93,7 +127,7 @@ export default function ProductsSection() {
         setBuySuccessProduct(product);
         setDetailProduct(null);
       } else {
-        window.location.href = "/login";
+        window.location.href = "/login?redirect=/ecommerce";
       }
     }
   };
@@ -138,7 +172,7 @@ export default function ProductsSection() {
   }, [firstFiltered]);
 
   return (
-    <div id="produk" className="relative min-h-full lg:h-full w-full flex items-start lg:items-center overflow-y-auto lg:overflow-y-auto no-scrollbar font-sans">
+    <div ref={containerRef} id="produk" className="relative min-h-full lg:h-full w-full flex items-start lg:items-center overflow-y-auto lg:overflow-y-auto no-scrollbar font-sans">
       <BackgroundBlobs sectionId="produk" />
 
       <div className="relative z-10 mx-auto max-w-7xl px-6 py-10 lg:py-12 w-full flex flex-col justify-center min-h-full">
@@ -190,7 +224,11 @@ export default function ProductsSection() {
 
             {/* Selected Product Detail Panel */}
             <div className="hidden lg:block h-[200px] w-full relative rounded-lg border border-border/40 overflow-hidden bg-elevated/10 backdrop-blur-md mt-2">
-              <ProductsScene activeProductSlug={selectedProduct.slug} />
+              {showScene ? (
+                <ProductsScene activeProductSlug={selectedProduct.slug} />
+              ) : (
+                <div className="h-full w-full bg-transparent" />
+              )}
             </div>
           </div>
 
@@ -273,14 +311,27 @@ export default function ProductsSection() {
                         >
                           <Info size={14} />
                         </button>
-                        <button
-                          onClick={() => handleBuy(product)}
-                          className="px-3 py-2 bg-accent hover:bg-accent-hover text-white rounded text-xs font-semibold uppercase tracking-wider flex items-center gap-1.5 transition shadow-md"
-                          style={{ boxShadow: '0 4px 12px var(--accent-glow)' }}
-                        >
-                          <ShoppingCart size={12} />
-                          Beli
-                        </button>
+                        {previewMode ? (
+                          // Preview mode: redirect ke e-commerce store
+                          <button
+                            onClick={handleGoToStore}
+                            className="px-3 py-2 bg-accent hover:bg-accent-hover text-white rounded text-xs font-semibold uppercase tracking-wider flex items-center gap-1.5 transition shadow-md"
+                            style={{ boxShadow: '0 4px 12px var(--accent-glow)' }}
+                          >
+                            <Store size={12} />
+                            Beli di Toko
+                          </button>
+                        ) : (
+                          // E-commerce mode: tambah ke keranjang
+                          <button
+                            onClick={() => handleAddToCart(product)}
+                            className="px-3 py-2 bg-accent hover:bg-accent-hover text-white rounded text-xs font-semibold uppercase tracking-wider flex items-center gap-1.5 transition shadow-md"
+                            style={{ boxShadow: '0 4px 12px var(--accent-glow)' }}
+                          >
+                            <ShoppingCart size={12} />
+                            + Keranjang
+                          </button>
+                        )}
                       </div>
                     </div>
                   </motion.div>
@@ -382,14 +433,25 @@ export default function ProductsSection() {
                       <span className="text-[10px] font-normal text-muted"> / {detailProduct.unit}</span>
                     </span>
                   </div>
-                  <button
-                    onClick={() => handleBuy(detailProduct)}
-                    className="px-4 py-2 bg-accent hover:bg-accent-hover text-white rounded text-xs font-semibold uppercase tracking-wider flex items-center gap-1.5 transition shadow-md"
-                    style={{ boxShadow: '0 4px 12px var(--accent-glow)' }}
-                  >
-                    <ShoppingCart size={12} />
-                    Beli Sekarang
-                  </button>
+                  {previewMode ? (
+                    <button
+                      onClick={handleGoToStore}
+                      className="px-4 py-2 bg-accent hover:bg-accent-hover text-white rounded text-xs font-semibold uppercase tracking-wider flex items-center gap-1.5 transition shadow-md"
+                      style={{ boxShadow: '0 4px 12px var(--accent-glow)' }}
+                    >
+                      <Store size={12} />
+                      Buka Toko
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => handleAddToCart(detailProduct)}
+                      className="px-4 py-2 bg-accent hover:bg-accent-hover text-white rounded text-xs font-semibold uppercase tracking-wider flex items-center gap-1.5 transition shadow-md"
+                      style={{ boxShadow: '0 4px 12px var(--accent-glow)' }}
+                    >
+                      <ShoppingCart size={12} />
+                      Tambah Keranjang
+                    </button>
+                  )}
                 </div>
               </div>
             </motion.div>

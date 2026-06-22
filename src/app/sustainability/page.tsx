@@ -62,9 +62,9 @@ export default function SustainabilityPage() {
 
       <main className="snap-container">
         {/* Hero Header */}
-        <section id="sustainability-hero" className="snap-section relative h-[100dvh] flex flex-col items-center justify-center overflow-y-auto lg:overflow-hidden no-scrollbar">
+        <section id="sustainability-hero" className="snap-section relative min-h-[100dvh] h-auto flex flex-col items-center justify-center overflow-visible">
           <BackgroundBlobs sectionId="sustainability" />
-          <div className="relative z-10 max-w-3xl mx-auto text-center px-6">
+          <div className="relative z-10 max-w-3xl mx-auto text-center px-6 pt-24 pb-12 lg:pt-28 lg:pb-16">
             <motion.span
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
@@ -94,13 +94,14 @@ export default function SustainabilityPage() {
         </section>
 
         {/* Section 1: Main Commitments */}
-        <section id="sustainability-main" className="snap-section relative h-[100dvh] flex flex-col justify-center overflow-y-auto no-scrollbar border-t border-border/40">
+        <section id="sustainability-main" className="snap-section relative min-h-[100dvh] h-auto flex flex-col justify-center border-t border-border/40 overflow-visible">
+          <BackgroundBlobs sectionId="sustainability" />
           <SustainabilitySection />
         </section>
 
         {/* Section 2: Certificates */}
-        <section id="sustainability-certificate" className="snap-section relative h-[100dvh] flex items-center overflow-y-auto no-scrollbar border-t border-border/40 bg-elevated/10">
-          <div className="max-w-6xl mx-auto px-6 py-20 lg:py-20 w-full">
+        <section id="sustainability-certificate" className="snap-section relative min-h-[100dvh] h-auto flex items-center border-t border-border/40 bg-elevated/10 overflow-visible">
+            <div className="max-w-6xl mx-auto px-6 pt-24 pb-12 lg:pt-28 lg:pb-16 w-full">
             <div className="text-center mb-12">
               <div className="flex items-center justify-center gap-2 mb-2 text-emerald-400">
                 <Award className="w-4 h-4" />
@@ -129,13 +130,13 @@ export default function SustainabilityPage() {
         </section>
 
         {/* Section 3: Certificate Details (Tabbed) */}
-        <section id="sustainability-cert-detail" className="snap-section relative h-[100dvh] flex items-center overflow-y-auto no-scrollbar border-t border-border/40">
+        <section id="sustainability-cert-detail" className="snap-section relative min-h-[100dvh] h-auto flex items-center border-t border-border/40 overflow-visible">
           <SustainabilityCertificateSection />
         </section>
 
         {/* Section 4: Our Customers */}
-        <section id="sustainability-customers" className="snap-section relative h-[100dvh] flex items-center overflow-y-auto no-scrollbar border-t border-border/40">
-          <div className="max-w-5xl mx-auto px-6 py-20 lg:py-20 w-full">
+        <section id="sustainability-customers" className="snap-section relative min-h-[100dvh] h-auto flex items-center border-t border-border/40 overflow-visible">
+            <div className="max-w-5xl mx-auto px-6 pt-24 pb-12 lg:pt-28 lg:pb-16 w-full">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 mb-12">
               <div>
                 <div className="flex items-center gap-2 mb-2 text-emerald-400">
@@ -170,13 +171,13 @@ export default function SustainabilityPage() {
         </section>
 
         {/* Section 6: Customer Details (Tabbed) */}
-        <section id="sustainability-cust-detail" className="snap-section relative h-[100dvh] flex items-center overflow-y-auto no-scrollbar border-t border-border/40 bg-elevated/10">
+        <section id="sustainability-cust-detail" className="snap-section relative min-h-[100dvh] h-auto flex items-center border-t border-border/40 bg-elevated/10 overflow-visible">
           <SustainabilityCustomersSection />
         </section>
 
         {/* CTA Governance Links */}
-        <section id="sustainability-cta" className="snap-section relative h-[100dvh] flex flex-col justify-center overflow-y-auto no-scrollbar border-t border-border/40 bg-elevated/25">
-          <div className="max-w-5xl mx-auto px-6 py-20 lg:py-24 flex flex-col justify-center min-h-full">
+        <section id="sustainability-cta" className="snap-section relative min-h-[100dvh] h-auto flex flex-col justify-center border-t border-border/40 bg-elevated/25 overflow-visible">
+          <div className="max-w-5xl mx-auto px-6 pt-24 pb-12 lg:pt-28 lg:pb-16 flex flex-col justify-center min-h-full">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {/* Whistle blowing CTA */}
               <motion.div
@@ -229,17 +230,17 @@ export default function SustainabilityPage() {
         </section>
 
         {/* Section 6.5: Whistle Blowing System Form */}
-        <section id="sustainability-whistleblowing" className="snap-section relative h-[100dvh] flex flex-col justify-center overflow-y-auto no-scrollbar border-t border-border/40">
+        <section id="sustainability-whistleblowing" className="snap-section relative min-h-[100dvh] h-auto flex flex-col justify-center border-t border-border/40 overflow-visible">
           <SustainabilityWhistleblowingSection />
         </section>
 
         {/* Section 7: REACH Compliance Request Form */}
-        <section id="sustainability-reach" className="snap-section relative h-[100dvh] flex flex-col justify-center overflow-y-auto bg-elevated/10 no-scrollbar border-t border-border/40">
+        <section id="sustainability-reach" className="snap-section relative min-h-[100dvh] h-auto flex flex-col justify-center bg-elevated/10 border-t border-border/40 overflow-visible">
           <SustainabilityReachSection />
         </section>
 
         {/* Section 8: Footer */}
-        <section id="footer" className="snap-section relative h-[100dvh] flex flex-col justify-center border-t border-border/40">
+        <section id="footer" className="snap-section relative min-h-[100dvh] h-auto flex flex-col justify-center border-t border-border/40 overflow-visible">
           <Footer />
         </section>
       </main>

@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { FlaskConical, Droplets, Shield, Zap, Palette, ChevronRight, ExternalLink } from "lucide-react";
-import BackgroundBlobs from "./background-blobs";
 
 const tabs = ["Overview", "Specifications", "Solubility", "Applications"] as const;
 type Tab = (typeof tabs)[number];
@@ -68,10 +67,9 @@ export default function ResipreneSection() {
   const [activeTab, setActiveTab] = useState<Tab>("Overview");
 
   return (
-    <div className="relative min-h-full w-full flex items-start lg:items-center overflow-y-auto lg:overflow-y-auto no-scrollbar font-sans">
-      <BackgroundBlobs sectionId="resiprene" />
+    <div className="relative w-full flex items-start lg:items-center font-sans">
 
-      <div className="relative z-10 mx-auto max-w-7xl px-6 py-10 lg:py-12 w-full min-h-full flex flex-col justify-center">
+      <div className="relative z-10 mx-auto max-w-7xl px-6 pt-24 pb-12 lg:pt-28 lg:pb-16 w-full min-h-full flex flex-col justify-start lg:justify-center">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 15 }}

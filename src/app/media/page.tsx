@@ -51,7 +51,7 @@ export default function MediaPage() {
 
       <main className="snap-container">
         {/* Hero Header */}
-        <section id="media-hero" className="snap-section relative flex flex-col items-center justify-center overflow-y-auto lg:overflow-hidden no-scrollbar">
+        <section id="media-hero" className="snap-section relative flex flex-col items-center justify-center overflow-visible">
           <BackgroundBlobs sectionId="media" />
           <div className="relative z-10 max-w-3xl mx-auto text-center px-6">
             <motion.span
@@ -83,17 +83,19 @@ export default function MediaPage() {
         </section>
 
         {/* Section 1: Gallery */}
-        <section id="media-gallery" className="snap-section relative h-[100dvh] flex flex-col justify-center overflow-y-auto no-scrollbar border-t border-border/40">
+        <section id="media-gallery" className="snap-section relative min-h-[100dvh] h-auto flex flex-col justify-center border-t border-border/40 overflow-visible">
+          <BackgroundBlobs sectionId="media" />
           <MediaGallerySection />
         </section>
 
         {/* Section 2: News & Events */}
-        <section id="media-news" className="snap-section relative h-[100dvh] flex flex-col justify-center overflow-y-auto no-scrollbar border-t border-border/40">
+        <section id="media-news" className="snap-section relative min-h-[100dvh] h-auto flex flex-col justify-center border-t border-border/40 overflow-visible">
+          <BackgroundBlobs sectionId="media" />
           <MediaNewsSection />
         </section>
 
         {/* Section 2: Brochure Downloads */}
-        <section id="media-downloads" className="snap-section relative h-[100dvh] flex items-center overflow-y-auto no-scrollbar border-t border-border/40 bg-elevated/10">
+        <section id="media-downloads" className="snap-section relative min-h-[100dvh] h-auto flex items-center border-t border-border/40 bg-elevated/10 overflow-visible">
           <div className="max-w-5xl mx-auto px-6 py-20 lg:py-24 w-full">
             <div className="text-center mb-12">
               <div className="flex items-center justify-center gap-2 mb-2 text-rubber-red-light">
@@ -142,7 +144,7 @@ export default function MediaPage() {
         </section>
 
         {/* Section 3: Footer */}
-        <section id="footer" className="snap-section relative h-[100dvh] flex flex-col justify-center border-t border-border/40">
+        <section id="footer" className="snap-section relative min-h-[100dvh] h-auto flex flex-col justify-center border-t border-border/40 overflow-visible">
           <Footer />
         </section>
       </main>

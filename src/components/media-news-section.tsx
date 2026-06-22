@@ -3,18 +3,34 @@
 
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Newspaper, X, Calendar, Search, ArrowRight, BookOpen } from "lucide-react";
-import BackgroundBlobs from "./background-blobs";
+import { Newspaper, X, Calendar, Search, ArrowRight, BookOpen, Clock } from "lucide-react";
 import { gsap } from "gsap";
 
-const newsItems = [
+interface Author {
+  name: string;
+  initials: string;
+  role: string;
+}
+
+interface NewsItem {
+  category: "Berita" | "Event";
+  title: string;
+  desc: string;
+  date: string;
+  image: string;
+  author: Author;
+  readTime: string;
+}
+
+const newsItems: NewsItem[] = [
   {
     category: "Berita",
     title: "Ekspor Resiprene 35 ke Jerman",
-    desc: "Nusantara Rubber Industry sukses menembus pasar eksklusif Uni Eropa dengan pengapalan perdana kontainer Resiprene 35 menuju Hamburg, Jerman. Produk kami mematuhi standar kepatuhan regulasi lingkungan hidup REACH bebas SVHC.",
+    desc: "PT Industri Karet Nusantara sukses menembus pasar eksklusif Uni Eropa dengan pengapalan perdana kontainer Resiprene 35 menuju Hamburg, Jerman. Produk kami mematuhi standar kepatuhan regulasi lingkungan hidup REACH bebas SVHC.",
     date: "Agt 2024",
     image: "/images/shipping.webp",
-    featured: true,
+    author: { name: "Humas PTPN III", initials: "HP", role: "Corporate Relations" },
+    readTime: "4 Min Read",
   },
   {
     category: "Berita",
@@ -22,7 +38,8 @@ const newsItems = [
     desc: "Peresmian IKN Store sebagai portal penjualan langsung produk hilir karet alam domestik. Memudahkan pelanggan lokal untuk melakukan pembelian skala kecil hingga menengah secara cepat dan transparan.",
     date: "Feb 2026",
     image: "/images/ikn_store.webp",
-    featured: false,
+    author: { name: "Tim E-Commerce", initials: "TE", role: "Digital Sales" },
+    readTime: "3 Min Read",
   },
   {
     category: "Event",
@@ -30,7 +47,8 @@ const newsItems = [
     desc: "Keikutsertaan Nusantara Rubber Industry di pameran B2B industri kimia terbesar di JIExpo. Kami memamerkan produk unggulan karet alam tersiklisasi Resiprene 35 untuk cat kapal.",
     date: "Nov 2024",
     image: "/images/exhibition.webp",
-    featured: false,
+    author: { name: "Tim Pemasaran", initials: "TP", role: "Event Marketing" },
+    readTime: "5 Min Read",
   },
   {
     category: "Event",
@@ -38,45 +56,37 @@ const newsItems = [
     desc: "Sinergi hilirisasi karet terintegrasi bersama Holding PTPN III (Persero) untuk menyelaraskan rantai pasok lateks dari perkebunan nasional ke unit manufaktur hilir karet milik PT IKN.",
     date: "Jan 2025",
     image: "/images/plantation.webp",
-    featured: false,
+    author: { name: "Direksi IKN", initials: "DI", role: "Board Room" },
+    readTime: "4 Min Read",
   },
 ];
 
 export default function MediaNewsSection() {
   const [activeFilter, setActiveFilter] = useState<"Semua" | "Berita" | "Event">("Semua");
-  const [selectedItem, setSelectedItem] = useState<(typeof newsItems)[0] | null>(null);
+  const [selectedItem, setSelectedItem] = useState<NewsItem | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
 
   const containerRef = useRef<HTMLDivElement>(null);
-  const leftPanelRef = useRef<HTMLDivElement>(null);
-  const rightPanelRef = useRef<HTMLDivElement>(null);
+  const gridContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const leftPanel = leftPanelRef.current;
-    const rightPanel = rightPanelRef.current;
+    const gridContainer = gridContainerRef.current;
 
-    gsap.set([leftPanel, rightPanel], { opacity: 0, y: 30 });
+    gsap.set(gridContainer, { opacity: 0, y: 25 });
 
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            if (entry.target === leftPanel) {
-              gsap.to(leftPanel, { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" });
-              observer.unobserve(leftPanel);
-            } else if (entry.target === rightPanel) {
-              gsap.to(rightPanel, { opacity: 1, y: 0, duration: 0.7, ease: "power2.out" });
-              observer.unobserve(rightPanel);
-            }
+            gsap.to(gridContainer, { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" });
+            observer.unobserve(entry.target);
           }
         });
       },
-      { threshold: 0.1 }
+      { threshold: 0.05 }
     );
 
-    if (leftPanel) observer.observe(leftPanel);
-    if (rightPanel) observer.observe(rightPanel);
-
+    if (gridContainer) observer.observe(gridContainer);
     return () => observer.disconnect();
   }, []);
 
@@ -89,23 +99,17 @@ export default function MediaNewsSection() {
     return matchesFilter && matchesSearch;
   });
 
-  // Featured Item & Secondary list based on filters
-  const featuredItem = filteredItems.find(item => item.featured) || filteredItems[0];
-  const listItems = filteredItems.filter(item => item !== featuredItem);
-
   return (
-    <div ref={containerRef} className="relative min-h-full lg:h-full w-full flex items-start lg:items-center overflow-y-auto lg:overflow-y-auto no-scrollbar font-sans bg-elevated/5">
-      <BackgroundBlobs sectionId="media" />
-
-      <div className="relative z-10 mx-auto max-w-7xl px-6 py-24 lg:py-20 w-full flex flex-col justify-start lg:justify-center min-h-full h-auto">
+    <div ref={containerRef} className="relative w-full flex items-start lg:items-center font-sans">
+      <div className="relative z-10 mx-auto max-w-7xl px-6 pt-24 pb-12 lg:pt-28 lg:pb-16 w-full flex flex-col justify-start lg:justify-center min-h-full h-auto">
         
         {/* Header Controls Bar */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 border-b border-border/40 pb-5 w-full">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 border-b border-border/40 pb-4 w-full">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-rubber-red-light font-mono mb-1.5 flex items-center gap-2">
+            <p className="text-xs font-semibold uppercase tracking-widest text-rubber-red-light font-mono mb-1 flex items-center gap-2">
               <Newspaper className="w-3.5 h-3.5" /> Publikasi & Rilis Pers
             </p>
-            <h2 className="text-2xl font-bold text-foreground">
+            <h2 className="text-xl sm:text-2xl font-bold text-foreground">
               Berita & Kegiatan Terbaru
             </h2>
           </div>
@@ -117,9 +121,9 @@ export default function MediaNewsSection() {
                 <button
                   key={filter}
                   onClick={() => setActiveFilter(filter)}
-                  className={`px-3 py-1.5 text-xs font-mono rounded-sm transition-colors ${
+                  className={`px-3 py-1 text-xs font-mono rounded-sm transition-colors ${
                     activeFilter === filter
-                      ? "bg-accent text-white font-semibold shadow"
+                      ? "bg-accent text-white font-semibold shadow-sm"
                       : "text-muted hover:text-foreground"
                   }`}
                 >
@@ -135,118 +139,81 @@ export default function MediaNewsSection() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Cari berita..."
-                className="pl-8 pr-4 py-1.5 text-xs rounded-sm theme-input w-48 focus:w-60 transition-all duration-300 focus:outline-none"
+                className="pl-8 pr-4 py-1.5 text-xs rounded-sm theme-input w-40 sm:w-48 focus:w-56 transition-all duration-300 focus:outline-none"
               />
               <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted" />
             </div>
           </div>
         </div>
 
-        {/* Custom Layout: Featured News + Secondary list */}
-        {filteredItems.length > 0 ? (
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            
-            {/* Column 1: Featured Post (Left, span 7) */}
-            <div ref={leftPanelRef} className="lg:col-span-7">
-              {featuredItem && (
+        {/* Compact Grid Layout */}
+        <div ref={gridContainerRef} className="w-full">
+          {filteredItems.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+              {filteredItems.map((item) => (
                 <div
-                  className="glass-panel rounded-xl overflow-hidden shadow-xl border border-white/5 cursor-pointer group flex flex-col justify-between"
-                  onClick={() => setSelectedItem(featuredItem)}
+                  key={item.title}
+                  className="glass-panel p-4 rounded-xl flex flex-col justify-between cursor-pointer border border-white/5 transition-all duration-300 hover:-translate-y-1 hover:border-accent/30 group"
+                  onClick={() => setSelectedItem(item)}
                 >
-                  <div className="relative h-64 sm:h-[320px] w-full overflow-hidden">
-                    <img
-                      src={featuredItem.image}
-                      alt={featuredItem.title}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-103"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
-                    
-                    <span className="absolute top-4 left-4 bg-accent text-white text-[9px] font-mono font-bold px-2.5 py-1 rounded-sm uppercase tracking-wider">
-                      {featuredItem.category}
-                    </span>
-                    
-                    <span className="absolute top-4 right-4 bg-white/10 backdrop-blur-md border border-white/20 text-white text-[9px] font-mono px-2.5 py-1 rounded-sm uppercase tracking-wider">
-                      Featured Post
-                    </span>
-                  </div>
-
-                  <div className="p-6 flex-1 flex flex-col justify-between gap-4">
-                    <div className="space-y-2">
-                      <div className="flex items-center gap-1.5 text-[10px] text-muted font-mono">
-                        <Calendar className="w-3.5 h-3.5 text-accent" /> {featuredItem.date}
-                      </div>
-                      <h3 className="text-lg sm:text-xl font-bold text-foreground group-hover:text-accent-hover transition-colors leading-snug">
-                        {featuredItem.title}
-                      </h3>
-                      <p className="text-xs text-muted leading-relaxed line-clamp-3">
-                        {featuredItem.desc}
-                      </p>
-                    </div>
-
-                    <div className="flex items-center gap-1.5 text-xs text-accent font-semibold group-hover:translate-x-1.5 transition-transform duration-300">
-                      Baca Selengkapnya <ArrowRight className="w-4 h-4" />
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* Column 2: Secondary News List (Right, span 5) */}
-            <div ref={rightPanelRef} className="lg:col-span-5 flex flex-col gap-4 max-h-[500px] overflow-y-auto pr-1 no-scrollbar">
-              {listItems.length > 0 ? (
-                listItems.map((item) => (
-                  <div
-                    key={item.title}
-                    className="glass-panel glass-panel-hover p-4 rounded-xl flex gap-4 cursor-pointer items-stretch border border-white/5"
-                    onClick={() => setSelectedItem(item)}
-                  >
-                    <div className="w-24 sm:w-28 h-24 rounded-lg overflow-hidden shrink-0">
+                  <div>
+                    {/* Compact Image */}
+                    <div className="relative h-32 sm:h-36 w-full overflow-hidden rounded-lg bg-muted/10 shrink-0 mb-3.5">
                       <img
                         src={item.image}
                         alt={item.title}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                         loading="lazy"
                       />
-                    </div>
-                    <div className="flex flex-col justify-between flex-1 gap-2">
-                      <div>
-                        <div className="flex items-center justify-between">
-                          <span className="text-[9px] font-mono uppercase tracking-wider text-accent font-bold">
-                            {item.category}
-                          </span>
-                          <span className="text-[9px] text-muted-dim font-mono">
-                            {item.date}
-                          </span>
-                        </div>
-                        <h4 className="text-xs sm:text-sm font-bold text-foreground line-clamp-1 leading-snug mt-1.5">
-                          {item.title}
-                        </h4>
-                        <p className="text-[11px] text-muted leading-relaxed line-clamp-2 mt-1">
-                          {item.desc}
-                        </p>
-                      </div>
-
-                      <span className="text-[10px] text-accent font-semibold flex items-center gap-1 hover:translate-x-1 transition-transform">
-                        Selengkapnya <ArrowRight className="w-3 h-3" />
+                      <span className="absolute top-2 left-2 bg-accent text-white text-[8px] font-mono font-bold px-2 py-0.5 rounded-sm uppercase tracking-wider">
+                        {item.category}
                       </span>
                     </div>
-                  </div>
-                ))
-              ) : (
-                <div className="glass-panel p-8 rounded-xl text-center text-muted text-xs flex flex-col items-center justify-center h-full min-h-[300px]">
-                  <BookOpen className="w-8 h-8 text-muted/30 mb-3" />
-                  Belum ada berita tambahan dalam kategori ini.
-                </div>
-              )}
-            </div>
 
-          </div>
-        ) : (
-          <div className="glass-panel p-12 rounded-xl text-center text-muted text-xs flex flex-col items-center justify-center min-h-[300px]">
-            <BookOpen className="w-10 h-10 text-muted/30 mb-4" />
-            Tidak ada rilis pers yang ditemukan untuk kriteria pencarian Anda.
-          </div>
-        )}
+                    {/* Metadata */}
+                    <div className="flex items-center gap-2 text-[9px] text-muted-dim font-mono mb-2">
+                      <span className="flex items-center gap-1">
+                        <Calendar className="w-3 h-3 text-accent" /> {item.date}
+                      </span>
+                      <span className="w-1 h-1 rounded-full bg-border" />
+                      <span className="flex items-center gap-1">
+                        <Clock className="w-3 h-3 text-accent" /> {item.readTime}
+                      </span>
+                    </div>
+
+                    {/* Title */}
+                    <h3 className="text-sm font-bold text-foreground group-hover:text-accent transition-colors leading-snug line-clamp-2 mb-1.5">
+                      {item.title}
+                    </h3>
+
+                    {/* Description */}
+                    <p className="text-[11px] text-muted leading-relaxed line-clamp-2">
+                      {item.desc}
+                    </p>
+                  </div>
+
+                  {/* Footer Author Tag */}
+                  <div className="flex items-center justify-between mt-4 pt-3 border-t border-border/10 shrink-0">
+                    <div className="flex items-center gap-1.5">
+                      <div className="w-5 h-5 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center font-mono text-[8px] font-bold text-accent">
+                        {item.author.initials}
+                      </div>
+                      <span className="text-[10px] text-muted font-medium leading-none">{item.author.name}</span>
+                    </div>
+                    <span className="text-[9px] text-accent font-semibold flex items-center gap-0.5 hover:translate-x-0.5 transition-transform duration-300">
+                      Info <ArrowRight className="w-3 h-3" />
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="glass-panel p-12 rounded-xl text-center text-muted text-xs flex flex-col items-center justify-center min-h-[260px]">
+              <BookOpen className="w-9 h-9 text-muted/30 mb-3" />
+              Tidak ada rilis pers yang ditemukan untuk kriteria pencarian Anda.
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Modal Detail Overlay */}
@@ -268,9 +235,14 @@ export default function MediaNewsSection() {
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95, y: 20 }}
                 transition={{ type: "spring", duration: 0.4 }}
-                className="w-full max-w-2xl backdrop-blur-xl border border-border rounded-xl shadow-2xl overflow-hidden pointer-events-auto flex flex-col max-h-[90vh] lg:max-h-[80vh]"
-                style={{ background: 'color-mix(in srgb, var(--bg-secondary) 95%, transparent)' }}
+                className="w-full max-w-2xl backdrop-blur-xl border border-border rounded-xl shadow-2xl overflow-hidden pointer-events-auto flex flex-col max-h-[90vh] lg:max-h-[85vh] relative"
+                style={{ background: 'color-mix(in srgb, var(--bg-secondary) 98%, transparent)' }}
               >
+                {/* Visual Reading Progress Bar */}
+                <div className="absolute top-0 left-0 w-full h-1 bg-accent/25 z-30">
+                  <div className="h-full bg-accent w-3/4 animate-pulse" />
+                </div>
+
                 <div className="relative h-60 sm:h-72 w-full overflow-hidden shrink-0">
                   <img
                     src={selectedItem.image}
@@ -287,22 +259,39 @@ export default function MediaNewsSection() {
                     <X size={18} />
                   </button>
 
-                  <span className="absolute bottom-4 left-6 bg-accent text-white text-xs font-mono px-3 py-1 rounded-sm uppercase tracking-wider">
+                  <span className="absolute bottom-4 left-6 bg-accent text-white text-xs font-mono px-3 py-1 rounded-sm uppercase tracking-wider font-bold">
                     {selectedItem.category}
                   </span>
                 </div>
 
                 <div className="p-6 sm:p-8 overflow-y-auto no-scrollbar flex-1 flex flex-col gap-4">
                   <div>
-                    <span className="text-xs text-muted-dim font-mono block">
-                      Tanggal Rilis: {selectedItem.date}
-                    </span>
-                    <h3 className="text-xl sm:text-2xl font-bold text-foreground leading-snug mt-1">
+                    <div className="flex items-center gap-3 text-xs text-muted font-mono mb-2">
+                      <span className="flex items-center gap-1">
+                        <Calendar className="w-3.5 h-3.5 text-accent" /> {selectedItem.date}
+                      </span>
+                      <span className="w-1 h-1 rounded-full bg-border" />
+                      <span className="flex items-center gap-1">
+                        <Clock className="w-3.5 h-3.5 text-accent" /> {selectedItem.readTime}
+                      </span>
+                    </div>
+                    <h3 className="text-xl sm:text-2xl font-bold text-foreground leading-snug tracking-tight">
                       {selectedItem.title}
                     </h3>
                   </div>
 
-                  <div className="h-px bg-border w-full" />
+                  {/* Author Information Header inside Modal */}
+                  <div className="flex items-center gap-3 p-3.5 bg-elevated/20 rounded-lg border border-border/40 shrink-0">
+                    <div className="w-9 h-9 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center font-mono text-xs font-bold text-accent">
+                      {selectedItem.author.initials}
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-xs font-bold text-foreground leading-none">{selectedItem.author.name}</span>
+                      <span className="text-[10px] text-muted-dim leading-none mt-1">{selectedItem.author.role} — PT Industri Karet Nusantara</span>
+                    </div>
+                  </div>
+
+                  <div className="h-px bg-border/40 w-full" />
 
                   <p className="text-sm text-muted leading-relaxed whitespace-pre-line">
                     {selectedItem.desc}

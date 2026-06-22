@@ -57,6 +57,9 @@ export const BoxesCore = ({ className, isDark = true }: { className?: string; is
 
   // Coordinate-based mouse tracking that works seamlessly behind the page layout
   useEffect(() => {
+    // Disable hover tracking & mouse events on mobile/tablet viewports to save memory/rendering resources
+    if (bp === "mobile" || bp === "tablet") return;
+
     let raf = 0;
 
     const handleMouseMove = (e: MouseEvent) => {
@@ -74,7 +77,8 @@ export const BoxesCore = ({ className, isDark = true }: { className?: string; is
         const translateY = -50 + (mouseY * 4);
         const rotate = mouseX * 2.5;
 
-        container.style.transform = `translate(${translateX}%, ${translateY}%) skewX(-48deg) skewY(14deg) scale(0.675) rotate(${rotate}deg) translateZ(0)`;
+        // Use translate3d for GPU hardware acceleration to eliminate framedrops
+        container.style.transform = `translate3d(${translateX}%, ${translateY}%, 0) skewX(-48deg) skewY(14deg) scale(0.675) rotate(${rotate}deg)`;
 
         // Pixel-perfect mapping: raycast through the DOM to find the exact cell
         const elements = document.elementsFromPoint(e.clientX, e.clientY);
@@ -102,7 +106,7 @@ export const BoxesCore = ({ className, isDark = true }: { className?: string; is
       document.removeEventListener("mouseleave", handleMouseLeave);
       if (raf) cancelAnimationFrame(raf);
     };
-  }, [config.rows, config.cols, getRandomColor]);
+  }, [config.rows, config.cols, getRandomColor, bp]);
 
   const rows = Array.from({ length: config.rows });
   const cols = Array.from({ length: config.cols });

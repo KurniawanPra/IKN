@@ -2,7 +2,6 @@
 
 import { motion, Variants } from "framer-motion";
 import { Factory, Leaf, ShieldCheck, Clock, PackageCheck, Wrench, FlaskRound, Building2, Cog, CircleDot, ExternalLink } from "lucide-react";
-import BackgroundBlobs from "./background-blobs";
 
 const products = [
   { icon: Building2, title: "Cement Plants", desc: "Rubber components engineered for cement processing plants — conveyor belts, vibration dampers, and wear-resistant linings." },
@@ -28,10 +27,9 @@ const fadeUp = {
 
 export default function RubberArticlesSection() {
   return (
-    <div className="relative min-h-full w-full flex items-start lg:items-center overflow-y-auto lg:overflow-y-auto no-scrollbar font-sans">
-      <BackgroundBlobs sectionId="rubber-articles" />
+    <div className="relative w-full flex items-start lg:items-center font-sans">
 
-      <div className="relative z-10 mx-auto max-w-7xl px-6 py-10 lg:py-12 w-full min-h-full flex flex-col justify-center">
+      <div className="relative z-10 mx-auto max-w-7xl px-6 pt-24 pb-12 lg:pt-28 lg:pb-16 w-full min-h-full flex flex-col justify-start lg:justify-center">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 15 }}

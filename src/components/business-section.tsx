@@ -1,10 +1,10 @@
 "use client";
 
 
+import { useState, useEffect, useRef } from "react";
 import dynamic from "next/dynamic";
 import { motion, Variants } from "framer-motion";
 import { TreePine, Droplets, FlaskConical, Thermometer, Package, Ship } from "lucide-react";
-import BackgroundBlobs from "./background-blobs";
 
 
 const BusinessScene = dynamic(() => import("./business-scene"), {
@@ -63,11 +63,30 @@ const cardVariants = {
 };
 
 export default function BusinessSection() {
-  return (
-    <div className="relative min-h-full lg:h-full w-full flex items-start lg:items-center overflow-y-auto lg:overflow-y-auto no-scrollbar font-sans">
-      <BackgroundBlobs sectionId="business" />
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [showScene, setShowScene] = useState(false);
 
-      <div className="relative z-10 mx-auto max-w-7xl px-6 py-10 lg:py-12 w-full flex flex-col justify-center min-h-full">
+  // Render/unrender the heavy 3D Canvas dynamically based on viewport visibility
+  useEffect(() => {
+    const target = containerRef.current;
+    if (!target) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setShowScene(entry.isIntersecting);
+      },
+      { threshold: 0.05 }
+    );
+
+    observer.observe(target);
+    return () => {
+      observer.unobserve(target);
+    };
+  }, []);
+  return (
+    <div ref={containerRef} className="relative w-full flex items-start lg:items-center font-sans">
+
+      <div className="relative z-10 mx-auto max-w-7xl px-6 pt-24 pb-12 lg:pt-28 lg:pb-16 w-full flex flex-col justify-start lg:justify-center min-h-full">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           
           {/* Left Panel: Content & 3D Scene */}
@@ -87,7 +106,11 @@ export default function BusinessSection() {
 
             {/* 3D Scene Canvas (No cut-off boxes or labels) */}
             <div className="hidden lg:block h-[220px] md:h-[280px] w-full relative">
-              <BusinessScene />
+              {showScene ? (
+                <BusinessScene />
+              ) : (
+                <div className="h-full w-full bg-transparent" />
+              )}
             </div>
           </div>
 

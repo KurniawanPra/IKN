@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import { Leaf, Recycle, Shield } from "lucide-react";
-import BackgroundBlobs from "./background-blobs";
+
 import { gsap } from "gsap";
 
 const SustainabilityScene = dynamic(() => import("./sustainability-scene"), {
@@ -32,6 +32,25 @@ const commitments = [
 ];
 
 export default function SustainabilitySection() {
+  const [showScene, setShowScene] = useState(false);
+
+  // Render/unrender the heavy 3D Canvas dynamically based on viewport visibility
+  useEffect(() => {
+    const target = containerRef.current;
+    if (!target) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setShowScene(entry.isIntersecting);
+      },
+      { threshold: 0.05 }
+    );
+
+    observer.observe(target);
+    return () => {
+      observer.unobserve(target);
+    };
+  }, []);
   const containerRef = useRef<HTMLDivElement>(null);
   const leftPanelRef = useRef<HTMLDivElement>(null);
   const commitmentsRef = useRef<HTMLDivElement>(null);
@@ -96,8 +115,7 @@ export default function SustainabilitySection() {
   }, []);
 
   return (
-    <div ref={containerRef} className="relative min-h-full lg:h-full w-full flex items-start lg:items-center overflow-y-auto lg:overflow-y-auto no-scrollbar font-sans">
-      <BackgroundBlobs sectionId="sustainability" />
+    <div ref={containerRef} className="relative w-full flex items-start lg:items-center font-sans">
 
       <div className="relative z-10 mx-auto max-w-7xl px-6 py-24 lg:py-20 w-full flex flex-col justify-start lg:justify-center min-h-full h-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
@@ -145,7 +163,11 @@ export default function SustainabilitySection() {
           {/* Right Panel: 3D Emerald Leaf Scene */}
           <div ref={rightPanelRef} className="hidden lg:block lg:col-span-5 flex flex-col items-center justify-center">
             <div className="w-full h-[280px] sm:h-[350px] lg:h-[400px] relative">
-              <SustainabilityScene />
+              {showScene ? (
+                <SustainabilityScene />
+              ) : (
+                <div className="h-full w-full bg-transparent" />
+              )}
               {/* Green Glow behind the scene */}
               <div className="absolute inset-0 bg-emerald-500/5 blur-3xl rounded-full -z-10" />
             </div>

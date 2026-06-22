@@ -186,17 +186,18 @@ export default function AboutPage() {
         </section>
 
         {/* Section 2: Vision & Mission */}
-        <section id="about-vision-mission" className="snap-section relative flex flex-col overflow-y-auto no-scrollbar border-t border-border/40 bg-elevated/5">
+        <section id="about-vision-mission" className="snap-section relative min-h-[100dvh] h-auto flex flex-col justify-center border-t border-border/40 bg-elevated/5 overflow-visible">
           <VisionMissionSection />
         </section>
 
         {/* Section 3: Contact Us */}
-        <section id="about-contact" className="snap-section relative h-[100dvh] overflow-y-auto lg:overflow-hidden no-scrollbar border-t border-border/40">
+        <section id="about-contact" className="snap-section relative min-h-[100dvh] h-auto flex flex-col justify-center border-t border-border/40 overflow-visible">
+          <BackgroundBlobs />
           <ContactSection />
         </section>
 
         {/* Section 4: Footer */}
-        <section id="footer" className="snap-section relative h-[100dvh] flex flex-col justify-center border-t border-border/40">
+        <section id="footer" className="snap-section relative min-h-[100dvh] h-auto flex flex-col justify-center border-t border-border/40 overflow-visible">
           <Footer />
         </section>
       </main>

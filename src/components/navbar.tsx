@@ -85,6 +85,23 @@ export default function Navbar() {
   const { setIsCartOpen, cartCount } = useCart();
   const pathname = usePathname();
   const router = useRouter();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userEmail, setUserEmail] = useState("");
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setIsLoggedIn(localStorage.getItem("ikn_logged_in") === "true");
+      setUserEmail(localStorage.getItem("ikn_user_email") || "");
+    }
+  }, []);
+
+  // Extract display name from email (part before @)
+  const displayName = userEmail
+    ? userEmail.split("@")[0].replace(/[._-]/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())
+    : "Pengguna";
+  const avatarInitial = displayName.charAt(0).toUpperCase();
+
+  const isStorePage = pathname === "/ecommerce" || pathname === "/dashboard";
   const dropdownRefs = useRef<Record<number, HTMLDivElement | null>>({});
   const navItemRefs = useRef<Record<number, HTMLDivElement | null>>({});
   const leaveTimerRef = useRef<Record<number, NodeJS.Timeout | null>>({});
@@ -415,25 +432,42 @@ export default function Navbar() {
             <ThemeToggle />
 
             {/* Shopping Cart Button */}
-            <button
-              onClick={() => setIsCartOpen(true)}
-              className="relative p-2.5 text-foreground hover:text-accent-hover transition-colors duration-300"
-              aria-label="Open cart"
-            >
-              <ShoppingBag size={18} />
-              {cartCount > 0 && (
-                <span className="absolute top-0.5 right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-accent text-[9px] font-bold text-white ring-1 ring-background">
-                  {cartCount}
-                </span>
-              )}
-            </button>
+            {isStorePage && (
+              <button
+                onClick={() => setIsCartOpen(true)}
+                className="relative p-2.5 text-foreground hover:text-accent-hover transition-colors duration-300"
+                aria-label="Open cart"
+              >
+                <ShoppingBag size={18} />
+                {cartCount > 0 && (
+                  <span className="absolute top-0.5 right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-accent text-[9px] font-bold text-white ring-1 ring-background">
+                    {cartCount}
+                  </span>
+                )}
+              </button>
+            )}
 
-            <Link
-              href="/login"
-              className="ml-2 px-5 py-2 text-sm font-medium text-foreground border border-border rounded hover:border-accent hover:text-accent transition-all duration-300"
-            >
-              Login
-            </Link>
+            {isLoggedIn ? (
+              <Link
+                href="/ecommerce"
+                className="ml-2 flex items-center gap-2 px-3 py-1.5 rounded border border-border hover:border-accent/60 transition-all duration-300 group"
+              >
+                {/* Avatar circle with initial */}
+                <span className="w-7 h-7 rounded-full bg-accent/15 border border-accent/30 flex items-center justify-center text-accent text-xs font-bold shrink-0 group-hover:bg-accent/25 transition">
+                  {avatarInitial}
+                </span>
+                <span className="text-sm font-medium text-foreground group-hover:text-accent transition-colors max-w-[100px] truncate">
+                  {displayName}
+                </span>
+              </Link>
+            ) : (
+              <Link
+                href="/login"
+                className="ml-2 px-5 py-2 text-sm font-medium text-foreground border border-border rounded hover:border-accent hover:text-accent transition-all duration-300"
+              >
+                Login
+              </Link>
+            )}
           </div>
 
           {/* Mobile Actions */}
@@ -442,18 +476,20 @@ export default function Navbar() {
             <ThemeToggle />
 
             {/* Mobile Shopping Cart */}
-            <button
-              onClick={() => setIsCartOpen(true)}
-              className="relative p-2 text-foreground hover:text-accent-hover transition-colors"
-              aria-label="Open cart"
-            >
-              <ShoppingBag size={20} />
-              {cartCount > 0 && (
-                <span className="absolute -top-0.5 -right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-accent text-[9px] font-bold text-white ring-1 ring-background">
-                  {cartCount}
-                </span>
-              )}
-            </button>
+            {isStorePage && (
+              <button
+                onClick={() => setIsCartOpen(true)}
+                className="relative p-2 text-foreground hover:text-accent-hover transition-colors"
+                aria-label="Open cart"
+              >
+                <ShoppingBag size={20} />
+                {cartCount > 0 && (
+                  <span className="absolute -top-0.5 -right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-accent text-[9px] font-bold text-white ring-1 ring-background">
+                    {cartCount}
+                  </span>
+                )}
+              </button>
+            )}
 
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
@@ -540,13 +576,26 @@ export default function Navbar() {
                   </div>
                 );
               })}
-              <Link
-                href="/login"
-                onClick={() => setMobileOpen(false)}
-                className="mt-4 px-8 py-3 text-lg font-medium text-foreground border border-border rounded hover:border-accent hover:text-accent transition-all duration-300 w-full max-w-xs text-center"
-              >
-                Login
-              </Link>
+              {isLoggedIn ? (
+                <Link
+                  href="/ecommerce"
+                  onClick={() => setMobileOpen(false)}
+                  className="mt-4 flex items-center justify-center gap-3 px-8 py-3 text-lg font-medium text-foreground border border-border rounded hover:border-accent hover:text-accent transition-all duration-300 w-full max-w-xs"
+                >
+                  <span className="w-8 h-8 rounded-full bg-accent/15 border border-accent/30 flex items-center justify-center text-accent text-sm font-bold">
+                    {avatarInitial}
+                  </span>
+                  <span className="truncate max-w-[140px]">{displayName}</span>
+                </Link>
+              ) : (
+                <Link
+                  href="/login"
+                  onClick={() => setMobileOpen(false)}
+                  className="mt-4 px-8 py-3 text-lg font-medium text-foreground border border-border rounded hover:border-accent hover:text-accent transition-all duration-300 w-full max-w-xs text-center"
+                >
+                  Login
+                </Link>
+              )}
             </div>
           </motion.div>
         )}

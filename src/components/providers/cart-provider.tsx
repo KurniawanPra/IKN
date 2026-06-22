@@ -12,6 +12,7 @@ export interface Product {
   desc: string;
   tags: string[];
   image?: string;
+  stock?: number;
 }
 
 export interface CartItem {

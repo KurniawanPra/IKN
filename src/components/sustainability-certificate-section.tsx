@@ -109,7 +109,7 @@ export default function SustainabilityCertificateSection() {
   const [activeTab, setActiveTab] = useState<Tab>("Overview");
 
   return (
-    <div className="relative min-h-full w-full flex items-center overflow-y-auto lg:overflow-hidden no-scrollbar font-sans">
+    <div className="relative w-full flex items-center font-sans">
       <BackgroundBlobs sectionId="sustainability-cert" />
 
       <div className="relative z-10 mx-auto max-w-7xl px-6 py-24 lg:py-20 w-full min-h-full">

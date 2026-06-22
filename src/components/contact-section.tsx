@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MapPin, Phone, Mail, Globe, Send, CheckCircle } from "lucide-react";
-import BackgroundBlobs from "./background-blobs";
+
 
 
 
@@ -56,8 +56,7 @@ export default function ContactSection() {
   };
 
   return (
-    <div className="relative min-h-full lg:h-full w-full flex items-start lg:items-center overflow-y-auto lg:overflow-y-auto no-scrollbar font-sans">
-      <BackgroundBlobs />
+    <div className="relative w-full flex items-start lg:items-center font-sans">
 
       <div className="relative z-10 mx-auto max-w-7xl px-6 py-24 lg:py-20 w-full flex flex-col justify-start lg:justify-center min-h-full h-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">

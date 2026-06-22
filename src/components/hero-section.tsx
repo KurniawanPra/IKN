@@ -36,10 +36,22 @@ export default function HeroSection() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [showScene, setShowScene] = useState(false);
 
-  // Delay 3D scene loading to avoid blocking FCP/LCP
+  // Render/unrender the heavy 3D Canvas dynamically based on viewport visibility
   useEffect(() => {
-    const timer = setTimeout(() => setShowScene(true), 2000);
-    return () => clearTimeout(timer);
+    const target = containerRef.current;
+    if (!target) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setShowScene(entry.isIntersecting);
+      },
+      { threshold: 0.05 }
+    );
+
+    observer.observe(target);
+    return () => {
+      observer.unobserve(target);
+    };
   }, []);
 
   useEffect(() => {

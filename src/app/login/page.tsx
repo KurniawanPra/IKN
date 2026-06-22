@@ -25,11 +25,21 @@ export default function LoginPage() {
     setIsLoading(true);
     setTimeout(() => {
       setIsLoading(false);
+      // Cek admin credentials
+      const isAdmin = email === "admin@ikn.com" && password === "admin123";
       localStorage.setItem("ikn_logged_in", "true");
+      localStorage.setItem("ikn_user_email", email);
+      localStorage.setItem("ikn_role", isAdmin ? "admin" : "user");
       setShowToast(true);
       setTimeout(() => {
         setShowToast(false);
-        window.location.href = "/dashboard";
+        if (isAdmin) {
+          window.location.href = "/admin";
+        } else {
+          const params = new URLSearchParams(window.location.search);
+          const redirectUrl = params.get("redirect") || "/ecommerce";
+          window.location.href = redirectUrl;
+        }
       }, 1000);
     }, 1500);
   };
@@ -43,7 +53,7 @@ export default function LoginPage() {
           exit={{ opacity: 0, y: -20 }}
           className="fixed top-6 left-1/2 z-50 -translate-x-1/2 rounded-sm bg-green-600 px-6 py-3 text-sm font-medium text-white shadow-lg"
         >
-          Login berhasil (demo)
+          Login berhasil! Mengalihkan...
         </motion.div>
       )}
 

@@ -194,8 +194,8 @@ export default function StackedGallery() {
         ))}
       </div>
 
-      {/* Modern floating pill controls at the bottom of the card stack */}
-      <div className="absolute bottom-3 left-[45%] -translate-x-1/2 flex items-center gap-3 bg-black/45 backdrop-blur-xl border border-white/10 rounded-full px-3.5 py-1.5 z-40 text-white shadow-xl">
+      {/* Modern floating pill controls at the top-right of the card stack */}
+      <div className="absolute top-3 right-[15%] flex items-center gap-3 bg-black/45 backdrop-blur-xl border border-white/10 rounded-full px-3.5 py-1.5 z-40 text-white shadow-xl">
         <button
           onClick={(e) => {
             e.stopPropagation();

@@ -6,24 +6,32 @@ import { motion } from "framer-motion";
 import { ArrowLeft, LogOut, ShoppingBag, CreditCard, ShieldCheck, User } from "lucide-react";
 import { useCart } from "@/components/providers/cart-provider";
 import BackgroundBlobs from "@/components/background-blobs";
+import ThemeToggle from "@/components/theme-toggle";
 
 export default function DashboardPage() {
   const { cart, cartTotal, removeFromCart, updateQuantity } = useCart();
   const [isClient, setIsClient] = useState(false);
+  const [userEmail, setUserEmail] = useState("");
 
   useEffect(() => {
     setIsClient(true);
-    // Protect route client-side
     const loggedIn = localStorage.getItem("ikn_logged_in");
     if (loggedIn !== "true") {
       window.location.href = "/login";
     }
+    setUserEmail(localStorage.getItem("ikn_user_email") || "");
   }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("ikn_logged_in");
+    localStorage.removeItem("ikn_user_email");
     window.location.href = "/";
   };
+
+  const displayName = userEmail
+    ? userEmail.split("@")[0].replace(/[._-]/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())
+    : "Mitra Industri IKN";
+  const avatarInitial = displayName.charAt(0).toUpperCase();
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat("id-ID", {
@@ -40,19 +48,39 @@ export default function DashboardPage() {
       <BackgroundBlobs sectionId="dashboard" />
 
       {/* Navigation header */}
-      <nav className="sticky top-0 z-50 backdrop-blur-md border-b border-border/40 py-4 px-6 w-full flex items-center justify-between" style={{ backgroundColor: 'var(--nav-bg)' }}>
+      <nav className="sticky top-0 z-50 backdrop-blur-md border-b border-border/40 py-3 px-6 w-full flex items-center justify-between" style={{ backgroundColor: 'var(--nav-bg)' }}>
         <div className="flex items-center gap-3">
-          <Link href="/business#business-products" className="p-2 hover:bg-elevated rounded-full transition text-muted hover:text-foreground">
-            <ArrowLeft size={18} />
+          <Link
+            href="/"
+            className="flex items-center gap-2 text-sm text-muted hover:text-foreground transition-colors group"
+          >
+            <ArrowLeft size={16} className="group-hover:-translate-x-0.5 transition-transform" />
+            <span className="hidden sm:inline text-xs">Company Profile</span>
           </Link>
-          <span className="text-lg font-bold tracking-tight">IKN Store Dashboard</span>
+          <span className="text-border/40">|</span>
+          <Link href="/ecommerce" className="text-sm text-muted hover:text-accent transition-colors text-xs">
+            ← Kembali Belanja
+          </Link>
+          <span className="hidden sm:inline text-lg font-bold tracking-tight text-foreground">IKN Store</span>
         </div>
-        <button 
-          onClick={handleLogout}
-          className="flex items-center gap-2 px-3 py-1.5 rounded bg-accent/10 border border-accent/20 hover:bg-accent hover:text-white transition text-xs font-semibold uppercase tracking-wider text-accent"
-        >
-          <LogOut size={14} /> Logout
-        </button>
+        <div className="flex items-center gap-2">
+          <ThemeToggle />
+          {/* User Avatar */}
+          <div className="flex items-center gap-2 px-2 py-1 rounded border border-border/60">
+            <span className="w-6 h-6 rounded-full bg-accent/15 border border-accent/30 flex items-center justify-center text-accent text-[10px] font-bold shrink-0">
+              {avatarInitial}
+            </span>
+            <span className="text-xs font-medium text-foreground hidden sm:block max-w-[100px] truncate">
+              {displayName}
+            </span>
+          </div>
+          <button
+            onClick={handleLogout}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded bg-accent/10 border border-accent/20 hover:bg-accent hover:text-white transition text-xs font-semibold uppercase tracking-wider text-accent"
+          >
+            <LogOut size={13} /> Logout
+          </button>
+        </div>
       </nav>
 
       {/* Main Container */}
@@ -67,12 +95,12 @@ export default function DashboardPage() {
             animate={{ opacity: 1, y: 0 }}
             className="glass-panel p-6 rounded-xl flex items-center gap-5 border border-border"
           >
-            <div className="h-16 w-16 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center text-accent">
-              <User size={32} />
+            <div className="h-16 w-16 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center text-accent text-2xl font-bold">
+              {avatarInitial}
             </div>
             <div>
-              <h2 className="text-xl font-bold">Halo, Mitra Industri IKN</h2>
-              <p className="text-xs text-muted mt-1 font-mono">B2B Buyer Account | ID: IKN-892490-ID</p>
+              <h2 className="text-xl font-bold">Halo, {displayName}</h2>
+              <p className="text-xs text-muted mt-1 font-mono">B2B Buyer Account | {userEmail || 'IKN-892490-ID'}</p>
               <div className="flex items-center gap-1.5 mt-2 text-[10px] text-green-500 bg-green-500/10 border border-green-500/20 px-2 py-0.5 rounded-sm w-max font-mono uppercase tracking-wider">
                 <ShieldCheck size={10} /> Verified Company
               </div>
@@ -94,7 +122,7 @@ export default function DashboardPage() {
             {cart.length === 0 ? (
               <div className="py-12 text-center flex flex-col items-center justify-center gap-4">
                 <p className="text-sm text-muted">Keranjang belanja Anda kosong saat ini.</p>
-                <Link href="/business#business-products" className="btn-primary text-xs py-2 px-6">
+                <Link href="/ecommerce" className="btn-primary text-xs py-2 px-6">
                   Lihat Katalog Produk
                 </Link>
               </div>
