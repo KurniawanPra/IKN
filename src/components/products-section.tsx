@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence, Variants } from "framer-motion";
-import { Search, ShoppingCart, Info, X, CheckCircle2, ArrowRight, Store } from "lucide-react";
+import { Search, ShoppingCart, Info, X, CheckCircle2, Store } from "lucide-react";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import { useCart, Product } from "./providers/cart-provider";
