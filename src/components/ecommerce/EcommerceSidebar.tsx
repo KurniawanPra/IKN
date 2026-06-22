@@ -2,17 +2,15 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+
 import {
   LayoutDashboard,
-  ShoppingBag,
   Package,
   ClipboardList,
   User,
   LogOut,
   ChevronLeft,
   ChevronRight,
-  ShoppingCart,
   Home,
 } from "lucide-react";
 import { useCart } from "@/components/providers/cart-provider";

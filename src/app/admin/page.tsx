@@ -119,7 +119,6 @@ export default function AdminPage() {
         <AdminSidebar
           displayName={displayName}
           avatarInitial={avatarInitial}
-          userEmail={userEmail}
           activeView={activeView}
           onViewChange={(view) => { setActiveView(view); setMobileSidebarOpen(false); }}
           onLogout={handleLogout}

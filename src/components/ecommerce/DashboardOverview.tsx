@@ -16,7 +16,7 @@ const formatPrice = (price: number) =>
   new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", minimumFractionDigits: 0 }).format(price);
 
 export default function DashboardOverview({ displayName, userEmail, avatarInitial, onViewChange }: OverviewProps) {
-  const { cart, cartTotal, cartCount } = useCart();
+  const { cartTotal, cartCount } = useCart();
 
   const stats = [
     { label: "Produk Tersedia", value: "4", icon: Package, color: "text-blue-400", bg: "bg-blue-400/10 border-blue-400/20" },

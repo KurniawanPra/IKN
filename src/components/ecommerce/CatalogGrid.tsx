@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, ShoppingCart, Info, X, CheckCircle2, Package, Tag, Layers } from "lucide-react";
+import { Search, ShoppingCart, Info, X, CheckCircle2, Package, Tag } from "lucide-react";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import { useCart, Product } from "@/components/providers/cart-provider";

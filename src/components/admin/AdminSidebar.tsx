@@ -19,7 +19,6 @@ import {
 interface AdminSidebarProps {
   displayName: string;
   avatarInitial: string;
-  userEmail: string;
   activeView: string;
   onViewChange: (view: string) => void;
   onLogout: () => void;
@@ -37,7 +36,6 @@ const navItems = [
 export default function AdminSidebar({
   displayName,
   avatarInitial,
-  userEmail,
   activeView,
   onViewChange,
   onLogout,

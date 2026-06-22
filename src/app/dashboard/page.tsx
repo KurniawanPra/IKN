@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowLeft, LogOut, ShoppingBag, CreditCard, ShieldCheck, User } from "lucide-react";
+import { ArrowLeft, LogOut, ShoppingBag, CreditCard, ShieldCheck } from "lucide-react";
 import { useCart } from "@/components/providers/cart-provider";
 import BackgroundBlobs from "@/components/background-blobs";
 import ThemeToggle from "@/components/theme-toggle";
