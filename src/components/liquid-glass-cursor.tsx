@@ -99,9 +99,10 @@ export default function LiquidGlassCursor() {
 
   return (
     <div style={{ display: enabled ? "block" : "none" }}>
+      {/* Outer liquid glass orb (hidden on mobile) */}
       <div
         ref={outerRef}
-        className="fixed top-0 left-0 pointer-events-none z-[9999] rounded-full transition-all duration-300 ease-out will-change-transform"
+        className="fixed top-0 left-0 pointer-events-none z-[9999] rounded-full transition-all duration-300 ease-out will-change-transform hidden md:block"
         style={{
           width: isHovered ? "56px" : "28px",
           height: isHovered ? "56px" : "28px",
@@ -115,10 +116,10 @@ export default function LiquidGlassCursor() {
         }}
       />
       
-      {/* Inner solid tracking dot */}
+      {/* Inner solid tracking dot (hidden on mobile) */}
       <div
         ref={innerRef}
-        className={`fixed top-0 left-0 pointer-events-none z-[9999] rounded-full transition-all duration-200 ease-out will-change-transform ${
+        className={`fixed top-0 left-0 pointer-events-none z-[9999] rounded-full transition-all duration-200 ease-out will-change-transform hidden md:block ${
           isHovered ? "w-1.5 h-1.5 opacity-0 scale-0" : "w-1.5 h-1.5 opacity-80 scale-100"
         }`}
         style={{
@@ -126,10 +127,10 @@ export default function LiquidGlassCursor() {
         }}
       />
       
-      {/* Disable default browser cursor for clickable elements */}
+      {/* Disable default browser cursor for clickable elements (only on desktop/screens >= 768px) */}
       {enabled && (
         <style dangerouslySetInnerHTML={{ __html: `
-          @media (pointer: fine) {
+          @media (pointer: fine) and (min-width: 768px) {
             html, body, a, button, [role="button"], input, select, textarea, .btn-primary, .btn-outline {
               cursor: none !important;
             }

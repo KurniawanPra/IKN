@@ -3,7 +3,18 @@
 import React from "react";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
-import MediaSection from "@/components/media-section";
+import dynamic from "next/dynamic";
+import SkeletonLoader from "@/components/ui/skeleton-loader";
+
+const MediaGallerySection = dynamic(() => import("@/components/media-gallery-section"), {
+  ssr: false,
+  loading: () => <SkeletonLoader type="grid" />,
+});
+
+const MediaNewsSection = dynamic(() => import("@/components/media-news-section"), {
+  ssr: false,
+  loading: () => <SkeletonLoader type="grid" />,
+});
 import BackgroundBlobs from "@/components/background-blobs";
 import ScrollIndicator from "@/components/scroll-indicator";
 import { motion } from "framer-motion";
@@ -31,8 +42,10 @@ export default function MediaPage() {
         position="bottom-right"
         sections={[
           { id: "media-hero", label: "Media" },
-          { id: "media-gallery", label: "Gallery & News" },
+          { id: "media-gallery", label: "Gallery" },
+          { id: "media-news", label: "News & Events" },
           { id: "media-downloads", label: "Downloads" },
+          { id: "footer", label: "Footer" },
         ]}
       />
 
@@ -69,9 +82,14 @@ export default function MediaPage() {
           </div>
         </section>
 
-        {/* Section 1: Interactive Media & Gallery */}
+        {/* Section 1: Gallery */}
         <section id="media-gallery" className="snap-section relative h-[100dvh] flex flex-col justify-center overflow-y-auto lg:overflow-hidden no-scrollbar border-t border-border/40">
-          <MediaSection />
+          <MediaGallerySection />
+        </section>
+
+        {/* Section 2: News & Events */}
+        <section id="media-news" className="snap-section relative h-[100dvh] flex flex-col justify-center overflow-y-auto lg:overflow-hidden no-scrollbar border-t border-border/40">
+          <MediaNewsSection />
         </section>
 
         {/* Section 2: Brochure Downloads */}

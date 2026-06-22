@@ -33,12 +33,29 @@ export const BoxesCore = ({ className, isDark = true }: { className?: string; is
   const bp = useBreakpoint();
   const config = GRID_CONFIG[bp];
 
+  const darkColors = React.useMemo(() => [
+    "#7dd3fc", "#f9a8d4", "#86efac",
+    "#fde047", "#fca5a5", "#d8b4fe",
+    "#93c5fd", "#a5b4fc", "#c4b5fd",
+  ], []);
+
+  const lightColors = React.useMemo(() => [
+    "#3b82f6", "#ef4444", "#10b981", "#f59e0b",
+    "#8b5cf6", "#ec4899", "#06b6d4", "#f97316"
+  ], []);
+
+  const colors = isDark ? darkColors : lightColors;
   const borderColor = isDark ? "border-slate-700/50" : "border-black/35";
   const defaultBg = isDark ? "rgba(255,255,255,0.01)" : "rgba(0,0,0,0.02)";
 
+  const [hoveredCell, setHoveredCell] = useState<{ i: number; j: number; color: string } | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Simplified mouse tracking — no DOM raycast, just parallax transform
+  const getRandomColor = React.useCallback(() => {
+    return colors[Math.floor(Math.random() * colors.length)];
+  }, [colors]);
+
+  // Coordinate-based mouse tracking that works seamlessly behind the page layout
   useEffect(() => {
     let raf = 0;
 
@@ -58,15 +75,34 @@ export const BoxesCore = ({ className, isDark = true }: { className?: string; is
         const rotate = mouseX * 2.5;
 
         container.style.transform = `translate(${translateX}%, ${translateY}%) skewX(-48deg) skewY(14deg) scale(0.675) rotate(${rotate}deg) translateZ(0)`;
+
+        // Pixel-perfect mapping: raycast through the DOM to find the exact cell
+        const elements = document.elementsFromPoint(e.clientX, e.clientY);
+        const box = elements.find(el => el.hasAttribute('data-box-row'));
+
+        if (box) {
+          const col = parseInt(box.getAttribute('data-box-col')!);
+          const row = parseInt(box.getAttribute('data-box-row')!);
+          setHoveredCell((prev) => {
+            if (prev && prev.i === col && prev.j === row) return prev;
+            return { i: col, j: row, color: getRandomColor() };
+          });
+        } else {
+          setHoveredCell(null);
+        }
       });
     };
 
+    const handleMouseLeave = () => setHoveredCell(null);
+
     window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    document.addEventListener("mouseleave", handleMouseLeave);
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseleave", handleMouseLeave);
       if (raf) cancelAnimationFrame(raf);
     };
-  }, []);
+  }, [config.rows, config.cols, getRandomColor]);
 
   const rows = Array.from({ length: config.rows });
   const cols = Array.from({ length: config.cols });
@@ -85,13 +121,21 @@ export const BoxesCore = ({ className, isDark = true }: { className?: string; is
     >
       {rows.map((_, i) => (
         <div key={`row${i}`} className={cn(`${config.cellW} ${config.cellH} border-l relative`, borderColor)}>
-          {cols.map((_, j) => (
+          {cols.map((_, j) => {
+            const isHovered = hoveredCell?.i === i && hoveredCell?.j === j;
+            return (
               <div
                 key={`col${j}`}
+                data-box-col={i}
+                data-box-row={j}
                 className={cn(`${config.cellW} ${config.cellH} border-r border-t relative`, borderColor)}
-                style={{ backgroundColor: defaultBg }}
+                style={{
+                  backgroundColor: isHovered ? hoveredCell!.color + (isDark ? "22" : "44") : defaultBg,
+                  transition: isHovered ? "none" : "background-color 0.6s ease",
+                }}
               />
-          ))}
+            );
+          })}
         </div>
       ))}
     </div>

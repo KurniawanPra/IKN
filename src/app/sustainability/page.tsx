@@ -6,6 +6,18 @@ import Footer from "@/components/footer";
 import SustainabilitySection from "@/components/sustainability-section";
 import SustainabilityCertificateSection from "@/components/sustainability-certificate-section";
 import SustainabilityCustomersSection from "@/components/sustainability-customers-section";
+import dynamic from "next/dynamic";
+import SkeletonLoader from "@/components/ui/skeleton-loader";
+
+const SustainabilityWhistleblowingSection = dynamic(() => import("@/components/sustainability-whistleblowing-section"), {
+  ssr: false,
+  loading: () => <SkeletonLoader type="form" />,
+});
+
+const SustainabilityReachSection = dynamic(() => import("@/components/sustainability-reach-section"), {
+  ssr: false,
+  loading: () => <SkeletonLoader type="form" />,
+});
 import BackgroundBlobs from "@/components/background-blobs";
 import ScrollIndicator from "@/components/scroll-indicator";
 import { motion } from "framer-motion";
@@ -42,6 +54,9 @@ export default function SustainabilityPage() {
           { id: "sustainability-customers", label: "Customers" },
           { id: "sustainability-cust-detail", label: "Customer Details" },
           { id: "sustainability-cta", label: "Governance" },
+          { id: "sustainability-whistleblowing", label: "Whistle-Blowing" },
+          { id: "sustainability-reach", label: "REACH Compliance" },
+          { id: "footer", label: "Footer" },
         ]}
       />
 
@@ -179,7 +194,7 @@ export default function SustainabilityPage() {
                   </p>
                 </div>
                 <Link
-                  href="/sustainability/whistle-blowing"
+                  href="#sustainability-whistleblowing"
                   className="btn-outline py-2.5 px-4 rounded text-xs flex items-center justify-center gap-2 max-w-fit uppercase tracking-wider font-semibold"
                 >
                   Laporkan Kejadian <ArrowRight className="w-3.5 h-3.5" />
@@ -203,7 +218,7 @@ export default function SustainabilityPage() {
                   </p>
                 </div>
                 <Link
-                  href="/sustainability/reach-compliance"
+                  href="#sustainability-reach"
                   className="btn-outline py-2.5 px-4 rounded text-xs flex items-center justify-center gap-2 max-w-fit uppercase tracking-wider font-semibold"
                 >
                   Minta Sertifikasi <ArrowRight className="w-3.5 h-3.5" />
@@ -211,6 +226,16 @@ export default function SustainabilityPage() {
               </motion.div>
             </div>
           </div>
+        </section>
+
+        {/* Section 6.5: Whistle Blowing System Form */}
+        <section id="sustainability-whistleblowing" className="snap-section relative h-[100dvh] flex flex-col justify-center overflow-y-auto lg:overflow-hidden no-scrollbar border-t border-border/40">
+          <SustainabilityWhistleblowingSection />
+        </section>
+
+        {/* Section 7: REACH Compliance Request Form */}
+        <section id="sustainability-reach" className="snap-section relative h-[100dvh] flex flex-col justify-center overflow-y-auto lg:overflow-hidden no-scrollbar border-t border-border/40 bg-elevated/10">
+          <SustainabilityReachSection />
         </section>
 
         {/* Section 8: Footer */}

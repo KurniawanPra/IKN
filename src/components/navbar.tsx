@@ -71,8 +71,8 @@ const navItems: NavItem[] = [
         href: "https://drive.google.com/file/d/1NG1A0FH48M21G1UjcyI9HpBjLfj8PFdz/view?usp=drive_link",
         isExternal: true,
       },
-      { label: "Whistle Blowing System", href: "/sustainability/whistle-blowing", isForm: true },
-      { label: "Reach Compliance", href: "/sustainability/reach-compliance", isForm: true },
+      { label: "Whistle Blowing System", href: "/sustainability#sustainability-whistleblowing" },
+      { label: "Reach Compliance", href: "/sustainability#sustainability-reach" },
     ],
   },
 ];

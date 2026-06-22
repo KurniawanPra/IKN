@@ -27,7 +27,6 @@ export default function StackedGallery() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
 
-  // Setup refs array size
   useEffect(() => {
     cardRefs.current = cardRefs.current.slice(0, images.length);
   }, []);
@@ -37,17 +36,15 @@ export default function StackedGallery() {
     const topCard = cardRefs.current[currentIndex];
 
     if (topCard) {
-      // Fly away animation to the right/top and fade out
       gsap.to(topCard, {
-        x: 120,
-        y: -30,
-        rotation: 12,
+        x: 140,
+        y: -40,
+        rotation: 15,
         opacity: 0,
-        scale: 0.9,
-        duration: 0.4,
+        scale: 0.85,
+        duration: 0.45,
         ease: "power2.in",
         onComplete: () => {
-          // Move to the next index
           setCurrentIndex((prev) => (prev + 1) % N);
         },
       });
@@ -62,24 +59,22 @@ export default function StackedGallery() {
     const prevCard = cardRefs.current[prevIndex];
 
     if (prevCard) {
-      // Set previous card offscreen left first, then fly in to front
       gsap.set(prevCard, {
-        x: -120,
-        y: 30,
-        rotation: -12,
+        x: -140,
+        y: 40,
+        rotation: -15,
         opacity: 0,
-        scale: 0.9,
+        scale: 0.85,
         zIndex: 40,
       });
 
-      // Fly in to front
       gsap.to(prevCard, {
         x: 0,
         y: 0,
         rotation: 0,
         opacity: 1,
         scale: 1,
-        duration: 0.4,
+        duration: 0.45,
         ease: "power2.out",
         onComplete: () => {
           setCurrentIndex(prevIndex);
@@ -90,7 +85,6 @@ export default function StackedGallery() {
     }
   };
 
-  // Adjust stacked cards positions based on currentIndex
   useEffect(() => {
     const N = images.length;
     images.forEach((_, i) => {
@@ -99,7 +93,6 @@ export default function StackedGallery() {
 
       const offset = (i - currentIndex + N) % N;
 
-      // Only animate active transitions, skip the card that is currently flying away (which has custom anim)
       if (offset === 0 && gsap.isTweening(card)) {
         return;
       }
@@ -112,80 +105,87 @@ export default function StackedGallery() {
           rotation: 0,
           opacity: 1,
           zIndex: 30,
-          duration: 0.35,
+          duration: 0.4,
           ease: "power2.out",
         });
       } else if (offset === 1) {
         gsap.to(card, {
-          x: 12,
-          y: -10,
-          scale: 0.94,
-          rotation: 3,
+          x: 16,
+          y: -12,
+          scale: 0.93,
+          rotation: 4,
           opacity: 0.85,
           zIndex: 20,
-          duration: 0.35,
+          duration: 0.4,
           ease: "power2.out",
         });
       } else if (offset === 2) {
         gsap.to(card, {
-          x: 24,
-          y: -20,
-          scale: 0.88,
-          rotation: -3,
-          opacity: 0.6,
+          x: 32,
+          y: -24,
+          scale: 0.86,
+          rotation: -4,
+          opacity: 0.55,
           zIndex: 10,
-          duration: 0.35,
+          duration: 0.4,
           ease: "power2.out",
         });
       } else {
-        // Hidden cards
         gsap.to(card, {
-          x: 36,
-          y: -30,
-          scale: 0.82,
+          x: 48,
+          y: -36,
+          scale: 0.79,
           rotation: 0,
           opacity: 0,
           zIndex: 0,
-          duration: 0.35,
+          duration: 0.4,
           ease: "power2.out",
         });
       }
     });
   }, [currentIndex]);
 
-  // Auto slide interval
   useEffect(() => {
     const timer = setInterval(() => {
       handleNext();
-    }, 4500);
+    }, 5000);
     return () => clearInterval(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentIndex]);
 
   return (
-    <div className="relative w-full h-[220px] md:h-[250px] flex items-center justify-start pl-4 font-sans select-none">
-      <div className="relative w-[85%] h-[90%] flex items-center">
+    <div className="relative w-full h-[260px] md:h-[290px] flex items-center justify-start pl-2 font-sans select-none">
+      <div className="relative w-[90%] h-[92%] flex items-center">
         {images.map((img, index) => (
           <div
             key={index}
             ref={(el) => {
               cardRefs.current[index] = el;
             }}
-            className="absolute inset-0 w-full h-full rounded-xl border border-border shadow-xl overflow-hidden glass-panel origin-center cursor-pointer"
+            className="absolute inset-0 w-full h-full rounded-2xl border border-white/10 shadow-2xl overflow-hidden glass-panel origin-center cursor-pointer group"
             onClick={handleNext}
           >
             <div className="relative w-full h-full">
               <img
                 src={img}
                 alt={titles[index]}
-                className="w-full h-full object-cover pointer-events-none"
+                className="w-full h-full object-cover pointer-events-none transition-transform duration-700 group-hover:scale-105"
                 loading="lazy"
                 decoding="async"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent pointer-events-none" />
-              <div className="absolute bottom-3 left-4 right-4 text-left pointer-events-none">
-                <span className="text-[9px] font-mono text-rubber-red-light uppercase font-bold tracking-widest block mb-0.5">Gallery / Media</span>
-                <h4 className="text-xs sm:text-sm font-bold text-white tracking-wide leading-tight">
+              
+              {/* Glass reflection overlay */}
+              <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent pointer-events-none" />
+              
+              {/* Vignette & text gradient */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-transparent pointer-events-none" />
+              
+              {/* Content text */}
+              <div className="absolute bottom-5 left-5 right-5 text-left pointer-events-none">
+                <span className="inline-block px-2.5 py-0.5 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-[8px] text-white font-mono uppercase font-bold tracking-widest mb-2">
+                  Highlight
+                </span>
+                <h4 className="text-sm sm:text-base font-bold text-white tracking-wide leading-tight drop-shadow-md">
                   {titles[index]}
                 </h4>
               </div>
@@ -194,27 +194,32 @@ export default function StackedGallery() {
         ))}
       </div>
 
-      {/* Manual buttons */}
-      <div className="absolute right-0 top-1/2 -translate-y-1/2 flex flex-col gap-2 z-30">
+      {/* Modern floating pill controls at the bottom of the card stack */}
+      <div className="absolute bottom-3 left-[45%] -translate-x-1/2 flex items-center gap-3 bg-black/45 backdrop-blur-xl border border-white/10 rounded-full px-3.5 py-1.5 z-40 text-white shadow-xl">
         <button
           onClick={(e) => {
             e.stopPropagation();
             handlePrev();
           }}
-          className="p-1.5 bg-elevated hover:bg-accent border border-border rounded-full hover:text-white transition duration-300 text-foreground"
+          className="p-1 bg-white/5 hover:bg-white/20 active:scale-95 border border-white/10 rounded-full transition duration-300 text-white"
           aria-label="Previous image"
         >
-          <ChevronLeft className="w-4 h-4" />
+          <ChevronLeft className="w-3.5 h-3.5" />
         </button>
+        
+        <span className="text-[10px] font-mono select-none px-1">
+          {String(currentIndex + 1).padStart(2, "0")} / {String(images.length).padStart(2, "0")}
+        </span>
+
         <button
           onClick={(e) => {
             e.stopPropagation();
             handleNext();
           }}
-          className="p-1.5 bg-elevated hover:bg-accent border border-border rounded-full hover:text-white transition duration-300 text-foreground"
+          className="p-1 bg-white/5 hover:bg-white/20 active:scale-95 border border-white/10 rounded-full transition duration-300 text-white"
           aria-label="Next image"
         >
-          <ChevronRight className="w-4 h-4" />
+          <ChevronRight className="w-3.5 h-3.5" />
         </button>
       </div>
     </div>
