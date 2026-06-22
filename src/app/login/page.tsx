@@ -234,7 +234,7 @@ export default function LoginPage() {
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
-          className="fixed top-6 left-1/2 z-50 -translate-x-1/2 rounded bg-green-600 px-6 py-3 text-sm font-medium text-white shadow-lg"
+          className="fixed top-6 left-1/2 z-[99999] -translate-x-1/2 rounded bg-green-600 px-6 py-3 text-sm font-medium text-white shadow-lg"
         >
           {toastMessage}
         </motion.div>
