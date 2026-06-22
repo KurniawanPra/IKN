@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Link from "next/link";
 import { Package, ShoppingCart, ClipboardList, TrendingUp, ArrowRight, ShieldCheck } from "lucide-react";
 import { useCart } from "@/components/providers/cart-provider";
 
@@ -16,7 +15,7 @@ const formatPrice = (price: number) =>
   new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", minimumFractionDigits: 0 }).format(price);
 
 export default function DashboardOverview({ displayName, userEmail, avatarInitial, onViewChange }: OverviewProps) {
-  const { cartTotal, cartCount } = useCart();
+  const { cartTotal, cartCount, setIsCartOpen } = useCart();
 
   const stats = [
     { label: "Produk Tersedia", value: "4", icon: Package, color: "text-blue-400", bg: "bg-blue-400/10 border-blue-400/20" },
@@ -60,35 +59,34 @@ export default function DashboardOverview({ displayName, userEmail, avatarInitia
             <motion.div
               key={stat.label}
               initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0, transition: { delay: i * 0.08 } }}
-              className="glass-panel rounded-xl border border-border p-4 flex flex-col gap-3"
+              animate={{ opacity: 1, y: 0, transition: { delay: i * 0.05 } }}
+              className={`p-4 rounded-xl border flex items-center gap-3.5 ${stat.bg}`}
             >
-              <div className={`w-9 h-9 rounded-lg border flex items-center justify-center ${stat.bg}`}>
-                <Icon size={16} className={stat.color} />
+              <div className={`p-2 rounded-lg bg-background/50 border border-border/30 shrink-0 ${stat.color}`}>
+                <Icon size={18} />
               </div>
-              <div>
-                <p className="text-xs text-muted font-mono">{stat.label}</p>
-                <p className={`text-lg font-bold font-mono mt-0.5 ${stat.color} break-all`}>{stat.value}</p>
+              <div className="min-w-0">
+                <p className="text-[10px] text-muted uppercase font-mono tracking-wider">{stat.label}</p>
+                <p className="text-sm font-bold text-foreground font-mono truncate mt-0.5">{stat.value}</p>
               </div>
             </motion.div>
           );
         })}
       </div>
 
-      {/* Quick Actions */}
+      {/* Quick Action Grid */}
       <motion.div
         initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0, transition: { delay: 0.3 } }}
+        animate={{ opacity: 1, y: 0, transition: { delay: 0.35 } }}
         className="glass-panel rounded-xl border border-border p-5"
       >
-        <h3 className="text-sm font-bold text-foreground mb-4 flex items-center gap-2">
-          <TrendingUp size={15} className="text-accent" />
-          Aksi Cepat
+        <h3 className="text-xs font-bold text-foreground uppercase font-mono tracking-wider mb-4 text-accent">
+          Menu Cepat
         </h3>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           <button
             onClick={() => onViewChange("catalog")}
-            className="flex items-center gap-3 p-3 rounded-lg border border-border hover:border-accent/40 hover:bg-accent/5 transition group text-left"
+            className="flex items-center gap-3 p-3 rounded-lg border border-border hover:border-accent/40 hover:bg-accent/5 transition group text-left bg-transparent"
           >
             <Package size={16} className="text-accent shrink-0" />
             <div>
@@ -98,7 +96,7 @@ export default function DashboardOverview({ displayName, userEmail, avatarInitia
           </button>
           <button
             onClick={() => onViewChange("cart")}
-            className="flex items-center gap-3 p-3 rounded-lg border border-border hover:border-accent/40 hover:bg-accent/5 transition group text-left"
+            className="flex items-center gap-3 p-3 rounded-lg border border-border hover:border-accent/40 hover:bg-accent/5 transition group text-left bg-transparent"
           >
             <ShoppingCart size={16} className="text-accent shrink-0" />
             <div>
@@ -106,16 +104,16 @@ export default function DashboardOverview({ displayName, userEmail, avatarInitia
               <p className="text-[10px] text-muted">{cartCount} item · {formatPrice(cartTotal)}</p>
             </div>
           </button>
-          <Link
-            href="/dashboard"
-            className="flex items-center gap-3 p-3 rounded-lg border border-border hover:border-accent/40 hover:bg-accent/5 transition group text-left"
+          <button
+            onClick={() => setIsCartOpen(true)}
+            className="flex items-center gap-3 p-3 rounded-lg border border-border hover:border-accent/40 hover:bg-accent/5 transition group text-left bg-transparent w-full"
           >
             <ClipboardList size={16} className="text-accent shrink-0" />
             <div>
               <p className="text-xs font-semibold text-foreground group-hover:text-accent transition">Checkout / PO</p>
               <p className="text-[10px] text-muted">Ajukan purchase order</p>
             </div>
-          </Link>
+          </button>
         </div>
       </motion.div>
 
