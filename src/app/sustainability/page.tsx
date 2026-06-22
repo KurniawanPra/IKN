@@ -94,12 +94,12 @@ export default function SustainabilityPage() {
         </section>
 
         {/* Section 1: Main Commitments */}
-        <section id="sustainability-main" className="snap-section relative h-[100dvh] flex flex-col justify-center overflow-y-auto lg:overflow-hidden no-scrollbar border-t border-border/40">
+        <section id="sustainability-main" className="snap-section relative h-[100dvh] flex flex-col justify-center overflow-y-auto no-scrollbar border-t border-border/40">
           <SustainabilitySection />
         </section>
 
         {/* Section 2: Certificates */}
-        <section id="sustainability-certificate" className="snap-section relative h-[100dvh] flex items-center overflow-y-auto lg:overflow-hidden no-scrollbar border-t border-border/40 bg-elevated/10">
+        <section id="sustainability-certificate" className="snap-section relative h-[100dvh] flex items-center overflow-y-auto no-scrollbar border-t border-border/40 bg-elevated/10">
           <div className="max-w-6xl mx-auto px-6 py-20 lg:py-20 w-full">
             <div className="text-center mb-12">
               <div className="flex items-center justify-center gap-2 mb-2 text-emerald-400">
@@ -129,12 +129,12 @@ export default function SustainabilityPage() {
         </section>
 
         {/* Section 3: Certificate Details (Tabbed) */}
-        <section id="sustainability-cert-detail" className="snap-section relative h-[100dvh] flex items-center overflow-y-auto lg:overflow-hidden no-scrollbar border-t border-border/40">
+        <section id="sustainability-cert-detail" className="snap-section relative h-[100dvh] flex items-center overflow-y-auto no-scrollbar border-t border-border/40">
           <SustainabilityCertificateSection />
         </section>
 
         {/* Section 4: Our Customers */}
-        <section id="sustainability-customers" className="snap-section relative h-[100dvh] flex items-center overflow-y-auto lg:overflow-hidden no-scrollbar border-t border-border/40">
+        <section id="sustainability-customers" className="snap-section relative h-[100dvh] flex items-center overflow-y-auto no-scrollbar border-t border-border/40">
           <div className="max-w-5xl mx-auto px-6 py-20 lg:py-20 w-full">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 mb-12">
               <div>
@@ -170,12 +170,12 @@ export default function SustainabilityPage() {
         </section>
 
         {/* Section 6: Customer Details (Tabbed) */}
-        <section id="sustainability-cust-detail" className="snap-section relative h-[100dvh] flex items-center overflow-y-auto lg:overflow-hidden no-scrollbar border-t border-border/40 bg-elevated/10">
+        <section id="sustainability-cust-detail" className="snap-section relative h-[100dvh] flex items-center overflow-y-auto no-scrollbar border-t border-border/40 bg-elevated/10">
           <SustainabilityCustomersSection />
         </section>
 
         {/* CTA Governance Links */}
-        <section id="sustainability-cta" className="snap-section relative h-[100dvh] flex flex-col justify-center overflow-y-auto lg:overflow-hidden no-scrollbar border-t border-border/40 bg-elevated/25">
+        <section id="sustainability-cta" className="snap-section relative h-[100dvh] flex flex-col justify-center overflow-y-auto no-scrollbar border-t border-border/40 bg-elevated/25">
           <div className="max-w-5xl mx-auto px-6 py-20 lg:py-24 flex flex-col justify-center min-h-full">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {/* Whistle blowing CTA */}
@@ -229,12 +229,12 @@ export default function SustainabilityPage() {
         </section>
 
         {/* Section 6.5: Whistle Blowing System Form */}
-        <section id="sustainability-whistleblowing" className="snap-section relative h-[100dvh] flex flex-col justify-center overflow-y-auto lg:overflow-hidden no-scrollbar border-t border-border/40">
+        <section id="sustainability-whistleblowing" className="snap-section relative h-[100dvh] flex flex-col justify-center overflow-y-auto no-scrollbar border-t border-border/40">
           <SustainabilityWhistleblowingSection />
         </section>
 
         {/* Section 7: REACH Compliance Request Form */}
-        <section id="sustainability-reach" className="snap-section relative h-[100dvh] flex flex-col justify-center overflow-y-auto lg:overflow-hidden no-scrollbar border-t border-border/40 bg-elevated/10">
+        <section id="sustainability-reach" className="snap-section relative h-[100dvh] flex flex-col justify-center overflow-y-auto bg-elevated/10 no-scrollbar border-t border-border/40">
           <SustainabilityReachSection />
         </section>
 

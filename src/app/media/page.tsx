@@ -83,17 +83,17 @@ export default function MediaPage() {
         </section>
 
         {/* Section 1: Gallery */}
-        <section id="media-gallery" className="snap-section relative h-[100dvh] flex flex-col justify-center overflow-y-auto lg:overflow-hidden no-scrollbar border-t border-border/40">
+        <section id="media-gallery" className="snap-section relative h-[100dvh] flex flex-col justify-center overflow-y-auto no-scrollbar border-t border-border/40">
           <MediaGallerySection />
         </section>
 
         {/* Section 2: News & Events */}
-        <section id="media-news" className="snap-section relative h-[100dvh] flex flex-col justify-center overflow-y-auto lg:overflow-hidden no-scrollbar border-t border-border/40">
+        <section id="media-news" className="snap-section relative h-[100dvh] flex flex-col justify-center overflow-y-auto no-scrollbar border-t border-border/40">
           <MediaNewsSection />
         </section>
 
         {/* Section 2: Brochure Downloads */}
-        <section id="media-downloads" className="snap-section relative h-[100dvh] flex items-center overflow-y-auto lg:overflow-hidden no-scrollbar border-t border-border/40 bg-elevated/10">
+        <section id="media-downloads" className="snap-section relative h-[100dvh] flex items-center overflow-y-auto no-scrollbar border-t border-border/40 bg-elevated/10">
           <div className="max-w-5xl mx-auto px-6 py-20 lg:py-24 w-full">
             <div className="text-center mb-12">
               <div className="flex items-center justify-center gap-2 mb-2 text-rubber-red-light">

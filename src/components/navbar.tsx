@@ -110,18 +110,27 @@ export default function Navbar() {
       const timer = setTimeout(() => {
         const el = document.getElementById(targetId);
         if (el) {
-          const container = document.querySelector(".snap-container");
+          const container = document.querySelector(".snap-container") as HTMLElement;
           if (container) {
-            el.scrollIntoView({ behavior: "smooth" });
+            const originalSnap = container.style.scrollSnapType;
+            container.style.scrollSnapType = "none";
+            gsap.to(container, {
+              duration: 1.2,
+              scrollTo: { y: el, offsetY: 0 },
+              ease: "power3.inOut",
+              onComplete: () => {
+                container.style.scrollSnapType = originalSnap || "y mandatory";
+              }
+            });
           } else {
             gsap.to(window, {
               duration: 1.2,
               scrollTo: { y: el, offsetY: 80 },
-              ease: "power3.out",
+              ease: "power3.inOut",
             });
           }
         }
-      }, 500);
+      }, 700);
       return () => clearTimeout(timer);
     }
   }, [pathname]);
@@ -149,14 +158,23 @@ export default function Navbar() {
     if (!href.includes("#")) {
       const currentRoute = pathname === "" ? "/" : pathname;
       if (currentRoute === href) {
-        const container = document.querySelector(".snap-container");
+        const container = document.querySelector(".snap-container") as HTMLElement;
         if (container) {
-          container.scrollTo({ top: 0, behavior: "smooth" });
+          const originalSnap = container.style.scrollSnapType;
+          container.style.scrollSnapType = "none";
+          gsap.to(container, {
+            duration: 1.0,
+            scrollTo: { y: 0 },
+            ease: "power3.inOut",
+            onComplete: () => {
+              container.style.scrollSnapType = originalSnap || "y mandatory";
+            }
+          });
         } else {
           gsap.to(window, {
-            duration: 1.2,
+            duration: 1.0,
             scrollTo: { y: 0 },
-            ease: "power3.out",
+            ease: "power3.inOut",
           });
         }
         window.history.pushState(null, "", href);
@@ -173,14 +191,23 @@ export default function Navbar() {
     if (currentRoute === targetRoute) {
       const el = document.getElementById(targetId);
       if (el) {
-        const container = document.querySelector(".snap-container");
+        const container = document.querySelector(".snap-container") as HTMLElement;
         if (container) {
-          el.scrollIntoView({ behavior: "smooth" });
+          const originalSnap = container.style.scrollSnapType;
+          container.style.scrollSnapType = "none";
+          gsap.to(container, {
+            duration: 1.2,
+            scrollTo: { y: el, offsetY: 0 },
+            ease: "power3.inOut",
+            onComplete: () => {
+              container.style.scrollSnapType = originalSnap || "y mandatory";
+            }
+          });
         } else {
           gsap.to(window, {
             duration: 1.2,
             scrollTo: { y: el, offsetY: 80 },
-            ease: "power3.out",
+            ease: "power3.inOut",
           });
         }
         window.history.pushState(null, "", href);
