@@ -429,57 +429,6 @@ export default function LoginPage() {
               </button>
             </div>
           </form>
-
-          {/* Kredensial Uji Coba (Demo Credentials) */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8 }}
-            className="mt-6 rounded border border-neutral-200 bg-neutral-50 p-4 dark:border-neutral-800 dark:bg-neutral-900/50"
-          >
-            <p className="mb-2 text-xs font-semibold text-accent uppercase tracking-wider">
-              Kredensial & Uji Alur:
-            </p>
-            <div className="space-y-2.5 text-xs text-muted">
-              <div>
-                <span className="font-semibold text-foreground">1. Admin Panel:</span>
-                <div className="mt-1 flex flex-wrap gap-2 items-center">
-                  <span>Email:</span>
-                  <code className="rounded bg-neutral-200/60 dark:bg-neutral-800 px-1.5 py-0.5 text-[11px] font-mono text-foreground select-all">
-                    admin@ikn.com
-                  </code>
-                  <span>| Pwd:</span>
-                  <code className="rounded bg-neutral-200/60 dark:bg-neutral-800 px-1.5 py-0.5 text-[11px] font-mono text-foreground select-all">
-                    admin123
-                  </code>
-                </div>
-                <p className="mt-1 text-[10px] text-muted">
-                  Buka tab <strong>Data Pelanggan</strong> untuk menyetujui akun pembeli baru.
-                </p>
-              </div>
-
-              <div className="border-t border-neutral-200/60 dark:border-neutral-800 pt-2">
-                <span className="font-semibold text-foreground">2. Akun User (Sudah Disetujui):</span>
-                <div className="mt-1 flex flex-wrap gap-2 items-center">
-                  <span>Email:</span>
-                  <code className="rounded bg-neutral-200/60 dark:bg-neutral-800 px-1.5 py-0.5 text-[11px] font-mono text-foreground select-all">
-                    pembeli@ikn.com
-                  </code>
-                  <span>| Pwd:</span>
-                  <code className="rounded bg-neutral-200/60 dark:bg-neutral-800 px-1.5 py-0.5 text-[11px] font-mono text-foreground select-all">
-                    user123
-                  </code>
-                </div>
-              </div>
-
-              <div className="border-t border-neutral-200/60 dark:border-neutral-800 pt-2">
-                <span className="font-semibold text-foreground">3. Daftar Akun Baru:</span>
-                <p className="mt-1 text-[10px] leading-relaxed text-muted">
-                  Klik <strong>&quot;Daftar sekarang&quot;</strong> di atas. Setelah mendaftar, akun berstatus <strong>pending</strong>. Anda harus masuk sebagai admin untuk menyetujuinya sebelum akun tersebut bisa digunakan untuk login.
-                </p>
-              </div>
-            </div>
-          </motion.div>
         </motion.div>
 
         <div />
