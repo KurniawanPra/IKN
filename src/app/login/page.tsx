@@ -1,47 +1,214 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowLeft, Mail, Lock, Eye, EyeOff } from "lucide-react";
+import { ArrowLeft, Mail, Lock, Eye, EyeOff, User } from "lucide-react";
 import ThemeToggle from "@/components/theme-toggle";
 
+interface UserAccount {
+  email: string;
+  name: string;
+  password?: string;
+  status: string;
+  createdAt: string;
+}
+
 export default function LoginPage() {
+  const [isSignUp, setIsSignUp] = useState(false);
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Helper untuk mengambil list user dari localStorage atau menginisialisasi default mock users
+  const getUsers = () => {
+    if (typeof window === "undefined") return [];
+    const stored = localStorage.getItem("ikn_users");
+    if (stored) {
+      try {
+        return JSON.parse(stored);
+      } catch {
+        return [];
+      }
+    }
+    // Default mock users
+    const defaults = [
+      {
+        email: "pembeli@ikn.com",
+        name: "PT Karet Sejahtera",
+        password: "user123",
+        status: "approved",
+        createdAt: "2026-06-21"
+      },
+      {
+        email: "budi@karetindo.id",
+        name: "CV Budi Mandiri",
+        password: "budi123",
+        status: "pending",
+        createdAt: "2026-06-22"
+      }
+    ];
+    localStorage.setItem("ikn_users", JSON.stringify(defaults));
+    return defaults;
+  };
+
+  useEffect(() => {
+    getUsers();
+  }, []);
+
+  const handleLoginSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setErrorMessage("");
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
+      setErrorMessage("Format email tidak valid");
       setError(true);
       setTimeout(() => setError(false), 600);
       return;
     }
+
+    if (!password) {
+      setErrorMessage("Password tidak boleh kosong");
+      setError(true);
+      setTimeout(() => setError(false), 600);
+      return;
+    }
+
     setIsLoading(true);
     setTimeout(() => {
       setIsLoading(false);
-      // Cek admin credentials
+
+      // 1. Cek admin credentials
       const isAdmin = email === "admin@ikn.com" && password === "admin123";
+      if (isAdmin) {
+        localStorage.setItem("ikn_logged_in", "true");
+        localStorage.setItem("ikn_user_email", email);
+        localStorage.setItem("ikn_role", "admin");
+        setToastMessage("Login berhasil! Mengalihkan ke Admin Panel...");
+        setShowToast(true);
+        setTimeout(() => {
+          setShowToast(false);
+          window.location.href = "/admin";
+        }, 1000);
+        return;
+      }
+
+      // 2. Cek user database dari localStorage
+      const users = getUsers();
+      const user = users.find((u: UserAccount) => u.email === email && u.password === password);
+
+      if (!user) {
+        setErrorMessage("Email atau password salah!");
+        setError(true);
+        setTimeout(() => setError(false), 600);
+        return;
+      }
+
+      if (user.status === "pending") {
+        setErrorMessage("Akun Anda sedang dalam proses persetujuan oleh admin.");
+        setError(true);
+        setTimeout(() => setError(false), 600);
+        return;
+      }
+
+      if (user.status === "rejected") {
+        setErrorMessage("Pendaftaran akun Anda ditolak oleh admin.");
+        setError(true);
+        setTimeout(() => setError(false), 600);
+        return;
+      }
+
+      // Set user login
       localStorage.setItem("ikn_logged_in", "true");
       localStorage.setItem("ikn_user_email", email);
-      localStorage.setItem("ikn_role", isAdmin ? "admin" : "user");
+      localStorage.setItem("ikn_role", "user");
+      setToastMessage("Login berhasil! Mengalihkan...");
       setShowToast(true);
       setTimeout(() => {
         setShowToast(false);
-        if (isAdmin) {
-          window.location.href = "/admin";
-        } else {
-          const params = new URLSearchParams(window.location.search);
-          const redirectUrl = params.get("redirect") || "/ecommerce";
-          window.location.href = redirectUrl;
-        }
+        const params = new URLSearchParams(window.location.search);
+        const redirectUrl = params.get("redirect") || "/ecommerce";
+        window.location.href = redirectUrl;
       }, 1000);
-    }, 1500);
+    }, 1200);
+  };
+
+  const handleSignUpSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setErrorMessage("");
+
+    if (!name.trim()) {
+      setErrorMessage("Nama lengkap / nama perusahaan harus diisi");
+      setError(true);
+      setTimeout(() => setError(false), 600);
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setErrorMessage("Format email tidak valid");
+      setError(true);
+      setTimeout(() => setError(false), 600);
+      return;
+    }
+
+    if (password.length < 6) {
+      setErrorMessage("Password minimal 6 karakter");
+      setError(true);
+      setTimeout(() => setError(false), 600);
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setErrorMessage("Konfirmasi password tidak cocok");
+      setError(true);
+      setTimeout(() => setError(false), 600);
+      return;
+    }
+
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+
+      const users = getUsers();
+      const emailExists = users.some((u: UserAccount) => u.email === email) || email === "admin@ikn.com";
+
+      if (emailExists) {
+        setErrorMessage("Email tersebut sudah terdaftar!");
+        setError(true);
+        setTimeout(() => setError(false), 600);
+        return;
+      }
+
+      const newUser = {
+        name,
+        email,
+        password,
+        status: "pending",
+        createdAt: new Date().toISOString().split("T")[0]
+      };
+
+      const updatedUsers = [...users, newUser];
+      localStorage.setItem("ikn_users", JSON.stringify(updatedUsers));
+
+      setToastMessage("Pendaftaran berhasil! Akun Anda sedang menunggu persetujuan admin.");
+      setShowToast(true);
+      setTimeout(() => {
+        setShowToast(false);
+        setIsSignUp(false); // Pindah ke form login
+        setPassword("");
+        setConfirmPassword("");
+        setErrorMessage("");
+      }, 2500);
+    }, 1200);
   };
 
   return (
@@ -51,9 +218,9 @@ export default function LoginPage() {
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
-          className="fixed top-6 left-1/2 z-50 -translate-x-1/2 rounded-sm bg-green-600 px-6 py-3 text-sm font-medium text-white shadow-lg"
+          className="fixed top-6 left-1/2 z-50 -translate-x-1/2 rounded bg-green-600 px-6 py-3 text-sm font-medium text-white shadow-lg"
         >
-          Login berhasil! Mengalihkan...
+          {toastMessage}
         </motion.div>
       )}
 
@@ -72,7 +239,7 @@ export default function LoginPage() {
         <motion.div
           animate={error ? { x: [-10, 10, -10, 10, 0] } : {}}
           transition={{ duration: 0.5 }}
-          className="mx-auto w-full max-w-md"
+          className="mx-auto w-full max-w-md my-auto py-8"
         >
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -80,31 +247,67 @@ export default function LoginPage() {
             transition={{ delay: 0.1 }}
           >
             <p className="text-3xl font-bold text-foreground">IKN</p>
-            <p className="mb-8 text-sm text-muted">
+            <p className="mb-6 text-sm text-muted">
               PT. Industri Karet Nusantara
             </p>
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            key={isSignUp ? "signup-title" : "login-title"}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
+            transition={{ duration: 0.3 }}
+            className="mb-6"
           >
             <h1 className="mb-2 text-2xl font-bold text-foreground">
-              Masuk ke Akun Anda
+              {isSignUp ? "Pendaftaran Akun Pembeli" : "Masuk ke Akun Anda"}
             </h1>
-            <p className="mb-8 text-sm text-muted">
-              Silakan masukkan kredensial Anda
+            <p className="text-sm text-muted">
+              {isSignUp 
+                ? "Daftar untuk melakukan pemesanan produk karet Nusantara" 
+                : "Silakan masukkan kredensial Anda"}
             </p>
           </motion.div>
 
-          <form onSubmit={handleSubmit} className="space-y-5">
+          {errorMessage && (
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="mb-4 rounded border border-red-500/20 bg-red-500/10 p-3 text-xs text-red-400 font-medium"
             >
-              <label className="mb-1.5 block text-sm font-medium text-foreground">
+              {errorMessage}
+            </motion.div>
+          )}
+
+          <form onSubmit={isSignUp ? handleSignUpSubmit : handleLoginSubmit} className="space-y-4">
+            {isSignUp && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                className="space-y-1.5"
+              >
+                <label className="block text-sm font-medium text-foreground">
+                  Nama Lengkap / Perusahaan
+                </label>
+                <div className="relative">
+                  <User
+                    size={16}
+                    className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-dim"
+                  />
+                  <input
+                    type="text"
+                    required
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="Contoh: PT Karet Unggul"
+                    className="w-full rounded-sm py-2.5 pl-10 pr-4 theme-input text-sm"
+                  />
+                </div>
+              </motion.div>
+            )}
+
+            <div className="space-y-1.5">
+              <label className="block text-sm font-medium text-foreground">
                 Email
               </label>
               <div className="relative">
@@ -114,20 +317,17 @@ export default function LoginPage() {
                 />
                 <input
                   type="email"
+                  required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="nama@email.com"
-                  className="w-full rounded-sm py-3 pl-10 pr-4 theme-input"
+                  className="w-full rounded-sm py-2.5 pl-10 pr-4 theme-input text-sm"
                 />
               </div>
-            </motion.div>
+            </div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-            >
-              <label className="mb-1.5 block text-sm font-medium text-foreground">
+            <div className="space-y-1.5">
+              <label className="block text-sm font-medium text-foreground">
                 Password
               </label>
               <div className="relative">
@@ -137,10 +337,11 @@ export default function LoginPage() {
                 />
                 <input
                   type={showPassword ? "text" : "password"}
+                  required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full rounded-sm py-3 pl-10 pr-12 theme-input"
+                  className="w-full rounded-sm py-2.5 pl-10 pr-12 theme-input text-sm"
                 />
                 <button
                   type="button"
@@ -150,53 +351,135 @@ export default function LoginPage() {
                   {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                 </button>
               </div>
-            </motion.div>
+            </div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
-              className="flex items-center gap-2"
-            >
-              <input
-                type="checkbox"
-                id="remember"
-                className="h-4 w-4 rounded-sm border-border bg-elevated"
-              />
-              <label htmlFor="remember" className="text-sm text-muted">
-                Ingat saya
-              </label>
-            </motion.div>
+            {isSignUp && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                className="space-y-1.5"
+              >
+                <label className="block text-sm font-medium text-foreground">
+                  Konfirmasi Password
+                </label>
+                <div className="relative">
+                  <Lock
+                    size={16}
+                    className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-dim"
+                  />
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    required
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    placeholder="••••••••"
+                    className="w-full rounded-sm py-2.5 pl-10 pr-12 theme-input text-sm"
+                  />
+                </div>
+              </motion.div>
+            )}
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6 }}
-            >
+            {!isSignUp && (
+              <div className="flex items-center justify-between pt-1">
+                <div className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    id="remember"
+                    className="h-4 w-4 rounded-sm border-border bg-elevated"
+                  />
+                  <label htmlFor="remember" className="text-sm text-muted">
+                    Ingat saya
+                  </label>
+                </div>
+                <span className="cursor-pointer text-xs text-accent hover:underline">
+                  Lupa password?
+                </span>
+              </div>
+            )}
+
+            <div className="pt-2">
               <button
                 type="submit"
                 disabled={isLoading}
-                className="flex w-full items-center justify-center rounded-sm py-3 font-medium text-white transition-colors disabled:opacity-70 btn-primary"
+                className="flex w-full items-center justify-center rounded py-2.5 font-medium text-white transition-colors disabled:opacity-70 btn-primary text-sm shadow-md"
               >
                 {isLoading ? (
                   <span className="h-5 w-5 animate-spin rounded-full border-2 border-white/30 border-t-white" />
                 ) : (
-                  "Masuk"
+                  isSignUp ? "Daftar Akun" : "Masuk"
                 )}
               </button>
-            </motion.div>
+            </div>
 
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.7 }}
-              className="text-center"
-            >
-              <span className="cursor-pointer text-sm text-accent hover:underline">
-                Lupa password?
-              </span>
-            </motion.div>
+            <div className="text-center pt-2">
+              <button
+                type="button"
+                onClick={() => {
+                  setIsSignUp(!isSignUp);
+                  setErrorMessage("");
+                  setName("");
+                  setPassword("");
+                  setConfirmPassword("");
+                }}
+                className="text-xs text-accent hover:underline font-medium"
+              >
+                {isSignUp 
+                  ? "Sudah memiliki akun? Masuk di sini" 
+                  : "Belum memiliki akun pembeli? Daftar sekarang"}
+              </button>
+            </div>
           </form>
+
+          {/* Kredensial Uji Coba (Demo Credentials) */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8 }}
+            className="mt-6 rounded border border-neutral-200 bg-neutral-50 p-4 dark:border-neutral-800 dark:bg-neutral-900/50"
+          >
+            <p className="mb-2 text-xs font-semibold text-accent uppercase tracking-wider">
+              Kredensial & Uji Alur:
+            </p>
+            <div className="space-y-2.5 text-xs text-muted">
+              <div>
+                <span className="font-semibold text-foreground">1. Admin Panel:</span>
+                <div className="mt-1 flex flex-wrap gap-2 items-center">
+                  <span>Email:</span>
+                  <code className="rounded bg-neutral-200/60 dark:bg-neutral-800 px-1.5 py-0.5 text-[11px] font-mono text-foreground select-all">
+                    admin@ikn.com
+                  </code>
+                  <span>| Pwd:</span>
+                  <code className="rounded bg-neutral-200/60 dark:bg-neutral-800 px-1.5 py-0.5 text-[11px] font-mono text-foreground select-all">
+                    admin123
+                  </code>
+                </div>
+                <p className="mt-1 text-[10px] text-muted">
+                  Buka tab <strong>Data Pelanggan</strong> untuk menyetujui akun pembeli baru.
+                </p>
+              </div>
+
+              <div className="border-t border-neutral-200/60 dark:border-neutral-800 pt-2">
+                <span className="font-semibold text-foreground">2. Akun User (Sudah Disetujui):</span>
+                <div className="mt-1 flex flex-wrap gap-2 items-center">
+                  <span>Email:</span>
+                  <code className="rounded bg-neutral-200/60 dark:bg-neutral-800 px-1.5 py-0.5 text-[11px] font-mono text-foreground select-all">
+                    pembeli@ikn.com
+                  </code>
+                  <span>| Pwd:</span>
+                  <code className="rounded bg-neutral-200/60 dark:bg-neutral-800 px-1.5 py-0.5 text-[11px] font-mono text-foreground select-all">
+                    user123
+                  </code>
+                </div>
+              </div>
+
+              <div className="border-t border-neutral-200/60 dark:border-neutral-800 pt-2">
+                <span className="font-semibold text-foreground">3. Daftar Akun Baru:</span>
+                <p className="mt-1 text-[10px] leading-relaxed text-muted">
+                  Klik <strong>&quot;Daftar sekarang&quot;</strong> di atas. Setelah mendaftar, akun berstatus <strong>pending</strong>. Anda harus masuk sebagai admin untuk menyetujuinya sebelum akun tersebut bisa digunakan untuk login.
+                </p>
+              </div>
+            </div>
+          </motion.div>
         </motion.div>
 
         <div />

@@ -246,8 +246,15 @@ export default function ProductsSection({ previewMode = false }: { previewMode?:
                     exit={{ opacity: 0, scale: 0.95 }}
                     viewport={{ once: true }}
                     layout
+                    onClick={() => {
+                      if (previewMode) {
+                        handleGoToStore();
+                      }
+                    }}
                     onMouseEnter={() => setSelectedProduct(product)}
-                    className="glass-panel glass-panel-hover p-5 rounded-md flex flex-col justify-between relative overflow-hidden group"
+                    className={`glass-panel glass-panel-hover p-5 rounded-md flex flex-col justify-between relative overflow-hidden group ${
+                      previewMode ? "cursor-pointer" : ""
+                    }`}
                   >
                     <div>
                       {/* Product Preview Image */}
@@ -269,7 +276,7 @@ export default function ProductsSection({ previewMode = false }: { previewMode?:
                           </span>
                         )}
                       </div>
-
+ 
                       <p className="text-[10px] font-mono uppercase text-rubber-red-light">
                         {product.category}
                       </p>
@@ -279,7 +286,7 @@ export default function ProductsSection({ previewMode = false }: { previewMode?:
                       <p className="text-xs text-muted mt-2 leading-relaxed line-clamp-2">
                         {product.desc}
                       </p>
-
+ 
                       {/* Tag labels */}
                       <div className="flex flex-wrap gap-1.5 mt-3">
                         {product.tags.map((tag) => (
@@ -292,7 +299,7 @@ export default function ProductsSection({ previewMode = false }: { previewMode?:
                         ))}
                       </div>
                     </div>
-
+ 
                     {/* Footer card: Price & Actions */}
                     <div className="flex items-center justify-between mt-5 pt-3 border-t border-border">
                       <div className="flex flex-col">
@@ -305,8 +312,11 @@ export default function ProductsSection({ previewMode = false }: { previewMode?:
                       
                       <div className="flex items-center gap-2">
                         <button
-                          onClick={() => setDetailProduct(product)}
-                          className="p-2 bg-elevated hover:bg-accent/10 text-muted hover:text-foreground rounded border border-border transition"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setDetailProduct(product);
+                          }}
+                          className="p-2 bg-elevated hover:bg-accent/10 text-muted hover:text-foreground rounded border border-border transition z-10"
                           title="Detail Produk"
                         >
                           <Info size={14} />
@@ -314,8 +324,11 @@ export default function ProductsSection({ previewMode = false }: { previewMode?:
                         {previewMode ? (
                           // Preview mode: redirect ke e-commerce store
                           <button
-                            onClick={handleGoToStore}
-                            className="px-3 py-2 bg-accent hover:bg-accent-hover text-white rounded text-xs font-semibold uppercase tracking-wider flex items-center gap-1.5 transition shadow-md"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleGoToStore();
+                            }}
+                            className="px-3 py-2 bg-accent hover:bg-accent-hover text-white rounded text-xs font-semibold uppercase tracking-wider flex items-center gap-1.5 transition shadow-md z-10"
                             style={{ boxShadow: '0 4px 12px var(--accent-glow)' }}
                           >
                             <Store size={12} />
@@ -324,8 +337,11 @@ export default function ProductsSection({ previewMode = false }: { previewMode?:
                         ) : (
                           // E-commerce mode: tambah ke keranjang
                           <button
-                            onClick={() => handleAddToCart(product)}
-                            className="px-3 py-2 bg-accent hover:bg-accent-hover text-white rounded text-xs font-semibold uppercase tracking-wider flex items-center gap-1.5 transition shadow-md"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleAddToCart(product);
+                            }}
+                            className="px-3 py-2 bg-accent hover:bg-accent-hover text-white rounded text-xs font-semibold uppercase tracking-wider flex items-center gap-1.5 transition shadow-md z-10"
                             style={{ boxShadow: '0 4px 12px var(--accent-glow)' }}
                           >
                             <ShoppingCart size={12} />
