@@ -514,7 +514,7 @@ export default function ProductsSection({ previewMode = false }: { previewMode?:
                 </button>
                 <button
                   onClick={() => {
-                    window.location.href = "/dashboard";
+                    window.location.href = "/ecommerce";
                   }}
                   className="flex-1 py-2 bg-accent hover:bg-accent-hover text-white rounded text-xs font-semibold transition shadow-md"
                   style={{ boxShadow: '0 4px 12px var(--accent-glow)' }}

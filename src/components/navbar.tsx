@@ -101,7 +101,7 @@ export default function Navbar() {
     : "Pengguna";
   const avatarInitial = displayName.charAt(0).toUpperCase();
 
-  const isStorePage = pathname === "/ecommerce" || pathname === "/dashboard";
+  const isStorePage = pathname.startsWith("/ecommerce") || pathname === "/dashboard";
   const dropdownRefs = useRef<Record<number, HTMLDivElement | null>>({});
   const navItemRefs = useRef<Record<number, HTMLDivElement | null>>({});
   const leaveTimerRef = useRef<Record<number, NodeJS.Timeout | null>>({});

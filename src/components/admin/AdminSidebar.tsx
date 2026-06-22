@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   LayoutDashboard,
   Package,
@@ -19,28 +20,25 @@ import {
 interface AdminSidebarProps {
   displayName: string;
   avatarInitial: string;
-  activeView: string;
-  onViewChange: (view: string) => void;
   onLogout: () => void;
 }
 
 const navItems = [
-  { id: "overview", label: "Overview", icon: LayoutDashboard },
-  { id: "products", label: "Kelola Produk", icon: Package },
-  { id: "orders", label: "Pesanan Masuk", icon: ShoppingCart },
-  { id: "customers", label: "Pelanggan", icon: Users },
-  { id: "analytics", label: "Analitik", icon: BarChart2 },
-  { id: "settings", label: "Pengaturan", icon: Settings },
+  { id: "overview", label: "Overview", icon: LayoutDashboard, path: "/admin" },
+  { id: "products", label: "Kelola Produk", icon: Package, path: "/admin/produk" },
+  { id: "orders", label: "Pesanan Masuk", icon: ShoppingCart, path: "/admin/pesanan" },
+  { id: "customers", label: "Pelanggan", icon: Users, path: "/admin/pelanggan" },
+  { id: "analytics", label: "Analitik", icon: BarChart2, path: "/admin/analitik" },
+  { id: "settings", label: "Pengaturan", icon: Settings, path: "/admin/pengaturan" },
 ];
 
 export default function AdminSidebar({
   displayName,
   avatarInitial,
-  activeView,
-  onViewChange,
   onLogout,
 }: AdminSidebarProps) {
   const [collapsed, setCollapsed] = useState(false);
+  const pathname = usePathname();
 
   return (
     <aside
@@ -87,12 +85,15 @@ export default function AdminSidebar({
       <nav className="flex-1 py-4 flex flex-col gap-1 px-2 overflow-y-auto no-scrollbar">
         {navItems.map((item) => {
           const Icon = item.icon;
-          const isActive = activeView === item.id;
+          // overview matches exactly /, others match by prefix path
+          const isActive = item.id === "overview" 
+            ? pathname === item.path 
+            : pathname.startsWith(item.path);
 
           return (
-            <button
+            <Link
               key={item.id}
-              onClick={() => onViewChange(item.id)}
+              href={item.path}
               title={collapsed ? item.label : undefined}
               className={`relative flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium transition-all duration-150 w-full text-left group ${
                 isActive
@@ -110,7 +111,7 @@ export default function AdminSidebar({
                   {item.label}
                 </span>
               )}
-            </button>
+            </Link>
           );
         })}
 
@@ -142,13 +143,13 @@ export default function AdminSidebar({
               {avatarInitial}
             </span>
             <div className="flex-1 min-w-0">
-              <p className="text-xs font-semibold text-white truncate">{displayName}</p>
-              <p className="text-[10px] text-white/40 truncate font-mono">Admin</p>
+              <p className="text-xs font-semibold text-white truncate leading-none mb-1">{displayName}</p>
+              <span className="text-[9px] text-red-400 font-mono tracking-wide uppercase leading-none">ADMIN</span>
             </div>
             <button
               onClick={onLogout}
-              className="p-1.5 text-white/30 hover:text-red-400 transition rounded hover:bg-red-400/10"
-              title="Logout"
+              className="p-1.5 text-white/40 hover:text-red-400 transition rounded hover:bg-red-500/10"
+              title="Logout Admin"
             >
               <LogOut size={14} />
             </button>
@@ -160,8 +161,8 @@ export default function AdminSidebar({
             </span>
             <button
               onClick={onLogout}
-              className="p-1.5 text-white/30 hover:text-red-400 transition"
-              title="Logout"
+              className="p-1.5 text-white/40 hover:text-red-400 transition rounded hover:bg-red-500/10"
+              title="Logout Admin"
             >
               <LogOut size={13} />
             </button>

@@ -47,7 +47,7 @@ export default function HomePage() {
         <section id="latest-news" className="snap-section flex flex-col justify-center">
           <LatestNewsSection />
         </section>
-        <section id="business-products" className="snap-section relative h-[100dvh] flex flex-col justify-center border-t border-border/40 bg-elevated/10 overflow-hidden">
+        <section id="business-products" className="snap-section relative min-h-[100dvh] h-auto lg:h-[100dvh] flex flex-col justify-center border-t border-border/40 bg-elevated/10 overflow-y-auto no-scrollbar">
           <ProductsSection previewMode={true} />
         </section>
         <section id="map" className="snap-section flex flex-col justify-center">

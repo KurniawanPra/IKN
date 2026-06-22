@@ -1,14 +1,12 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import SkeletonLoader from "@/components/ui/skeleton-loader";
-import DashboardOverview from "@/components/ecommerce/DashboardOverview";
+import ProfilePanel from "@/components/ecommerce/ProfilePanel";
 
-export default function EcommerceOverviewPage() {
+export default function EcommerceProfilePage() {
   const [isClient, setIsClient] = useState(false);
   const [userEmail, setUserEmail] = useState("");
-  const router = useRouter();
 
   useEffect(() => {
     setIsClient(true);
@@ -20,14 +18,11 @@ export default function EcommerceOverviewPage() {
     : "Pengguna";
   const avatarInitial = displayName.charAt(0).toUpperCase();
 
-  const handleViewChange = (view: string) => {
-    if (view === "catalog") {
-      router.push("/ecommerce/katalog");
-    } else if (view === "orders") {
-      router.push("/ecommerce/pesanan");
-    } else if (view === "profile") {
-      router.push("/ecommerce/profil");
-    }
+  const handleLogout = () => {
+    localStorage.removeItem("ikn_logged_in");
+    localStorage.removeItem("ikn_user_email");
+    localStorage.removeItem("ikn_role");
+    window.location.href = "/";
   };
 
   if (!isClient) {
@@ -39,11 +34,11 @@ export default function EcommerceOverviewPage() {
   }
 
   return (
-    <DashboardOverview
+    <ProfilePanel
       displayName={displayName}
       userEmail={userEmail}
       avatarInitial={avatarInitial}
-      onViewChange={handleViewChange}
+      onLogout={handleLogout}
     />
   );
 }

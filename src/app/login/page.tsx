@@ -188,18 +188,34 @@ export default function LoginPage() {
         return;
       }
 
+      // Cek apakah persetujuan otomatis aktif di pengaturan sistem
+      let initialStatus = "pending";
+      let successMsg = "Pendaftaran berhasil! Akun Anda sedang menunggu persetujuan admin.";
+      try {
+        const sysSettings = localStorage.getItem("ikn_system_settings");
+        if (sysSettings) {
+          const parsed = JSON.parse(sysSettings);
+          if (parsed.autoApprove === true) {
+            initialStatus = "approved";
+            successMsg = "Pendaftaran berhasil! Akun Anda langsung aktif dan dapat digunakan.";
+          }
+        }
+      } catch {
+        // ignore
+      }
+
       const newUser = {
         name,
         email,
         password,
-        status: "pending",
+        status: initialStatus,
         createdAt: new Date().toISOString().split("T")[0]
       };
 
       const updatedUsers = [...users, newUser];
       localStorage.setItem("ikn_users", JSON.stringify(updatedUsers));
 
-      setToastMessage("Pendaftaran berhasil! Akun Anda sedang menunggu persetujuan admin.");
+      setToastMessage(successMsg);
       setShowToast(true);
       setTimeout(() => {
         setShowToast(false);

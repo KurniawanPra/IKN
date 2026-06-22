@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-
+import { usePathname } from "next/navigation";
 import {
   LayoutDashboard,
   Package,
@@ -13,34 +13,29 @@ import {
   ChevronRight,
   Home,
 } from "lucide-react";
-import { useCart } from "@/components/providers/cart-provider";
 
 interface SidebarProps {
   displayName: string;
   avatarInitial: string;
   userEmail: string;
-  activeView: string;
-  onViewChange: (view: string) => void;
   onLogout: () => void;
 }
 
 const navItems = [
-  { id: "overview", label: "Dashboard", icon: LayoutDashboard },
-  { id: "catalog", label: "Katalog Produk", icon: Package },
-  { id: "orders", label: "Riwayat Pesanan", icon: ClipboardList },
-  { id: "profile", label: "Profil Saya", icon: User },
+  { id: "overview", label: "Dashboard", icon: LayoutDashboard, path: "/ecommerce" },
+  { id: "catalog", label: "Katalog Produk", icon: Package, path: "/ecommerce/katalog" },
+  { id: "orders", label: "Riwayat Pesanan", icon: ClipboardList, path: "/ecommerce/pesanan" },
+  { id: "profile", label: "Profil Saya", icon: User, path: "/ecommerce/profil" },
 ];
 
 export default function EcommerceSidebar({
   displayName,
   avatarInitial,
   userEmail,
-  activeView,
-  onViewChange,
   onLogout,
 }: SidebarProps) {
   const [collapsed, setCollapsed] = useState(false);
-  const { cartCount, setIsCartOpen } = useCart();
+  const pathname = usePathname();
 
   return (
     <aside
@@ -86,19 +81,14 @@ export default function EcommerceSidebar({
       <nav className="flex-1 py-4 flex flex-col gap-1 px-2 overflow-y-auto no-scrollbar">
         {navItems.map((item) => {
           const Icon = item.icon;
-          const isActive = activeView === item.id;
-          const isCart = item.id === "cart";
+          const isActive = item.id === "overview"
+            ? pathname === item.path
+            : pathname.startsWith(item.path);
 
           return (
-            <button
+            <Link
               key={item.id}
-              onClick={() => {
-                if (isCart) {
-                  setIsCartOpen(true);
-                } else {
-                  onViewChange(item.id);
-                }
-              }}
+              href={item.path}
               title={collapsed ? item.label : undefined}
               className={`relative flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium transition-all duration-150 w-full text-left group ${
                 isActive
@@ -110,16 +100,6 @@ export default function EcommerceSidebar({
               {!collapsed && (
                 <span className="truncate flex-1">{item.label}</span>
               )}
-              {/* Cart badge */}
-              {isCart && cartCount > 0 && (
-                <span
-                  className={`flex h-4 min-w-[16px] items-center justify-center rounded-full bg-accent text-[9px] font-bold text-white px-1 ${
-                    collapsed ? "absolute -top-0.5 -right-0.5" : ""
-                  }`}
-                >
-                  {cartCount}
-                </span>
-              )}
               {/* Active indicator */}
               {isActive && !collapsed && (
                 <span className="ml-auto w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
@@ -130,7 +110,7 @@ export default function EcommerceSidebar({
                   {item.label}
                 </span>
               )}
-            </button>
+            </Link>
           );
         })}
 

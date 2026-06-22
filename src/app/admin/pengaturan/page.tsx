@@ -2,9 +2,9 @@
 
 import React, { useEffect, useState } from "react";
 import SkeletonLoader from "@/components/ui/skeleton-loader";
-import OverviewPanel from "@/components/admin/OverviewPanel";
+import SettingsPanel from "@/components/admin/settings/SettingsPanel";
 
-export default function AdminOverviewPage() {
+export default function AdminSettingsPage() {
   const [isClient, setIsClient] = useState(false);
   const [userEmail, setUserEmail] = useState("");
 
@@ -12,6 +12,13 @@ export default function AdminOverviewPage() {
     setIsClient(true);
     setUserEmail(localStorage.getItem("ikn_user_email") || "admin@ikn.com");
   }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("ikn_logged_in");
+    localStorage.removeItem("ikn_user_email");
+    localStorage.removeItem("ikn_role");
+    window.location.href = "/";
+  };
 
   if (!isClient) {
     return (
@@ -21,5 +28,5 @@ export default function AdminOverviewPage() {
     );
   }
 
-  return <OverviewPanel userEmail={userEmail} />;
+  return <SettingsPanel userEmail={userEmail} onLogout={handleLogout} />;
 }
