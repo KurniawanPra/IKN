@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, Mail, Lock, Eye, EyeOff, User } from "lucide-react";
 import ThemeToggle from "@/components/theme-toggle";
 
@@ -228,19 +228,22 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex min-h-screen">
-      {showToast && (
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
-          className="fixed top-6 left-1/2 z-[99999] -translate-x-1/2 rounded bg-green-600 px-6 py-3 text-sm font-medium text-white shadow-lg"
-        >
-          {toastMessage}
-        </motion.div>
-      )}
+    <>
+      <AnimatePresence>
+        {showToast && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="fixed top-6 left-1/2 z-[99999] -translate-x-1/2 rounded bg-green-600 px-6 py-3 text-sm font-medium text-white shadow-lg"
+          >
+            {toastMessage}
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-      <div className="flex w-full flex-col justify-between px-8 py-8 lg:w-1/2 lg:px-16 transition-colors duration-300" style={{ backgroundColor: 'var(--bg-secondary)' }}>
+      <div className="flex min-h-screen">
+        <div className="flex w-full flex-col justify-between px-8 py-8 lg:w-1/2 lg:px-16 transition-colors duration-300" style={{ backgroundColor: 'var(--bg-secondary)' }}>
         <div className="flex items-center justify-between">
           <Link
             href="/"
@@ -462,5 +465,6 @@ export default function LoginPage() {
         </p>
       </div>
     </div>
+    </>
   );
 }

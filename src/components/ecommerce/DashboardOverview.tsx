@@ -83,7 +83,7 @@ export default function DashboardOverview({ displayName, userEmail, avatarInitia
         <h3 className="text-xs font-bold text-foreground uppercase font-mono tracking-wider mb-4 text-accent">
           Menu Cepat
         </h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           <button
             onClick={() => onViewChange("catalog")}
             className="flex items-center gap-3 p-3 rounded-lg border border-border hover:border-accent/40 hover:bg-accent/5 transition group text-left bg-transparent"
@@ -95,23 +95,13 @@ export default function DashboardOverview({ displayName, userEmail, avatarInitia
             </div>
           </button>
           <button
-            onClick={() => onViewChange("cart")}
+            onClick={() => setIsCartOpen(true)}
             className="flex items-center gap-3 p-3 rounded-lg border border-border hover:border-accent/40 hover:bg-accent/5 transition group text-left bg-transparent"
           >
             <ShoppingCart size={16} className="text-accent shrink-0" />
             <div>
               <p className="text-xs font-semibold text-foreground group-hover:text-accent transition">Buka Keranjang</p>
               <p className="text-[10px] text-muted">{cartCount} item · {formatPrice(cartTotal)}</p>
-            </div>
-          </button>
-          <button
-            onClick={() => setIsCartOpen(true)}
-            className="flex items-center gap-3 p-3 rounded-lg border border-border hover:border-accent/40 hover:bg-accent/5 transition group text-left bg-transparent w-full"
-          >
-            <ClipboardList size={16} className="text-accent shrink-0" />
-            <div>
-              <p className="text-xs font-semibold text-foreground group-hover:text-accent transition">Checkout / PO</p>
-              <p className="text-[10px] text-muted">Ajukan purchase order</p>
             </div>
           </button>
         </div>
