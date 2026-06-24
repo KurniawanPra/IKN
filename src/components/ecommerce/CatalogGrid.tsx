@@ -4,17 +4,9 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, ShoppingCart, Info, X, CheckCircle2, Package, Tag } from "lucide-react";
 import Image from "next/image";
-import dynamic from "next/dynamic";
 import { useCart, Product } from "@/components/providers/cart-provider";
 
-const ProductsScene = dynamic(() => import("@/components/products-scene"), {
-  ssr: false,
-  loading: () => (
-    <div className="h-full w-full flex items-center justify-center text-xs text-muted font-mono">
-      Loading 3D...
-    </div>
-  ),
-});
+
 
 const categories = ["Semua", "Resin & Coating", "Rubber Thread", "Raw Material"];
 
@@ -286,8 +278,16 @@ export default function CatalogGrid() {
               </button>
 
               <div className="flex gap-4">
-                <div className="w-32 h-32 relative rounded-lg overflow-hidden bg-muted/10 border border-border/20 shrink-0">
-                  <ProductsScene activeProductSlug={detailProduct.slug} />
+                <div className="w-32 h-32 relative rounded-lg overflow-hidden bg-muted/10 border border-border/20 shrink-0 flex items-center justify-center p-2">
+                  {detailProduct.image ? (
+                    <img
+                      src={detailProduct.image}
+                      alt={detailProduct.name}
+                      className="w-full h-full object-contain"
+                    />
+                  ) : (
+                    <div className="text-xs text-muted font-mono">No Image</div>
+                  )}
                 </div>
                 <div className="flex-1 min-w-0">
                   <span className="text-[9px] font-mono uppercase tracking-wider text-accent bg-accent/10 border border-accent/20 px-2 py-0.5 rounded-sm">

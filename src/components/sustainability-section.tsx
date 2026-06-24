@@ -1,17 +1,9 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import dynamic from "next/dynamic";
+import { useEffect, useRef } from "react";
 import { Leaf, Recycle, Shield } from "lucide-react";
 
 import { gsap } from "gsap";
-
-const SustainabilityScene = dynamic(() => import("./sustainability-scene"), {
-  ssr: false,
-  loading: () => (
-    <div className="h-full w-full bg-gradient-to-br from-emerald-950/20 to-teal-900/10 rounded-2xl opacity-20" />
-  ),
-});
 
 const commitments = [
   {
@@ -32,25 +24,6 @@ const commitments = [
 ];
 
 export default function SustainabilitySection() {
-  const [showScene, setShowScene] = useState(false);
-
-  // Render/unrender the heavy 3D Canvas dynamically based on viewport visibility
-  useEffect(() => {
-    const target = containerRef.current;
-    if (!target) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setShowScene(entry.isIntersecting);
-      },
-      { threshold: 0.05 }
-    );
-
-    observer.observe(target);
-    return () => {
-      observer.unobserve(target);
-    };
-  }, []);
   const containerRef = useRef<HTMLDivElement>(null);
   const leftPanelRef = useRef<HTMLDivElement>(null);
   const commitmentsRef = useRef<HTMLDivElement>(null);
@@ -160,14 +133,15 @@ export default function SustainabilitySection() {
             </div>
           </div>
 
-          {/* Right Panel: 3D Emerald Leaf Scene */}
+          {/* Right Panel: 2D Plantation Image */}
           <div ref={rightPanelRef} className="hidden lg:block lg:col-span-5 flex flex-col items-center justify-center">
-            <div className="w-full h-[280px] sm:h-[350px] lg:h-[400px] relative">
-              {showScene ? (
-                <SustainabilityScene />
-              ) : (
-                <div className="h-full w-full bg-transparent" />
-              )}
+            <div className="w-full h-[280px] sm:h-[350px] lg:h-[400px] relative rounded-2xl overflow-hidden glass-panel border border-white/15 shadow-xl flex items-center justify-center group">
+              <img
+                src="/images/plantation.webp"
+                alt="Sustainability - Perkebunan Karet"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
               {/* Green Glow behind the scene */}
               <div className="absolute inset-0 bg-emerald-500/5 blur-3xl rounded-full -z-10" />
             </div>

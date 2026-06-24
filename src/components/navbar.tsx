@@ -7,7 +7,6 @@ import { Menu, X, ShoppingBag, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCart } from "./providers/cart-provider";
 import ThemeToggle from "./theme-toggle";
-import InteractiveNavbar3D from "./interactive-navbar-3d";
 import { GlassButton } from "@/components/ui/apple-tahoe-liquid-glass-button";
 import { gsap } from "gsap";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
@@ -331,12 +330,14 @@ export default function Navbar() {
           <Link
             href="/"
             onClick={(e) => handleNavClick(e, "/")}
-            className="flex items-center gap-3 group relative"
+            className="flex items-center gap-3 group"
           >
-            <div className="w-12 h-12 relative shrink-0">
-              <div className="absolute w-20 h-20 -top-4 -left-4 z-30 flex items-center justify-center">
-                <InteractiveNavbar3D />
-              </div>
+            <div className="w-12 h-12 relative flex items-center justify-center shrink-0">
+              <img
+                src="/images/rubin-logo.png"
+                alt="RUBIN Logo"
+                className="w-10 h-10 object-contain group-hover:scale-110 transition-transform duration-300"
+              />
             </div>
             <div className="flex flex-col">
               <span className="text-foreground font-bold text-lg leading-tight tracking-tight group-hover:text-accent transition-colors duration-300">

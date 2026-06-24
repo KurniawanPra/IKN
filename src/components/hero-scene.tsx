@@ -121,18 +121,24 @@ function CentralShape({ reduced }: { reduced: boolean }) {
   });
 
   return (
-    <group
-      onPointerOver={(e) => {
-        e.stopPropagation();
-        setHovered(true);
-        if (typeof window !== "undefined") document.body.style.cursor = "pointer";
-      }}
-      onPointerOut={(e) => {
-        e.stopPropagation();
-        setHovered(false);
-        if (typeof window !== "undefined") document.body.style.cursor = "auto";
-      }}
-    >
+    <group>
+      {/* Invisible broad hover sensor area (covers the logo with a 2.8 radius sphere) */}
+      <mesh
+        onPointerOver={(e) => {
+          e.stopPropagation();
+          setHovered(true);
+          if (typeof window !== "undefined") document.body.style.cursor = "pointer";
+        }}
+        onPointerOut={(e) => {
+          e.stopPropagation();
+          setHovered(false);
+          if (typeof window !== "undefined") document.body.style.cursor = "auto";
+        }}
+      >
+        <sphereGeometry args={[2.8, 16, 16]} />
+        <meshBasicMaterial transparent opacity={0} depthWrite={false} />
+      </mesh>
+
       {/* 3D Rubin Logo Group */}
       <group ref={logoGroupRef}>
         <mesh geometry={triangleGeometry} position={[0, 0, -0.09]}>

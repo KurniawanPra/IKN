@@ -1,18 +1,8 @@
 "use client";
 
-
-import { useState, useEffect, useRef } from "react";
-import dynamic from "next/dynamic";
+import { useRef } from "react";
 import { motion, Variants } from "framer-motion";
 import { TreePine, Droplets, FlaskConical, Thermometer, Package, Ship } from "lucide-react";
-
-
-const BusinessScene = dynamic(() => import("./business-scene"), {
-  ssr: false,
-  loading: () => (
-    <div className="h-full w-full rounded-2xl opacity-20" style={{ background: 'linear-gradient(to bottom right, var(--bg-secondary), var(--bg-primary))' }} />
-  ),
-});
 
 const steps = [
   {
@@ -64,25 +54,6 @@ const cardVariants = {
 
 export default function BusinessSection() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [showScene, setShowScene] = useState(false);
-
-  // Render/unrender the heavy 3D Canvas dynamically based on viewport visibility
-  useEffect(() => {
-    const target = containerRef.current;
-    if (!target) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setShowScene(entry.isIntersecting);
-      },
-      { threshold: 0.05 }
-    );
-
-    observer.observe(target);
-    return () => {
-      observer.unobserve(target);
-    };
-  }, []);
   return (
     <div ref={containerRef} className="relative w-full flex items-start lg:items-center font-sans">
 
@@ -104,13 +75,14 @@ export default function BusinessSection() {
               </p>
             </div>
 
-            {/* 3D Scene Canvas (No cut-off boxes or labels) */}
-            <div className="hidden lg:block h-[220px] md:h-[280px] w-full relative">
-              {showScene ? (
-                <BusinessScene />
-              ) : (
-                <div className="h-full w-full bg-transparent" />
-              )}
+            {/* 2D Production Image */}
+            <div className="hidden lg:block h-[220px] md:h-[280px] w-full relative rounded-2xl overflow-hidden glass-panel border border-white/15 shadow-xl flex items-center justify-center group">
+              <img
+                src="/images/produksi-karet.webp"
+                alt="Business - Produksi Karet"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
             </div>
           </div>
 

@@ -4,18 +4,10 @@ import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence, Variants } from "framer-motion";
 import { Search, ShoppingCart, Info, X, CheckCircle2, Store } from "lucide-react";
 import Image from "next/image";
-import dynamic from "next/dynamic";
 import { useCart, Product } from "./providers/cart-provider";
 import BackgroundBlobs from "./background-blobs";
 
-const ProductsScene = dynamic(() => import("./products-scene"), {
-  ssr: false,
-  loading: () => (
-    <div className="h-full w-full flex items-center justify-center text-xs text-muted font-mono">
-      Loading 3D Model...
-    </div>
-  ),
-});
+
 
 
 
@@ -86,25 +78,6 @@ export default function ProductsSection({ previewMode = false }: { previewMode?:
   const [buySuccessProduct, setBuySuccessProduct] = useState<Product | null>(null);
 
   const containerRef = useRef<HTMLDivElement>(null);
-  const [showScene, setShowScene] = useState(false);
-
-  // Render/unrender the heavy 3D Canvas dynamically based on viewport visibility
-  useEffect(() => {
-    const target = containerRef.current;
-    if (!target) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setShowScene(entry.isIntersecting);
-      },
-      { threshold: 0.05 }
-    );
-
-    observer.observe(target);
-    return () => {
-      observer.unobserve(target);
-    };
-  }, []);
 
   // Redirect ke halaman e-commerce (preview mode)
   const handleGoToStore = () => {
@@ -222,12 +195,16 @@ export default function ProductsSection({ previewMode = false }: { previewMode?:
               ))}
             </div>
 
-            {/* Selected Product Detail Panel */}
-            <div className="hidden lg:block h-[200px] w-full relative rounded-lg border border-border/40 overflow-hidden bg-elevated/10 backdrop-blur-md mt-2">
-              {showScene ? (
-                <ProductsScene activeProductSlug={selectedProduct.slug} />
+            {/* Selected Product Detail Panel: 2D Image Preview */}
+            <div className="hidden lg:block h-[200px] w-full relative rounded-lg border border-border/40 overflow-hidden bg-elevated/10 backdrop-blur-md mt-2 flex items-center justify-center group p-4">
+              {selectedProduct.image ? (
+                <img
+                  src={selectedProduct.image}
+                  alt={selectedProduct.name}
+                  className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
+                />
               ) : (
-                <div className="h-full w-full bg-transparent" />
+                <div className="text-xs text-muted font-mono">No Image Preview</div>
               )}
             </div>
           </div>
@@ -387,9 +364,17 @@ export default function ProductsSection({ previewMode = false }: { previewMode?:
                 <X size={16} />
               </button>
 
-              {/* Left Side: 3D Scene */}
-              <div className="w-full md:w-1/2 h-[200px] md:h-[260px] relative rounded-md overflow-hidden bg-muted/10 border border-border/20 shrink-0">
-                <ProductsScene activeProductSlug={detailProduct.slug} />
+              {/* Left Side: 2D Image */}
+              <div className="w-full md:w-1/2 h-[200px] md:h-[260px] relative rounded-md overflow-hidden bg-muted/10 border border-border/20 shrink-0 flex items-center justify-center p-2">
+                {detailProduct.image ? (
+                  <img
+                    src={detailProduct.image}
+                    alt={detailProduct.name}
+                    className="w-full h-full object-contain"
+                  />
+                ) : (
+                  <div className="text-xs text-muted font-mono">No Image</div>
+                )}
               </div>
 
               {/* Right Side: Product Details */}
