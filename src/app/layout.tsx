@@ -54,7 +54,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="id" className="scroll-smooth dark" suppressHydrationWarning>
+    <html lang="id" className="scroll-smooth" suppressHydrationWarning>
       <head>
         {/* Inline script to prevent theme flash (FOUC) */}
         <script
@@ -66,10 +66,13 @@ export default function RootLayout({
                   if (theme === 'light') {
                     document.documentElement.classList.remove('dark');
                     document.documentElement.classList.add('light');
+                    document.documentElement.setAttribute('data-theme', 'light');
                   } else {
                     document.documentElement.classList.add('dark');
                     document.documentElement.classList.remove('light');
+                    document.documentElement.setAttribute('data-theme', 'dark');
                   }
+                  document.documentElement.style.colorScheme = theme || 'dark';
                 } catch(e) {}
               })();
             `,

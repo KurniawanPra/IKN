@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -21,6 +20,8 @@ interface AdminSidebarProps {
   displayName: string;
   avatarInitial: string;
   onLogout: () => void;
+  collapsed: boolean;
+  setCollapsed: (collapsed: boolean) => void;
 }
 
 const navItems = [
@@ -36,36 +37,34 @@ export default function AdminSidebar({
   displayName,
   avatarInitial,
   onLogout,
+  collapsed,
+  setCollapsed,
 }: AdminSidebarProps) {
-  const [collapsed, setCollapsed] = useState(false);
   const pathname = usePathname();
 
   return (
     <aside
-      className={`fixed top-0 left-0 h-screen z-40 flex flex-col border-r transition-all duration-300 ease-in-out font-sans ${
-        collapsed ? "w-[72px]" : "w-[240px]"
-      }`}
+      className="h-full w-full flex flex-col border-r border-border/40 font-sans"
       style={{
-        background: "linear-gradient(180deg, #0a0f1e 0%, #0d1526 100%)",
-        borderColor: "rgba(220,38,38,0.2)",
+        background: "var(--nav-bg)",
+        backdropFilter: "blur(20px)",
       }}
     >
       {/* Logo */}
       <div
-        className="h-16 flex items-center justify-between px-4 shrink-0 border-b"
-        style={{ borderColor: "rgba(220,38,38,0.15)" }}
+        className="h-16 flex items-center justify-between px-4 shrink-0 border-b border-border/40"
       >
         {!collapsed && (
           <div className="flex items-center gap-2 overflow-hidden">
-            <ShieldCheck size={16} className="text-red-400 shrink-0" />
-            <span className="font-bold text-white text-sm tracking-tight whitespace-nowrap">IKN Admin</span>
+            <ShieldCheck size={16} className="text-red-500 dark:text-red-400 shrink-0" />
+            <span className="font-bold text-foreground text-sm tracking-tight whitespace-nowrap">IKN Admin</span>
           </div>
         )}
-        {collapsed && <ShieldCheck size={16} className="text-red-400 mx-auto" />}
+        {collapsed && <ShieldCheck size={16} className="text-red-500 dark:text-red-400 mx-auto" />}
         {!collapsed && (
           <button
             onClick={() => setCollapsed(true)}
-            className="p-1 rounded text-white/30 hover:text-white hover:bg-white/10 transition shrink-0"
+            className="p-1 rounded text-muted hover:text-foreground hover:bg-elevated/50 transition shrink-0 hidden lg:block"
           >
             <ChevronLeft size={16} />
           </button>
@@ -75,7 +74,7 @@ export default function AdminSidebar({
       {collapsed && (
         <button
           onClick={() => setCollapsed(false)}
-          className="mx-auto mt-2 p-1.5 rounded text-white/30 hover:text-white hover:bg-white/10 transition"
+          className="mx-auto mt-2 p-1.5 rounded text-muted hover:text-foreground hover:bg-elevated/50 transition hidden lg:block"
         >
           <ChevronRight size={14} />
         </button>
@@ -97,17 +96,17 @@ export default function AdminSidebar({
               title={collapsed ? item.label : undefined}
               className={`relative flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium transition-all duration-150 w-full text-left group ${
                 isActive
-                  ? "bg-red-500/15 text-red-400 border border-red-500/20"
-                  : "text-white/50 hover:text-white hover:bg-white/8"
+                  ? "bg-red-500/15 text-red-500 dark:text-red-400 border border-red-500/20"
+                  : "text-muted hover:text-foreground hover:bg-elevated/50"
               } ${collapsed ? "justify-center" : ""}`}
             >
               <Icon size={17} className="shrink-0" />
               {!collapsed && <span className="truncate flex-1">{item.label}</span>}
               {isActive && !collapsed && (
-                <span className="ml-auto w-1.5 h-1.5 rounded-full bg-red-400 shrink-0" />
+                <span className="ml-auto w-1.5 h-1.5 rounded-full bg-red-500 dark:bg-red-400 shrink-0" />
               )}
               {collapsed && (
-                <span className="absolute left-full ml-3 px-2 py-1 bg-[#1a2540] border border-red-500/20 rounded text-xs text-white whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity shadow-lg z-50">
+                <span className="absolute left-full ml-3 px-2 py-1 bg-elevated border border-border rounded text-xs text-foreground whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity shadow-lg z-50">
                   {item.label}
                 </span>
               )}
@@ -115,20 +114,20 @@ export default function AdminSidebar({
           );
         })}
 
-        <div className="my-2 border-t mx-1" style={{ borderColor: "rgba(220,38,38,0.15)" }} />
+        <div className="my-2 border-t border-border/30 mx-1" />
 
         {/* Back to company profile */}
         <Link
           href="/"
           title={collapsed ? "Company Profile" : undefined}
-          className={`relative flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium text-white/40 hover:text-white hover:bg-white/8 transition group ${
+          className={`relative flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium text-muted hover:text-foreground hover:bg-elevated/50 transition group ${
             collapsed ? "justify-center" : ""
           }`}
         >
           <Home size={17} className="shrink-0" />
           {!collapsed && <span className="truncate">Company Profile</span>}
           {collapsed && (
-            <span className="absolute left-full ml-3 px-2 py-1 bg-[#1a2540] border border-red-500/20 rounded text-xs text-white whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity shadow-lg z-50">
+            <span className="absolute left-full ml-3 px-2 py-1 bg-elevated border border-border rounded text-xs text-foreground whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity shadow-lg z-50">
               Company Profile
             </span>
           )}
@@ -136,19 +135,19 @@ export default function AdminSidebar({
       </nav>
 
       {/* User at bottom */}
-      <div className="p-3 shrink-0 border-t" style={{ borderColor: "rgba(220,38,38,0.15)" }}>
+      <div className="p-3 shrink-0 border-t border-border/40">
         {!collapsed ? (
           <div className="flex items-center gap-2">
-            <span className="w-8 h-8 rounded-full bg-red-500/20 border border-red-500/30 flex items-center justify-center text-red-400 text-xs font-bold shrink-0">
+            <span className="w-8 h-8 rounded-full bg-red-500/20 border border-red-500/30 flex items-center justify-center text-red-500 dark:text-red-400 text-xs font-bold shrink-0">
               {avatarInitial}
             </span>
             <div className="flex-1 min-w-0">
-              <p className="text-xs font-semibold text-white truncate leading-none mb-1">{displayName}</p>
-              <span className="text-[9px] text-red-400 font-mono tracking-wide uppercase leading-none">ADMIN</span>
+              <p className="text-xs font-semibold text-foreground truncate leading-none mb-1">{displayName}</p>
+              <span className="text-[9px] text-red-505 dark:text-red-400 font-mono tracking-wide uppercase leading-none">ADMIN</span>
             </div>
             <button
               onClick={onLogout}
-              className="p-1.5 text-white/40 hover:text-red-400 transition rounded hover:bg-red-500/10"
+              className="p-1.5 text-muted hover:text-red-500 dark:hover:text-red-400 transition rounded hover:bg-red-500/10"
               title="Logout Admin"
             >
               <LogOut size={14} />
@@ -156,12 +155,12 @@ export default function AdminSidebar({
           </div>
         ) : (
           <div className="flex flex-col items-center gap-2">
-            <span className="w-8 h-8 rounded-full bg-red-500/20 border border-red-500/30 flex items-center justify-center text-red-400 text-xs font-bold">
+            <span className="w-8 h-8 rounded-full bg-red-500/20 border border-red-500/30 flex items-center justify-center text-red-500 dark:text-red-400 text-xs font-bold">
               {avatarInitial}
             </span>
             <button
               onClick={onLogout}
-              className="p-1.5 text-white/40 hover:text-red-400 transition rounded hover:bg-red-500/10"
+              className="p-1.5 text-muted hover:text-red-500 dark:hover:text-red-400 transition rounded hover:bg-red-500/10"
               title="Logout Admin"
             >
               <LogOut size={13} />

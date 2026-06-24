@@ -265,7 +265,7 @@ export default function LatestNewsSection() {
       className="relative min-h-full lg:h-full w-full flex items-center overflow-y-auto lg:overflow-hidden no-scrollbar font-sans"
     >
 
-      <div className="relative z-10 mx-auto max-w-7xl px-6 py-20 lg:py-20 w-full flex flex-col justify-center min-h-full h-auto gap-8 sm:gap-10">
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 py-12 sm:py-16 md:py-20 lg:py-20 w-full flex flex-col justify-center min-h-full h-auto gap-6 sm:gap-8 lg:gap-10\">
         {/* Header */}
         <div ref={headerRef} className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>

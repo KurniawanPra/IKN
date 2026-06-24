@@ -36,7 +36,7 @@ export default function VisionMissionSection() {
   };
 
   return (
-    <div className="max-w-6xl mx-auto my-auto px-6 py-20 lg:py-24 w-full flex flex-col justify-center font-sans">
+    <div className="max-w-6xl mx-auto my-auto px-4 sm:px-6 py-12 sm:py-16 md:py-20 lg:py-24 w-full flex flex-col justify-center font-sans">
       
       {/* Header */}
       <motion.div 

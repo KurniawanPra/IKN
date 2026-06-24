@@ -101,7 +101,7 @@ export default function MediaNewsSection() {
 
   return (
     <div ref={containerRef} className="relative w-full flex items-start lg:items-center font-sans">
-      <div className="relative z-10 mx-auto max-w-7xl px-6 pt-24 pb-12 lg:pt-28 lg:pb-16 w-full flex flex-col justify-start lg:justify-center min-h-full h-auto">
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 pt-16 sm:pt-20 md:pt-24 pb-8 sm:pb-12 lg:pt-28 lg:pb-16 w-full flex flex-col justify-start lg:justify-center min-h-full h-auto">
         
         {/* Header Controls Bar */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 border-b border-border/40 pb-4 w-full">

@@ -324,8 +324,8 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 z-50 h-20 flex items-center transition-all duration-300 font-sans glass-nav shadow-lg">
-        <div className="w-full max-w-7xl mx-auto px-6 flex items-center justify-between">
+      <nav className="fixed top-0 left-0 right-0 z-50 h-16 md:h-20 flex items-center transition-all duration-300 font-sans glass-nav shadow-lg">
+        <div className="w-full max-w-7xl mx-auto px-3 md:px-6 flex items-center justify-between">
           <Link
             href="/"
             onClick={(e) => handleNavClick(e, "/")}
@@ -502,31 +502,46 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* Mobile Menu */}
+      {/* Mobile Backdrop */}
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
-            initial={{ y: "-100%" }}
-            animate={{ y: 0 }}
-            exit={{ y: "-100%" }}
-            transition={{ type: "tween", duration: 0.35, ease: "easeInOut" }}
-            className="fixed inset-0 z-40 backdrop-blur-xl flex flex-col items-center justify-center gap-6 lg:hidden font-sans overflow-y-auto"
-            style={{ background: "var(--overlay-bg)", backdropFilter: "blur(24px)" }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            onClick={() => setMobileOpen(false)}
+            className="fixed inset-0 z-30 lg:hidden"
+            style={{ background: "var(--overlay-bg)" }}
+          />
+        )}
+      </AnimatePresence>
+
+      {/* Mobile Side Drawer Menu */}
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.div
+            initial={{ x: "-100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "-100%" }}
+            transition={{ type: "tween", duration: 0.3, ease: "easeInOut" }}
+            className="fixed left-0 top-0 z-40 h-screen w-64 sm:w-72 overflow-y-auto no-scrollbar lg:hidden font-sans pt-20"
+            style={{ background: "var(--bg-secondary)", borderRight: "1px solid var(--border-color)" }}
           >
-            <div className="w-full flex flex-col gap-4 py-8 items-center max-h-[85vh] overflow-y-auto no-scrollbar">
+            <div className="flex flex-col gap-2 py-4 px-3">
               {navItems.map((item) => {
                 const hasSubmenu = !!item.submenu;
                 const isOpen = !!mobileSubmenuOpen[item.label];
 
                 return (
-                  <div key={item.label} className="w-full flex flex-col items-center shrink-0">
-                    <div className="flex items-center justify-between w-full max-w-xs px-4">
+                  <div key={item.label} className="flex flex-col shrink-0">
+                    <div className="flex items-center justify-between">
                       <a
                         href={item.href}
                         onClick={(e) => {
                           handleNavClick(e, item.href);
                         }}
-                        className="text-foreground text-xl font-medium hover:text-accent-hover transition-colors duration-300"
+                        className="flex-1 py-2.5 px-3 text-sm font-medium text-foreground hover:bg-accent/10 hover:text-accent-hover rounded transition-all duration-200"
                       >
                         {item.label}
                       </a>
@@ -541,7 +556,7 @@ export default function Navbar() {
                           className="p-2 text-foreground"
                         >
                           <ChevronDown
-                            className={`w-5 h-5 transition-transform duration-300 ${
+                            className={`w-4 h-4 transition-transform duration-300 ${
                               isOpen ? "rotate-180" : ""
                             }`}
                           />
@@ -552,10 +567,11 @@ export default function Navbar() {
                     {hasSubmenu && (
                       <motion.div
                         initial={false}
-                        animate={{ height: isOpen ? "auto" : 0 }}
-                        className="overflow-hidden w-full max-w-xs flex flex-col items-center"
+                        animate={{ height: isOpen ? "auto" : 0, opacity: isOpen ? 1 : 0 }}
+                        transition={{ duration: 0.2 }}
+                        className="overflow-hidden"
                       >
-                        <div className="flex flex-col items-center py-2.5 gap-3.5 w-full bg-elevated/45 rounded-md mt-1.5 border border-border/40">
+                        <div className="flex flex-col gap-1 py-2 pl-3 border-l border-border/60">
                           {item.submenu!.map((sub) => (
                             <a
                               key={sub.label}
@@ -565,9 +581,15 @@ export default function Navbar() {
                               onClick={(e) =>
                                 handleNavClick(e, sub.href, sub.isForm, sub.isExternal)
                               }
-                              className="text-muted text-sm font-medium hover:text-accent-hover transition-colors duration-200"
+                              className="py-2 px-3 text-xs font-medium text-muted hover:text-accent-hover hover:bg-accent/10 rounded transition-all duration-200 flex items-center gap-2"
                             >
-                              {sub.label}
+                              {sub.isExternal && (
+                                <span className="w-1 h-1 rounded-full bg-rubber-red-light/60 shrink-0" />
+                              )}
+                              {sub.isForm && (
+                                <span className="w-1 h-1 rounded-full bg-amber-400/60 shrink-0" />
+                              )}
+                              <span>{sub.label}</span>
                             </a>
                           ))}
                         </div>
@@ -576,22 +598,27 @@ export default function Navbar() {
                   </div>
                 );
               })}
+              
+              {/* Divider */}
+              <div className="my-3 h-px bg-border/40" />
+              
+              {/* Auth Section */}
               {isLoggedIn ? (
                 <Link
                   href="/ecommerce"
                   onClick={() => setMobileOpen(false)}
-                  className="mt-4 flex items-center justify-center gap-3 px-8 py-3 text-lg font-medium text-foreground border border-border rounded hover:border-accent hover:text-accent transition-all duration-300 w-full max-w-xs"
+                  className="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-foreground bg-accent/10 hover:bg-accent/15 rounded transition-all duration-200 border border-accent/30"
                 >
-                  <span className="w-8 h-8 rounded-full bg-accent/15 border border-accent/30 flex items-center justify-center text-accent text-sm font-bold">
+                  <span className="w-7 h-7 rounded-full bg-accent/25 border border-accent/40 flex items-center justify-center text-accent text-xs font-bold shrink-0">
                     {avatarInitial}
                   </span>
-                  <span className="truncate max-w-[140px]">{displayName}</span>
+                  <span className="truncate flex-1">{displayName}</span>
                 </Link>
               ) : (
                 <Link
                   href="/login"
                   onClick={() => setMobileOpen(false)}
-                  className="mt-4 px-8 py-3 text-lg font-medium text-foreground border border-border rounded hover:border-accent hover:text-accent transition-all duration-300 w-full max-w-xs text-center"
+                  className="py-2.5 px-3 text-sm font-medium text-foreground border border-border rounded hover:border-accent hover:text-accent transition-all duration-200 text-center"
                 >
                   Login
                 </Link>

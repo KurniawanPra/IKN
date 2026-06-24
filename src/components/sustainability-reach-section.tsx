@@ -45,7 +45,7 @@ export default function SustainabilityReachSection() {
 
   return (
     <div className="relative min-h-full w-full flex items-start lg:items-center justify-center font-sans">
-      <div className="relative z-10 mx-auto max-w-6xl px-6 pt-24 pb-12 lg:pt-28 lg:pb-16 w-full">
+      <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6 pt-16 sm:pt-20 md:pt-24 pb-8 sm:pb-12 lg:pt-28 lg:pb-16 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-stretch">
           
           {/* Left info column */}

@@ -112,7 +112,7 @@ export default function SustainabilityCertificateSection() {
     <div className="relative w-full flex items-center font-sans">
       <BackgroundBlobs sectionId="sustainability-cert" />
 
-      <div className="relative z-10 mx-auto max-w-7xl px-6 py-24 lg:py-20 w-full min-h-full">
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 py-16 sm:py-20 md:py-24 lg:py-20 w-full min-h-full">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 15 }}
@@ -364,38 +364,40 @@ export default function SustainabilityCertificateSection() {
             transition={{ duration: 0.3 }}
           >
             <div className="glass-panel rounded-md overflow-hidden">
-              <table className="w-full text-xs">
-                <thead>
-                  <tr className="border-b border-border/40 bg-elevated/30">
-                    <th className="text-left px-5 py-3 font-mono text-[10px] uppercase tracking-wider text-muted">
-                      Standard / Program
-                    </th>
-                    <th className="text-left px-5 py-3 font-mono text-[10px] uppercase tracking-wider text-muted">
-                      Status
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {standards.map((s, i) => (
-                    <motion.tr
-                      key={s.label}
-                      variants={fadeUp as unknown as Variants}
-                      initial="hidden"
-                      animate="visible"
-                      custom={i}
-                      className="border-b border-border/20 last:border-0 hover:bg-elevated/20 transition-colors"
-                    >
-                      <td className="px-5 py-3 text-foreground">{s.label}</td>
-                      <td className="px-5 py-3">
-                        <span className="inline-flex items-center gap-1 text-emerald-400 font-mono text-[10px]">
-                          <CheckCircle2 className="w-3 h-3" />
-                          {s.status}
-                        </span>
-                      </td>
-                    </motion.tr>
-                  ))}
-                </tbody>
-              </table>
+              <div className="overflow-auto max-h-[300px] relative">
+                <table className="w-full text-xs">
+                  <thead>
+                    <tr className="border-b border-border/40 bg-elevated/30">
+                      <th className="text-left px-5 py-3 font-mono text-[10px] uppercase tracking-wider text-muted sticky top-0 bg-[var(--glass-bg)]/95 backdrop-blur-md z-10">
+                        Standard / Program
+                      </th>
+                      <th className="text-left px-5 py-3 font-mono text-[10px] uppercase tracking-wider text-muted sticky top-0 bg-[var(--glass-bg)]/95 backdrop-blur-md z-10">
+                        Status
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {standards.map((s, i) => (
+                      <motion.tr
+                        key={s.label}
+                        variants={fadeUp as unknown as Variants}
+                        initial="hidden"
+                        animate="visible"
+                        custom={i}
+                        className="border-b border-border/20 last:border-0 hover:bg-elevated/20 transition-colors"
+                      >
+                        <td className="px-5 py-3 text-foreground">{s.label}</td>
+                        <td className="px-5 py-3">
+                          <span className="inline-flex items-center gap-1 text-emerald-400 font-mono text-[10px]">
+                            <CheckCircle2 className="w-3 h-3" />
+                            {s.status}
+                          </span>
+                        </td>
+                      </motion.tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </motion.div>
         )}

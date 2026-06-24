@@ -69,7 +69,7 @@ export default function ResipreneSection() {
   return (
     <div className="relative w-full flex items-start lg:items-center font-sans">
 
-      <div className="relative z-10 mx-auto max-w-7xl px-6 pt-24 pb-12 lg:pt-28 lg:pb-16 w-full min-h-full flex flex-col justify-start lg:justify-center">
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 pt-16 sm:pt-20 md:pt-24 pb-8 sm:pb-12 lg:pt-28 lg:pb-16 w-full min-h-full flex flex-col justify-start lg:justify-center">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 15 }}
@@ -209,33 +209,35 @@ export default function ResipreneSection() {
             transition={{ duration: 0.3 }}
           >
             <div className="glass-panel rounded-md overflow-hidden">
-              <table className="w-full text-xs">
-                <thead>
-                  <tr className="border-b border-border/40 bg-elevated/30">
-                    <th className="text-left px-5 py-3 font-mono text-[10px] uppercase tracking-wider text-muted">Property</th>
-                    <th className="text-left px-5 py-3 font-mono text-[10px] uppercase tracking-wider text-muted">Range</th>
-                    <th className="text-left px-5 py-3 font-mono text-[10px] uppercase tracking-wider text-muted">Units</th>
-                    <th className="text-left px-5 py-3 font-mono text-[10px] uppercase tracking-wider text-muted hidden sm:table-cell">Method</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {specs.map((s, i) => (
-                    <motion.tr
-                      key={s.label}
-                      variants={fadeUp}
-                      initial="hidden"
-                      animate="visible"
-                      custom={i}
-                      className="border-b border-border/20 last:border-0 hover:bg-elevated/20 transition-colors"
-                    >
-                      <td className="px-5 py-3 text-foreground font-medium">{s.label}</td>
-                      <td className="px-5 py-3 font-mono font-bold text-foreground">{s.value}</td>
-                      <td className="px-5 py-3 text-muted-dim">{s.unit}</td>
-                      <td className="px-5 py-3 text-muted-dim hidden sm:table-cell">{s.method}</td>
-                    </motion.tr>
-                  ))}
-                </tbody>
-              </table>
+              <div className="overflow-auto max-h-[300px] relative">
+                <table className="w-full text-xs">
+                  <thead>
+                    <tr className="border-b border-border/40 bg-elevated/30">
+                      <th className="text-left px-5 py-3 font-mono text-[10px] uppercase tracking-wider text-muted sticky top-0 bg-[var(--glass-bg)]/95 backdrop-blur-md z-10">Property</th>
+                      <th className="text-left px-5 py-3 font-mono text-[10px] uppercase tracking-wider text-muted sticky top-0 bg-[var(--glass-bg)]/95 backdrop-blur-md z-10">Range</th>
+                      <th className="text-left px-5 py-3 font-mono text-[10px] uppercase tracking-wider text-muted sticky top-0 bg-[var(--glass-bg)]/95 backdrop-blur-md z-10">Units</th>
+                      <th className="text-left px-5 py-3 font-mono text-[10px] uppercase tracking-wider text-muted hidden sm:table-cell sticky top-0 bg-[var(--glass-bg)]/95 backdrop-blur-md z-10">Method</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {specs.map((s, i) => (
+                      <motion.tr
+                        key={s.label}
+                        variants={fadeUp}
+                        initial="hidden"
+                        animate="visible"
+                        custom={i}
+                        className="border-b border-border/20 last:border-0 hover:bg-elevated/20 transition-colors"
+                      >
+                        <td className="px-5 py-3 text-foreground font-medium">{s.label}</td>
+                        <td className="px-5 py-3 font-mono font-bold text-foreground">{s.value}</td>
+                        <td className="px-5 py-3 text-muted-dim">{s.unit}</td>
+                        <td className="px-5 py-3 text-muted-dim hidden sm:table-cell">{s.method}</td>
+                      </motion.tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </motion.div>
         )}

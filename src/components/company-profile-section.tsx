@@ -12,7 +12,7 @@ export default function CompanyProfileSection() {
       className="snap-section relative flex items-center overflow-y-auto lg:overflow-hidden no-scrollbar border-t border-border/40"
     >
       <BackgroundBlobs transparentBg={true} />
-      <div className="max-w-5xl mx-auto px-6 py-20 lg:py-20 w-full z-10">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 py-12 sm:py-16 md:py-20 lg:py-20 w-full z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           
           {/* Left Column: Video Description */}

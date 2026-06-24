@@ -26,7 +26,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       } else {
         // Check system preference
         const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-        const initial = prefersDark ? "dark" : "dark"; // Default to dark
+        const initial = prefersDark ? "dark" : "light"; // ✅ Fixed: Now properly detects light preference
         setThemeState(initial);
         applyTheme(initial);
       }
@@ -47,6 +47,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       root.classList.add("light");
       root.setAttribute("data-theme", "light");
     }
+    // Force repaint to ensure CSS variables are applied
+    root.style.colorScheme = t;
   };
 
   const setTheme = useCallback((t: Theme) => {

@@ -1,9 +1,18 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useCart } from "./providers/cart-provider";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, CheckCircle, ArrowRight, ShoppingBag } from "lucide-react";
+
+interface SavedAddress {
+  id: string;
+  label: string;
+  receiverName: string;
+  receiverPhone: string;
+  fullAddress: string;
+  isDefault: boolean;
+}
 
 export default function CheckoutModal() {
   const {
@@ -19,6 +28,46 @@ export default function CheckoutModal() {
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
   const [payment, setPayment] = useState("WhatsApp Direct");
+
+  const [savedAddresses, setSavedAddresses] = useState<SavedAddress[]>([]);
+  const [selectedAddressId, setSelectedAddressId] = useState("");
+
+  useEffect(() => {
+    if (isCheckoutOpen) {
+      // Pre-fill email from logged in session
+      const storedEmail = localStorage.getItem("ikn_user_email") || "";
+      setEmail(storedEmail);
+
+      const storedAddrs = localStorage.getItem("ikn_addresses");
+      if (storedAddrs) {
+        try {
+          const parsed = JSON.parse(storedAddrs);
+          setSavedAddresses(parsed);
+          
+          // Pre-fill fields with default address
+          const defaultAddr = parsed.find((a: SavedAddress) => a.isDefault) || parsed[0];
+          if (defaultAddr) {
+            setSelectedAddressId(defaultAddr.id);
+            setName(defaultAddr.receiverName);
+            setPhone(defaultAddr.receiverPhone);
+            setAddress(defaultAddr.fullAddress);
+          }
+        } catch (e) {
+          console.error("Failed to parse addresses in checkout modal", e);
+        }
+      }
+    }
+  }, [isCheckoutOpen]);
+
+  const handleAddressChange = (addrId: string) => {
+    setSelectedAddressId(addrId);
+    const found = savedAddresses.find((a) => a.id === addrId);
+    if (found) {
+      setName(found.receiverName);
+      setPhone(found.receiverPhone);
+      setAddress(found.fullAddress);
+    }
+  };
   
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -107,6 +156,33 @@ export default function CheckoutModal() {
                   <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
                     {/* Checkout Form */}
                     <form onSubmit={handleSubmit} className="lg:col-span-7 space-y-4">
+                      {savedAddresses.length > 0 && (
+                        <div>
+                          <label className="block text-xs font-semibold uppercase tracking-wider text-muted mb-1.5">
+                            Alamat Pengiriman Tersimpan
+                          </label>
+                          <div className="flex flex-wrap gap-2 mb-3">
+                            {savedAddresses.map((addr) => (
+                              <button
+                                type="button"
+                                key={addr.id}
+                                onClick={() => handleAddressChange(addr.id)}
+                                className={`px-3 py-2 border rounded-sm text-xs font-semibold transition-all flex items-center gap-1.5 ${
+                                  selectedAddressId === addr.id
+                                    ? "border-accent text-accent bg-accent/5 font-bold"
+                                    : "border-border text-muted hover:text-foreground bg-transparent"
+                                }`}
+                              >
+                                <span className={`w-1.5 h-1.5 rounded-full transition-all ${
+                                  selectedAddressId === addr.id ? 'bg-accent' : 'bg-transparent border border-muted-dim'
+                                }`} />
+                                {addr.label}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
                       <div>
                         <label className="block text-xs font-semibold uppercase tracking-wider text-muted mb-1.5">
                           Nama Penerima

@@ -175,7 +175,7 @@ export default function ProductsSection({ previewMode = false }: { previewMode?:
     <div ref={containerRef} id="produk" className="relative min-h-full lg:h-full w-full flex items-start lg:items-center overflow-y-auto lg:overflow-y-auto no-scrollbar font-sans">
       <BackgroundBlobs sectionId="produk" />
 
-      <div className="relative z-10 mx-auto max-w-7xl px-6 py-10 lg:py-12 w-full flex flex-col justify-center min-h-full">
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 py-8 sm:py-10 lg:py-12 w-full flex flex-col justify-center min-h-full">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           
           {/* Left Panel: Catalog details & 3D Canvas */}

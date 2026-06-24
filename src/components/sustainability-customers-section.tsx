@@ -91,7 +91,7 @@ export default function SustainabilityCustomersSection() {
     <div className="relative w-full flex items-center font-sans">
       <BackgroundBlobs sectionId="sustainability-cust" />
 
-      <div className="relative z-10 mx-auto max-w-7xl px-6 py-24 lg:py-20 w-full min-h-full">
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 py-16 sm:py-20 md:py-24 lg:py-20 w-full min-h-full">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 15 }}

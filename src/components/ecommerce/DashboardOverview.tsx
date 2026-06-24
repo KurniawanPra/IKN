@@ -81,7 +81,7 @@ export default function DashboardOverview({ displayName, userEmail, avatarInitia
         className="glass-panel rounded-xl border border-border p-5"
       >
         <h3 className="text-xs font-bold text-foreground uppercase font-mono tracking-wider mb-4 text-accent">
-          Menu Cepat
+          Shortcut
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           <button

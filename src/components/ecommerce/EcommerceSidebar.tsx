@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -12,6 +11,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Home,
+  MapPin,
 } from "lucide-react";
 
 interface SidebarProps {
@@ -19,12 +19,15 @@ interface SidebarProps {
   avatarInitial: string;
   userEmail: string;
   onLogout: () => void;
+  collapsed: boolean;
+  setCollapsed: (collapsed: boolean) => void;
 }
 
 const navItems = [
   { id: "overview", label: "Dashboard", icon: LayoutDashboard, path: "/ecommerce" },
   { id: "catalog", label: "Katalog Produk", icon: Package, path: "/ecommerce/katalog" },
   { id: "orders", label: "Riwayat Pesanan", icon: ClipboardList, path: "/ecommerce/pesanan" },
+  { id: "address", label: "Alamat Pengiriman", icon: MapPin, path: "/ecommerce/alamat" },
   { id: "profile", label: "Profil Saya", icon: User, path: "/ecommerce/profil" },
 ];
 
@@ -33,15 +36,14 @@ export default function EcommerceSidebar({
   avatarInitial,
   userEmail,
   onLogout,
+  collapsed,
+  setCollapsed,
 }: SidebarProps) {
-  const [collapsed, setCollapsed] = useState(false);
   const pathname = usePathname();
 
   return (
     <aside
-      className={`fixed top-0 left-0 h-screen z-40 flex flex-col border-r border-border/40 transition-all duration-300 ease-in-out font-sans ${
-        collapsed ? "w-[72px]" : "w-[240px]"
-      }`}
+      className="h-full w-full flex flex-col border-r border-border/40 font-sans"
       style={{ background: "var(--nav-bg)", backdropFilter: "blur(20px)" }}
     >
       {/* Logo */}
@@ -58,7 +60,7 @@ export default function EcommerceSidebar({
         {!collapsed && (
           <button
             onClick={() => setCollapsed(true)}
-            className="p-1 rounded text-muted hover:text-foreground hover:bg-elevated/50 transition shrink-0"
+            className="p-1 rounded text-muted hover:text-foreground hover:bg-elevated/50 transition shrink-0 hidden lg:block"
             title="Collapse sidebar"
           >
             <ChevronLeft size={16} />
@@ -70,7 +72,7 @@ export default function EcommerceSidebar({
       {collapsed && (
         <button
           onClick={() => setCollapsed(false)}
-          className="mx-auto mt-2 p-1.5 rounded text-muted hover:text-foreground hover:bg-elevated/50 transition"
+          className="mx-auto mt-2 p-1.5 rounded text-muted hover:text-foreground hover:bg-elevated/50 transition hidden lg:block"
           title="Expand sidebar"
         >
           <ChevronRight size={14} />

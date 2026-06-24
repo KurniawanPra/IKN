@@ -14,6 +14,7 @@ const PAGE_TITLES: Record<string, string> = {
   "/ecommerce": "Dashboard",
   "/ecommerce/katalog": "Katalog Produk",
   "/ecommerce/pesanan": "Riwayat Pesanan",
+  "/ecommerce/alamat": "Alamat Pengiriman",
   "/ecommerce/profil": "Profil Saya",
 };
 
@@ -21,6 +22,7 @@ export default function EcommerceLayout({ children }: { children: React.ReactNod
   const [isClient, setIsClient] = useState(false);
   const [userEmail, setUserEmail] = useState("");
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
+  const [collapsed, setCollapsed] = useState(false);
   const pathname = usePathname();
   const { setIsCartOpen, cartCount } = useCart();
 
@@ -48,7 +50,7 @@ export default function EcommerceLayout({ children }: { children: React.ReactNod
 
   if (!isClient) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
+      <div className="h-screen flex items-center justify-center bg-background">
         <SkeletonLoader type="grid" />
       </div>
     );
@@ -61,7 +63,7 @@ export default function EcommerceLayout({ children }: { children: React.ReactNod
   }
 
   return (
-    <div className="relative min-h-screen w-full font-sans bg-background flex">
+    <div className="relative h-screen w-full font-sans bg-background flex overflow-hidden">
       {/* Mobile backdrop */}
       {mobileSidebarOpen && (
         <div
@@ -72,23 +74,25 @@ export default function EcommerceLayout({ children }: { children: React.ReactNod
 
       {/* Sidebar */}
       <div
-        className={`fixed top-0 left-0 h-screen z-40 transition-transform duration-300 ease-in-out ${
-          mobileSidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
-        }`}
+        className={`fixed top-0 left-0 h-screen z-40 transform transition-transform duration-300 ease-in-out ${
+          mobileSidebarOpen ? "translate-x-0" : "-translate-x-full"
+        } lg:translate-x-0 ${collapsed ? "w-[72px]" : "w-56 lg:w-[240px]"}`}
       >
         <EcommerceSidebar
           displayName={displayName}
           avatarInitial={avatarInitial}
           userEmail={userEmail}
           onLogout={handleLogout}
+          collapsed={collapsed}
+          setCollapsed={setCollapsed}
         />
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col lg:ml-[240px] transition-all duration-300 min-h-screen">
+      <div className={`flex-1 flex flex-col ${collapsed ? "lg:ml-[72px]" : "lg:ml-[240px]"} transition-all duration-300 h-screen overflow-hidden`}>
         {/* Top Bar */}
         <header
-          className="sticky top-0 z-30 h-14 flex items-center justify-between px-4 sm:px-6 border-b border-border/40 shrink-0"
+          className="sticky top-0 z-50 h-14 flex items-center justify-between px-4 sm:px-6 border-b border-border/40 shrink-0"
           style={{ background: "var(--nav-bg)", backdropFilter: "blur(20px)" }}
         >
           <div className="flex items-center gap-3">

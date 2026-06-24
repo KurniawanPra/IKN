@@ -121,11 +121,10 @@ export default function CatalogGrid() {
           <button
             key={cat}
             onClick={() => setFilter(cat)}
-            className={`px-4 py-1.5 rounded-full text-[11px] font-medium font-mono transition-all duration-200 ${
-              filter === cat
+            className={`px-4 py-1.5 rounded-full text-[11px] font-medium font-mono transition-all duration-200 ${filter === cat
                 ? "bg-accent text-white shadow-md shadow-accent/20"
                 : "bg-elevated text-muted border border-border hover:text-foreground hover:border-border/80"
-            }`}
+              }`}
           >
             {cat}
           </button>
@@ -209,36 +208,36 @@ export default function CatalogGrid() {
 
                 {/* Price + Actions (right side) */}
                 <div className="shrink-0 flex flex-col items-end justify-between px-4 py-3 border-l border-border/30 w-[160px]">
-  <div className="text-right">
-    <p className="text-[9px] text-muted uppercase tracking-wider">Harga / Kg</p>
-    <p className="text-base font-bold text-foreground font-mono leading-tight">
-      {formatPrice(product.price)}
-    </p>
-    <p className="text-[9px] text-muted font-mono">per {product.unit}</p>
-  </div>
+                  <div className="text-right">
+                    <p className="text-[9px] text-muted uppercase tracking-wider">Harga / Kg</p>
+                    <p className="text-base font-bold text-foreground font-mono leading-tight">
+                      {formatPrice(product.price)}
+                    </p>
+                    <p className="text-[9px] text-muted font-mono">per {product.unit}</p>
+                  </div>
 
-  <div className="flex items-center gap-1.5 w-full justify-end">
-    <button
-      onClick={() => setDetailProduct(product)}
-      className="p-1.5 bg-elevated hover:bg-accent/10 active:scale-95 text-muted hover:text-foreground rounded border border-border transition-all shrink-0"
-      title="Detail Produk"
-      aria-label="Lihat detail produk"
-    >
-      <Info size={13} />
-    </button>
+                  <div className="flex items-center gap-1.5 w-full justify-end">
+                    <button
+                      onClick={() => setDetailProduct(product)}
+                      className="p-1.5 bg-elevated hover:bg-accent/10 active:scale-95 text-muted hover:text-foreground rounded border border-border transition-all shrink-0"
+                      title="Detail Produk"
+                      aria-label="Lihat detail produk"
+                    >
+                      <Info size={13} />
+                    </button>
 
-    <button
-      onClick={() => handleAddToCart(product)}
-      disabled={product.stock === 0}
-      className="px-2.5 py-1.5 bg-accent hover:bg-accent-hover active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-accent text-white rounded text-[10px] font-semibold uppercase tracking-wider flex items-center justify-center gap-1 whitespace-nowrap transition-all shadow-sm"
-      style={{ boxShadow: "0 3px 10px var(--accent-glow)" }}
-      aria-label={`Tambah ${product.name ?? "produk"} ke keranjang`}
-    >
-      <ShoppingCart size={11} className="shrink-0" />
-      {product.stock === 0 ? "Stok Habis" : "+ Keranjang"}
-    </button>
-  </div>
-</div>
+                    <button
+                      onClick={() => handleAddToCart(product)}
+                      disabled={product.stock === 0}
+                      className="px-2.5 py-1.5 bg-accent hover:bg-accent-hover active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-accent text-white rounded text-[10px] font-semibold uppercase tracking-wider flex items-center justify-center gap-1 whitespace-nowrap transition-all shadow-sm"
+                      style={{ boxShadow: "0 3px 10px var(--accent-glow)" }}
+                      aria-label={`Tambah ${product.name ?? "produk"} ke keranjang`}
+                    >
+                      <ShoppingCart size={11} className="shrink-0" />
+                      {product.stock === 0 ? "Stok Habis" : "+ Keranjang"}
+                    </button>
+                  </div>
+                </div>
               </motion.div>
             ))
           )}

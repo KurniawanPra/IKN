@@ -27,37 +27,38 @@ function StatusBadge({ status }: { status: string }) {
 
 export default function OrdersPanel() {
   return (
-    <div className="space-y-4 text-white">
-      <h2 className="text-base font-bold text-white">Pesanan Masuk ({MOCK_ORDERS.length})</h2>
-      <div className="rounded-xl border overflow-hidden" style={{ background: "rgba(255,255,255,0.02)", borderColor: "rgba(255,255,255,0.07)" }}>
-        <table className="w-full text-left text-xs">
-          <thead>
-            <tr className="border-b" style={{ borderColor: "rgba(255,255,255,0.07)" }}>
-              {["ID Order", "Pembeli", "Produk", "Qty", "Total", "Status", "Tanggal"].map(h => (
-                <th key={h} className="px-5 py-3 font-mono uppercase text-white/30 text-[10px]">{h}</th>
+    <div className="space-y-4 text-foreground">
+      <h2 className="text-base font-bold text-foreground">Pesanan Masuk ({MOCK_ORDERS.length})</h2>
+      <div className="rounded-xl border border-border bg-surface overflow-hidden">
+        <div className="overflow-auto max-h-[400px] relative">
+          <table className="w-full text-left text-xs">
+            <thead>
+              <tr className="border-b border-border">
+                {["ID Order", "Pembeli", "Produk", "Qty", "Total", "Status", "Tanggal"].map(h => (
+                  <th key={h} className="px-5 py-3 font-mono uppercase text-muted text-[10px] sticky top-0 bg-surface z-10">{h}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {MOCK_ORDERS.map((order, i) => (
+                <motion.tr
+                  key={order.id}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1, transition: { delay: i * 0.08 } }}
+                  className="border-b border-border/40 hover:bg-elevated/40 transition"
+                >
+                  <td className="px-5 py-3 font-mono text-red-500 dark:text-red-400">{order.id}</td>
+                  <td className="px-5 py-3 text-foreground/80">{order.buyer}</td>
+                  <td className="px-5 py-3 text-muted">{order.product}</td>
+                  <td className="px-5 py-3 font-mono text-muted">{order.qty} kg</td>
+                  <td className="px-5 py-3 font-mono text-foreground/80">{formatPrice(order.total)}</td>
+                  <td className="px-5 py-3"><StatusBadge status={order.status} /></td>
+                  <td className="px-5 py-3 text-muted font-mono">{order.date}</td>
+                </motion.tr>
               ))}
-            </tr>
-          </thead>
-          <tbody>
-            {MOCK_ORDERS.map((order, i) => (
-              <motion.tr
-                key={order.id}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1, transition: { delay: i * 0.08 } }}
-                className="border-b hover:bg-white/3 transition"
-                style={{ borderColor: "rgba(255,255,255,0.04)" }}
-              >
-                <td className="px-5 py-3 font-mono text-red-400">{order.id}</td>
-                <td className="px-5 py-3 text-white/80">{order.buyer}</td>
-                <td className="px-5 py-3 text-white/60">{order.product}</td>
-                <td className="px-5 py-3 font-mono text-white/60">{order.qty} kg</td>
-                <td className="px-5 py-3 font-mono text-white/80">{formatPrice(order.total)}</td>
-                <td className="px-5 py-3"><StatusBadge status={order.status} /></td>
-                <td className="px-5 py-3 text-white/40 font-mono">{order.date}</td>
-              </motion.tr>
-            ))}
-          </tbody>
-        </table>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

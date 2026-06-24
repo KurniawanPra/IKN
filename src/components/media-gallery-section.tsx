@@ -81,7 +81,7 @@ export default function MediaGallerySection() {
   return (
     <div className="relative w-full flex items-start lg:items-center font-sans">
 
-      <div className="relative z-10 mx-auto max-w-7xl px-6 py-24 lg:py-20 w-full flex flex-col justify-start lg:justify-center min-h-full h-auto">
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 py-16 sm:py-20 md:py-24 lg:py-20 w-full flex flex-col justify-start lg:justify-center min-h-full h-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
           
           {/* Left Panel: Content & StackedGallery */}

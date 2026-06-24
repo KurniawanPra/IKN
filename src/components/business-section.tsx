@@ -86,7 +86,7 @@ export default function BusinessSection() {
   return (
     <div ref={containerRef} className="relative w-full flex items-start lg:items-center font-sans">
 
-      <div className="relative z-10 mx-auto max-w-7xl px-6 pt-24 pb-12 lg:pt-28 lg:pb-16 w-full flex flex-col justify-start lg:justify-center min-h-full">
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 pt-16 sm:pt-20 md:pt-24 pb-8 sm:pb-12 lg:pt-28 lg:pb-16 w-full flex flex-col justify-start lg:justify-center min-h-full">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           
           {/* Left Panel: Content & 3D Scene */}

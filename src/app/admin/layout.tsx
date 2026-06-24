@@ -22,6 +22,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const [isClient, setIsClient] = useState(false);
   const [userEmail, setUserEmail] = useState("");
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
+  const [collapsed, setCollapsed] = useState(false);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -49,7 +50,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   if (!isClient) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#080e1c]">
+      <div className="h-screen flex items-center justify-center bg-background">
         <SkeletonLoader type="grid" />
       </div>
     );
@@ -64,8 +65,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   return (
     <div
-      className="relative min-h-screen w-full font-sans flex"
-      style={{ background: "linear-gradient(135deg, #080e1c 0%, #0d1526 100%)" }}
+      className="relative h-screen w-full font-sans flex bg-background text-foreground overflow-hidden"
     >
       {/* Mobile backdrop */}
       {mobileSidebarOpen && (
@@ -77,44 +77,46 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
       {/* Sidebar */}
       <div
-        className={`fixed top-0 left-0 h-screen z-40 transition-transform duration-300 ease-in-out ${
-          mobileSidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
-        }`}
+        className={`fixed top-0 left-0 h-screen z-40 transform transition-transform duration-300 ease-in-out ${
+          mobileSidebarOpen ? "translate-x-0" : "-translate-x-full"
+        } lg:translate-x-0 ${collapsed ? "w-[72px]" : "w-56 lg:w-[240px]"}`}
       >
         <AdminSidebar
           displayName={displayName}
           avatarInitial={avatarInitial}
           onLogout={handleLogout}
+          collapsed={collapsed}
+          setCollapsed={setCollapsed}
         />
       </div>
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col lg:ml-[240px] transition-all duration-300 min-h-screen">
+      <div className={`flex-1 flex flex-col ${collapsed ? "lg:ml-[72px]" : "lg:ml-[240px]"} transition-all duration-300 h-screen overflow-hidden`}>
         {/* Top bar */}
         <header
-          className="sticky top-0 z-30 h-14 flex items-center justify-between px-4 sm:px-6 border-b shrink-0"
-          style={{ background: "rgba(8,14,28,0.95)", backdropFilter: "blur(20px)", borderColor: "rgba(220,38,38,0.15)" }}
+          className="sticky top-0 z-50 h-14 flex items-center justify-between px-4 sm:px-6 border-b shrink-0 border-border/40"
+          style={{ background: "var(--nav-bg)", backdropFilter: "blur(20px)" }}
         >
           <div className="flex items-center gap-3">
             <button
               onClick={() => setMobileSidebarOpen(!mobileSidebarOpen)}
-              className="lg:hidden p-1.5 text-white/40 hover:text-white transition"
+              className="lg:hidden p-1.5 text-muted hover:text-foreground transition"
             >
               {mobileSidebarOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
             <div>
-              <p className="text-[10px] font-mono text-red-400/70 uppercase tracking-widest leading-none">Admin Panel</p>
-              <h1 className="text-sm font-bold text-white leading-tight">{PAGE_TITLES[pathname] || "Admin Panel"}</h1>
+              <p className="text-[10px] font-mono text-red-500/70 dark:text-red-400/70 uppercase tracking-widest leading-none">Admin Panel</p>
+              <h1 className="text-sm font-bold text-foreground leading-tight">{PAGE_TITLES[pathname] || "Admin Panel"}</h1>
             </div>
           </div>
           <div className="flex items-center gap-2">
             <ThemeToggle />
-            <div className="flex items-center gap-2 px-2 py-1 rounded border" style={{ borderColor: "rgba(220,38,38,0.25)" }}>
-              <span className="w-6 h-6 rounded-full bg-red-500/20 border border-red-500/30 flex items-center justify-center text-red-400 text-[10px] font-bold shrink-0">
+            <div className="flex items-center gap-2 px-2 py-1 rounded border border-border/40">
+              <span className="w-6 h-6 rounded-full bg-red-500/20 border border-red-500/30 flex items-center justify-center text-red-500 dark:text-red-400 text-[10px] font-bold shrink-0">
                 {avatarInitial}
               </span>
-              <span className="text-xs font-medium text-white/80 hidden sm:block max-w-[100px] truncate">{displayName}</span>
-              <span className="text-[9px] text-red-400 font-mono hidden sm:inline">ADMIN</span>
+              <span className="text-xs font-medium text-foreground/80 hidden sm:block max-w-[100px] truncate">{displayName}</span>
+              <span className="text-[9px] text-red-500 dark:text-red-400 font-mono hidden sm:inline">ADMIN</span>
             </div>
           </div>
         </header>
