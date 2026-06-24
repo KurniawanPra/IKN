@@ -7,6 +7,8 @@ import { Menu, X, ShoppingBag, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCart } from "./providers/cart-provider";
 import ThemeToggle from "./theme-toggle";
+import InteractiveNavbar3D from "./interactive-navbar-3d";
+import { GlassButton } from "@/components/ui/apple-tahoe-liquid-glass-button";
 import { gsap } from "gsap";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 
@@ -329,16 +331,23 @@ export default function Navbar() {
           <Link
             href="/"
             onClick={(e) => handleNavClick(e, "/")}
-            className="flex items-center gap-3"
+            className="flex items-center gap-3 group relative"
           >
-            <span className="text-foreground font-bold text-2xl tracking-tight">
-              IKN
-            </span>
-            <span className="hidden sm:block text-muted text-xs leading-tight font-sans">
-              Nusantara Rubber
-              <br />
-              Industry
-            </span>
+            <div className="w-12 h-12 relative shrink-0">
+              <div className="absolute w-20 h-20 -top-4 -left-4 z-30 flex items-center justify-center">
+                <InteractiveNavbar3D />
+              </div>
+            </div>
+            <div className="flex flex-col">
+              <span className="text-foreground font-bold text-lg leading-tight tracking-tight group-hover:text-accent transition-colors duration-300">
+                IKN
+              </span>
+              <span className="hidden sm:block text-muted text-[10px] leading-tight font-sans">
+                Nusantara Rubber
+                <br />
+                Industry
+              </span>
+            </div>
           </Link>
 
           {/* Desktop Nav */}
@@ -461,12 +470,13 @@ export default function Navbar() {
                 </span>
               </Link>
             ) : (
-              <Link
-                href="/login"
-                className="ml-2 px-5 py-2 text-sm font-medium text-foreground border border-border rounded hover:border-accent hover:text-accent transition-all duration-300"
+              <GlassButton
+                onClick={() => router.push("/login")}
+                className="ml-2 text-sm font-medium"
+                size="sm"
               >
                 Login
-              </Link>
+              </GlassButton>
             )}
           </div>
 
@@ -615,13 +625,16 @@ export default function Navbar() {
                   <span className="truncate flex-1">{displayName}</span>
                 </Link>
               ) : (
-                <Link
-                  href="/login"
-                  onClick={() => setMobileOpen(false)}
-                  className="py-2.5 px-3 text-sm font-medium text-foreground border border-border rounded hover:border-accent hover:text-accent transition-all duration-200 text-center"
+                <GlassButton
+                  onClick={() => {
+                    setMobileOpen(false);
+                    router.push("/login");
+                  }}
+                  className="w-full text-sm font-medium"
+                  size="sm"
                 >
                   Login
-                </Link>
+                </GlassButton>
               )}
             </div>
           </motion.div>

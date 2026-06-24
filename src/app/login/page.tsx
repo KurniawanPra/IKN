@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, Mail, Lock, Eye, EyeOff, User } from "lucide-react";
 import ThemeToggle from "@/components/theme-toggle";
+import { GlassButton } from "@/components/ui/apple-tahoe-liquid-glass-button";
 
 interface UserAccount {
   email: string;
@@ -417,17 +418,17 @@ export default function LoginPage() {
             )}
 
             <div className="pt-2">
-              <button
+              <GlassButton
                 type="submit"
                 disabled={isLoading}
-                className="flex w-full items-center justify-center rounded py-2.5 font-medium text-white transition-colors disabled:opacity-70 btn-primary text-sm shadow-md"
+                className="w-full text-sm font-medium"
               >
                 {isLoading ? (
                   <span className="h-5 w-5 animate-spin rounded-full border-2 border-white/30 border-t-white" />
                 ) : (
                   isSignUp ? "Daftar Akun" : "Masuk"
                 )}
-              </button>
+              </GlassButton>
             </div>
 
             <div className="text-center pt-2">

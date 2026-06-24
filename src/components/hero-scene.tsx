@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useMemo, useEffect } from "react";
+import { useState, useRef, useMemo, useEffect } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Environment, Float, Sparkles, Trail } from "@react-three/drei";
 import * as THREE from "three";
@@ -17,6 +17,9 @@ function CentralShape({ reduced }: { reduced: boolean }) {
   const ring2Ref = useRef<THREE.Mesh>(null!);
   const ring3Ref = useRef<THREE.Mesh>(null!);
   const logoMatRef = useRef<THREE.MeshPhysicalMaterial>(null!);
+
+  const [hovered, setHovered] = useState(false);
+  const hoverProgress = useRef(0);
 
   const extrudeSettings = useMemo(
     () => ({
@@ -47,8 +50,6 @@ function CentralShape({ reduced }: { reduced: boolean }) {
     return new THREE.ExtrudeGeometry(shape, extrudeSettings);
   }, [extrudeSettings]);
 
-
-
   const textTexture = useMemo(() => {
     if (typeof window === "undefined") return null;
     const canvas = document.createElement("canvas");
@@ -75,34 +76,63 @@ function CentralShape({ reduced }: { reduced: boolean }) {
     const t = clock.getElapsedTime();
     const motion = reduced ? 0.25 : 1;
 
-    logoGroupRef.current.position.y = Math.sin(t * 1.0) * 0.12 * motion;
-    logoGroupRef.current.rotation.y = Math.sin(t * 0.5) * 0.15 * motion;
-    logoGroupRef.current.rotation.x = Math.sin(t * 0.35) * 0.08 * motion;
-    logoGroupRef.current.rotation.z = Math.sin(t * 0.25) * 0.03 * motion;
+    // Smooth hover progress interpolation
+    const targetHover = hovered ? 1 : 0;
+    hoverProgress.current = THREE.MathUtils.lerp(hoverProgress.current, targetHover, 0.08);
 
-    const scale = 1 + Math.sin(t * 1.2) * 0.025 * motion;
+    // Floating animation
+    logoGroupRef.current.position.y = Math.sin(t * 1.0) * 0.12 * motion;
+    
+    // Animate rotation: faster/wider swing when hovered
+    const swingSpeed = 0.5 + hoverProgress.current * 0.8;
+    const swingAmount = 0.15 + hoverProgress.current * 0.3;
+    logoGroupRef.current.rotation.y = Math.sin(t * swingSpeed) * swingAmount * motion;
+    logoGroupRef.current.rotation.x = (Math.sin(t * 0.35) * 0.08 + hoverProgress.current * 0.1) * motion;
+    logoGroupRef.current.rotation.z = (Math.sin(t * 0.25) * 0.03 + hoverProgress.current * 0.05) * motion;
+
+    // Scale animation: scale up on hover
+    const baseScale = 1.0 + hoverProgress.current * 0.18;
+    const scale = baseScale + Math.sin(t * 1.2) * 0.025 * motion;
     logoGroupRef.current.scale.set(scale, scale, scale);
 
-    // Pulsing emissive energy in the metal so bloom catches it
+    // Pulsing emissive energy in the metal so bloom catches it + intensify on hover
     if (logoMatRef.current) {
-      logoMatRef.current.emissiveIntensity = 0.35 + Math.sin(t * 1.6) * 0.2;
+      const baseEmissive = 0.35 + hoverProgress.current * 1.15;
+      logoMatRef.current.emissiveIntensity = baseEmissive + Math.sin(t * 1.6) * 0.2;
+      logoMatRef.current.emissive.lerpColors(
+        new THREE.Color("#0a4fff"),
+        new THREE.Color("#00f0ff"),
+        hoverProgress.current
+      );
     }
 
-    // Gyroscopic counter-rotating rings
-    ringRef.current.rotation.x = -t * 0.22 * motion;
-    ringRef.current.rotation.y = -t * 0.16 * motion;
+    // Gyroscopic counter-rotating rings (spin faster on hover!)
+    const ringSpeedMultiplier = 1.0 + hoverProgress.current * 1.5;
+    ringRef.current.rotation.x = -t * 0.22 * motion * ringSpeedMultiplier;
+    ringRef.current.rotation.y = -t * 0.16 * motion * ringSpeedMultiplier;
     if (ring2Ref.current) {
-      ring2Ref.current.rotation.x = t * 0.18 * motion;
-      ring2Ref.current.rotation.z = t * 0.24 * motion;
+      ring2Ref.current.rotation.x = t * 0.18 * motion * ringSpeedMultiplier;
+      ring2Ref.current.rotation.z = t * 0.24 * motion * ringSpeedMultiplier;
     }
     if (ring3Ref.current) {
-      ring3Ref.current.rotation.y = t * 0.12 * motion;
-      ring3Ref.current.rotation.z = -t * 0.2 * motion;
+      ring3Ref.current.rotation.y = t * 0.12 * motion * ringSpeedMultiplier;
+      ring3Ref.current.rotation.z = -t * 0.2 * motion * ringSpeedMultiplier;
     }
   });
 
   return (
-    <group>
+    <group
+      onPointerOver={(e) => {
+        e.stopPropagation();
+        setHovered(true);
+        if (typeof window !== "undefined") document.body.style.cursor = "pointer";
+      }}
+      onPointerOut={(e) => {
+        e.stopPropagation();
+        setHovered(false);
+        if (typeof window !== "undefined") document.body.style.cursor = "auto";
+      }}
+    >
       {/* 3D Rubin Logo Group */}
       <group ref={logoGroupRef}>
         <mesh geometry={triangleGeometry} position={[0, 0, -0.09]}>
@@ -118,8 +148,6 @@ function CentralShape({ reduced }: { reduced: boolean }) {
             emissiveIntensity={0.35}
           />
         </mesh>
-
-
 
         {textTexture && (
           <mesh position={[0, -1.4, 0.05]}>
